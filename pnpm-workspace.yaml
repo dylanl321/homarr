@@ -176,7 +176,7 @@ catalog:
   turbo: ^2.9.14
   typescript: ^5.9.3
   typescript-eslint: ^8.58.2
-  undici: 7.24.6
+  undici: 7.25.0
   use-deep-compare-effect: ^1.8.1
   video.js: ^8.23.7
   vite-tsconfig-paths: ^6.1.1
