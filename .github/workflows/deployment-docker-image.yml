@@ -284,6 +284,7 @@ jobs:
           gh release edit --repo ${{ github.repository }} ${{ needs.release.outputs.version }} --draft=false
 
       - name: Discord notification
+        if: ${{ secrets.DISCORD_WEBHOOK != '' && (github.event_name != 'workflow_dispatch' || inputs.send-notifications) }}
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@0.4.0
