@@ -2,16 +2,19 @@
   "init": {
     "step": {
       "start": {
-        "title": "",
+        "title": "Καλώς ήρθατε στο Homarr",
         "subtitle": "",
         "description": "",
         "action": {
           "scratch": "",
-          "importOldmarr": ""
+          "importOldmarr": "",
+          "restoreSqlite": "Επαναφορά από αντίγραφο ασφαλείας SQLite",
+          "restoreSqliteDescription": "Μεταφορτώστε ένα πλήρες αντίγραφο ασφαλείας βάσης δεδομένων SQLite από προηγούμενη εγκατάσταση Homarr. Αυτό θα επαναφέρει όλους τους πίνακες, χρήστες, εφαρμογές, ενσωματώσεις και ρυθμίσεις.",
+          "backToOptions": "← Επιστροφή στις επιλογές ρύθμισης"
         }
       },
       "import": {
-        "title": "",
+        "title": "Εισαγωγή δεδομένων",
         "subtitle": "",
         "dropzone": {
           "title": "",
@@ -23,15 +26,15 @@
           }
         },
         "importSettings": {
-          "title": "",
+          "title": "Εισαγωγή ρυθμίσεων",
           "description": ""
         },
         "boardSelection": {
           "title": "",
           "description": "",
           "action": {
-            "selectAll": "",
-            "unselectAll": ""
+            "selectAll": "Επιλογή όλων",
+            "unselectAll": "Αποεπιλογή όλων"
           }
         },
         "summary": {
@@ -64,11 +67,11 @@
         }
       },
       "user": {
-        "title": "",
+        "title": "Διαχειριστής",
         "subtitle": "",
         "notification": {
           "success": {
-            "title": "",
+            "title": "Ο Χρήστης δημιουργήθηκε",
             "message": ""
           },
           "error": {
@@ -77,18 +80,60 @@
         }
       },
       "group": {
-        "title": "",
+        "title": "Εξωτερική ομάδα",
         "subtitle": "",
         "form": {
           "name": {
-            "label": "",
+            "label": "Όνομα ομάδας",
             "description": ""
           }
         }
       },
       "settings": {
         "title": "Ρυθμίσεις",
-        "subtitle": ""
+        "subtitle": "Διαμόρφωση ρυθμίσεων διακομιστή."
+      },
+      "integrations": {
+        "title": "Ενσωματώσεις",
+        "subtitle": "Επιλέξτε τις υπηρεσίες που χρησιμοποιείτε.",
+        "description": "Επιλέξτε τις ενσωματώσεις που θέλετε να συνδέσετε. Θα ρυθμίσουμε τον πίνακα σας με αντίστοιχα widgets αυτόματα.",
+        "action": {
+          "continue": "Συνέχεια",
+          "skip": "Παράλειψη για τώρα"
+        },
+        "configure": {
+          "progress": "{current} από {total}",
+          "skip": "Παράλειψη αυτής της ενσωμάτωσης",
+          "finishing": "Ρύθμιση του πίνακα σας...",
+          "error": {
+            "title": "Αποτυχία ρύθμισης",
+            "message": "Κάτι πήγε στραβά κατά τη ρύθμιση του πίνακα σας. Παρακαλώ προσπαθήστε ξανά."
+          },
+          "helpers": {
+            "tooltip": "Βοηθοί URL",
+            "description": "Αυτοί οι βοηθοί προσπαθούν να μαντέψουν το URL για τις υπηρεσίες σας. Αν δεν λειτουργήσει, απλά πληκτρολογήστε τη διεύθυνση χειροκίνητα."
+          }
+        },
+        "urlTemplate": {
+          "label": "Βασικό URL",
+          "placeholder": "homelab.local ή 192.168.1.1",
+          "hint": "Εισαγάγετε το βασικό domain ή IP σας για αυτόματη συμπλήρωση των URL ενσωμάτωσης",
+          "warning": "Η ρύθμιση του βασικού URL τώρα θα συμπληρώσει αυτόματα όλα τα URL ενσωμάτωσης, εξοικονομώντας χρόνο κατά τη ρύθμιση",
+          "preview": "π.χ. {example}",
+          "mode": {
+            "subdomain": "Υποτομέας",
+            "hostPort": "Διακομιστής:Θύρα"
+          }
+        },
+        "docker": {
+          "detected": "Ο Docker εντόπισε {count} υπηρεσίες",
+          "detectedBreakdown": "{integrations} ενσωματώσεις · {apps} εφαρμογές",
+          "summary": "Το Homarr εντόπισε {apps} εφαρμογές, {integrations} από τις οποίες έχουν ενσωματωμένες ενσωματώσεις",
+          "appBadge": "Εφαρμογή",
+          "appSectionLabel": "Εφαρμογές προς προσθήκη στον πίνακα ({count} επιλεγμένες)",
+          "scanning": "Σάρωση Docker...",
+          "scanningDescription": "Αναζήτηση εκτελούμενων containers στο σύστημά σας"
+        }
       },
       "finish": {
         "title": "",
@@ -98,7 +143,7 @@
           "goToBoard": "",
           "createBoard": "",
           "inviteUser": "",
-          "docs": ""
+          "docs": "Διαβάστε την τεκμηρίωση"
         }
       }
     },
@@ -109,7 +154,7 @@
     "name": "Χρήστης",
     "page": {
       "login": {
-        "title": "",
+        "title": "Συνδεθείτε στον λογαριασμό σας",
         "subtitle": ""
       },
       "invite": {
@@ -118,7 +163,7 @@
         "description": ""
       },
       "init": {
-        "title": "",
+        "title": "Νέα εγκατάσταση Homarr",
         "subtitle": ""
       }
     },
@@ -132,12 +177,13 @@
       },
       "password": {
         "label": "Κωδικός",
-        "requirement": {
-          "length": "",
+        "suggestionsTitle": "Προτάσεις κωδικού πρόσβασης",
+        "suggestion": {
+          "length": "Τουλάχιστον 8 χαρακτήρες",
           "lowercase": "Περιλαμβάνει πεζό γράμμα",
           "uppercase": "Περιλαμβάνει κεφαλαίο γράμμα",
           "number": "Περιλαμβάνει αριθμό",
-          "special": ""
+          "special": "Να περιέχει ένα ειδικό σύμβολο"
         }
       },
       "passwordConfirm": {
@@ -152,36 +198,40 @@
       "pingIconsEnabled": {
         "label": ""
       },
+      "enableRightClickOnWidgets": {
+        "label": "",
+        "description": ""
+      },
       "defaultSearchEngine": {
-        "label": ""
+        "label": "Προεπιλεγμένη μηχανή αναζήτησης"
       },
       "openSearchInNewTab": {
         "label": ""
       },
       "ddgBangs": {
-        "label": ""
+        "label": "Ενεργοποίηση bangs DuckDuckGo"
       }
     },
     "error": {
-      "usernameTaken": ""
+      "usernameTaken": "Το όνομα χρήστη χρησιμοποιείται ήδη"
     },
     "action": {
       "login": {
         "label": "Σύνδεση",
-        "labelWith": "",
+        "labelWith": "Σύνδεση με {provider}",
         "notification": {
           "success": {
-            "title": "",
+            "title": "Επιτυχής σύνδεση",
             "message": ""
           },
           "error": {
-            "title": "",
-            "message": ""
+            "title": "Η σύνδεση απέτυχε",
+            "message": "Η σύνδεση σας απέτυχε"
           }
         },
         "forgotPassword": {
-          "label": "",
-          "description": ""
+          "label": "Ξεχάσατε τον κωδικό πρόσβασης;",
+          "description": "Ένας διαχειριστής μπορεί να χρησιμοποιήσει την ακόλουθη εντολή για να επαναφέρει τον κωδικό πρόσβασης σας:"
         }
       },
       "register": {
@@ -189,17 +239,17 @@
         "notification": {
           "success": {
             "title": "Ο λογαριασμός δημιουργήθηκε",
-            "message": ""
+            "message": "Παρακαλώ συνδεθείτε για να συνεχίσετε"
           },
           "error": {
-            "title": "",
+            "title": "Η δημιουργία λογαριασμού απέτυχε",
             "message": ""
           }
         }
       },
       "create": "Δημιουργία χρήστη",
       "changePassword": {
-        "label": "",
+        "label": "Αλλαγή κωδικού πρόσβασης",
         "notification": {
           "success": {
             "message": ""
@@ -252,10 +302,10 @@
       "changeDdgBangs": {
         "notification": {
           "success": {
-            "message": ""
+            "message": "Εναλλαγή bangs DuckDuckGo επιτυχής"
           },
           "error": {
-            "message": ""
+            "message": "Αδυναμία εναλλαγής bangs DuckDuckGo"
           }
         }
       },
@@ -270,17 +320,17 @@
               "message": ""
             },
             "toLarge": {
-              "title": "",
+              "title": "Η εικόνα είναι πολύ μεγάλη",
               "message": ""
             }
           }
         },
         "removeImage": {
-          "label": "",
+          "label": "Αφαίρεση εικόνας",
           "confirm": "",
           "notification": {
             "success": {
-              "message": ""
+              "message": "Η εικόνα αφαιρέθηκε επιτυχώς"
             },
             "error": {
               "message": ""
@@ -291,7 +341,7 @@
       "editProfile": {
         "notification": {
           "success": {
-            "message": ""
+            "message": "Το προφίλ ενημερώθηκε επιτυχώς"
           },
           "error": {
             "message": ""
@@ -299,26 +349,26 @@
         }
       },
       "delete": {
-        "label": "",
+        "label": "Οριστική διαγραφή χρήστη",
         "description": "",
         "confirm": ""
       },
       "select": {
-        "label": "",
-        "notFound": ""
+        "label": "Επιλέξτε χρήστη",
+        "notFound": "Δεν βρέθηκε χρήστης"
       },
       "transfer": {
-        "label": ""
+        "label": "Επιλέξτε νέο ιδιοκτήτη"
       }
     }
   },
   "group": {
-    "title": "",
-    "name": "",
+    "title": "Ομάδες",
+    "name": "Ομάδα",
     "search": "",
     "field": {
       "name": "Όνομα",
-      "members": "",
+      "members": "Μέλη",
       "homeBoard": {
         "label": "",
         "description": ""
@@ -333,7 +383,7 @@
         "title": "Διαχειριστής",
         "item": {
           "admin": {
-            "label": "",
+            "label": "Διαχειριστής",
             "description": ""
           }
         }
@@ -342,7 +392,7 @@
         "title": "Εφαρμογές",
         "item": {
           "create": {
-            "label": "",
+            "label": "Δημιουργία εφαρμογών",
             "description": ""
           },
           "use-all": {
@@ -354,7 +404,7 @@
             "description": ""
           },
           "full-all": {
-            "label": "",
+            "label": "Πλήρης πρόσβαση στην εφαρμογή",
             "description": ""
           }
         }
@@ -363,15 +413,15 @@
         "title": "Πίνακες",
         "item": {
           "create": {
-            "label": "",
+            "label": "Δημιουργία πινάκων",
             "description": ""
           },
           "view-all": {
-            "label": "",
+            "label": "Προβολή όλων των πινάκων",
             "description": ""
           },
           "modify-all": {
-            "label": "",
+            "label": "Τροποποίηση όλων των πινάκων",
             "description": ""
           },
           "full-all": {
@@ -402,7 +452,7 @@
         }
       },
       "media": {
-        "title": "",
+        "title": "Πολυμέσα",
         "item": {
           "upload": {
             "label": "",
@@ -428,7 +478,7 @@
         }
       },
       "search-engine": {
-        "title": "",
+        "title": "Μηχανές αναζήτησης",
         "item": {
           "create": {
             "label": "",
@@ -454,10 +504,10 @@
     },
     "action": {
       "create": {
-        "label": "",
+        "label": "Νέα ομάδα",
         "notification": {
           "success": {
-            "message": ""
+            "message": "Η ομάδα δημιουργήθηκε επιτυχώς"
           },
           "error": {
             "message": ""
@@ -478,14 +528,14 @@
         }
       },
       "addMember": {
-        "label": ""
+        "label": "Προσθήκη μέλους"
       },
       "removeMember": {
-        "label": "",
+        "label": "Αφαίρεση μέλους",
         "confirm": ""
       },
       "delete": {
-        "label": "",
+        "label": "Διαγραφή ομάδας",
         "description": "",
         "confirm": "",
         "notification": {
@@ -521,7 +571,7 @@
       },
       "select": {
         "label": "",
-        "notFound": ""
+        "notFound": "Δεν βρέθηκε ομάδα"
       },
       "settings": {
         "board": {
@@ -559,16 +609,16 @@
       "list": {
         "title": "Εφαρμογές",
         "noResults": {
-          "title": "",
+          "title": "Δεν υπάρχουν εφαρμογές ακόμα",
           "action": ""
         }
       },
       "create": {
-        "title": "",
+        "title": "Νέα εφαρμογή",
         "notification": {
           "success": {
             "title": "",
-            "message": ""
+            "message": "Η εφαρμογή δημιουργήθηκε επιτυχώς"
           },
           "error": {
             "title": "",
@@ -577,7 +627,7 @@
         }
       },
       "edit": {
-        "title": "",
+        "title": "Επεξεργασία εφαρμογής",
         "notification": {
           "success": {
             "title": "",
@@ -590,12 +640,12 @@
         }
       },
       "delete": {
-        "title": "",
+        "title": "Διαγραφή εφαρμογής",
         "message": "",
         "notification": {
           "success": {
             "title": "",
-            "message": ""
+            "message": "Η εφαρμογή διαγράφτηκε επιτυχώς"
           },
           "error": {
             "title": "",
@@ -609,7 +659,7 @@
         "label": "Όνομα"
       },
       "description": {
-        "label": ""
+        "label": "Περιγραφή"
       },
       "url": {
         "label": ""
@@ -623,7 +673,7 @@
     },
     "action": {
       "select": {
-        "label": "",
+        "label": "Επιλέξτε εφαρμογή",
         "notFound": "",
         "search": "",
         "noResults": "",
@@ -636,6 +686,211 @@
         "action": ""
       },
       "add": ""
+    }
+  },
+  "customWidget": {
+    "page": {
+      "list": {
+        "title": "Προσαρμοσμένα Widgets",
+        "noResults": "Δεν υπάρχουν ακόμα προσαρμοσμένα widgets. Δημιουργήστε το πρώτο σας!",
+        "loading": "Φόρτωση..."
+      },
+      "create": {
+        "title": "Δημιουργία Προσαρμοσμένου Widget",
+        "subtitle": "Ορίστε μια διεύθυνση URL API, πιστοποίηση και τον τρόπο εμφάνισης των δεδομένων απόκρισης."
+      },
+      "edit": {
+        "title": "Επεξεργασία Προσαρμοσμένου Widget"
+      }
+    },
+    "action": {
+      "create": "Δημιουργία",
+      "import": "Εισαγωγή",
+      "save": "Αποθήκευση",
+      "delete": "Διαγραφή Προσαρμοσμένου Widget",
+      "deleteConfirm": "Είστε βέβαιοι ότι θέλετε να διαγράψετε το \"{name}\"; Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.",
+      "export": "Εξαγωγή",
+      "addMapping": "Προσθήκη Αντιστοίχισης",
+      "addColumn": "Προσθήκη Στήλης",
+      "edit": "Επεξεργασία",
+      "removeMapping": "Αφαίρεση αντιστοίχισης",
+      "removeColumn": "Αφαίρεση στήλης",
+      "addItem": "Προσθήκη Στοιχείου",
+      "removeItem": "Αφαίρεση στοιχείου",
+      "addBar": "Προσθήκη Μπάρας",
+      "duplicate": "Αντιγραφή",
+      "copyAiPrompt": "Αντιγραφή προτροπής AI",
+      "enable": "Ενεργοποίηση",
+      "disable": "Απενεργοποίηση",
+      "menu": "Ενέργειες"
+    },
+    "field": {
+      "name": "Όνομα",
+      "description": "Περιγραφή",
+      "iconUrl": "URL Εικονιδίου",
+      "url": "URL",
+      "authType": "Τύπος Πιστοποίησης",
+      "headerName": "Όνομα Παραμέτρου Κεφαλίδας/Ερωτήματος",
+      "method": "Μέθοδος",
+      "requestBody": "Σώμα Αιτήματος",
+      "displayType": "Τύπος Εμφάνισης",
+      "jsonPath": "Διαδρομή JSON",
+      "jsonPathHint": "Χρησιμοποιήστε σύνταξη JSONPath για εξαγωγή τιμών, π.χ. $.data.temperature ή $.items[0].name",
+      "label": "Ετικέτα",
+      "unit": "Μονάδα",
+      "mappings": "Αντιστοιχίσεις",
+      "tablePath": "Διαδρομή JSON Πίνακα",
+      "tablePathHint": "Διαδρομή προς τον πίνακα στην απόκριση, π.χ. $.data.items",
+      "columns": "Στήλες",
+      "header": "Κεφαλίδα",
+      "items": "Στοιχεία",
+      "gridColumns": "Στήλες Πλέγματος",
+      "cardStyle": "Στυλ Κάρτας",
+      "bars": "Μπάρες",
+      "valuePath": "Διαδρομή JSON Τιμής",
+      "maxPath": "Διαδρομή JSON Μέγιστης Τιμής",
+      "showPercentage": "Εμφάνιση Ποσοστού",
+      "barSize": "Μέγεθος Μπάρας",
+      "goodValues": "Καλές Τιμές (διαχωρισμένες με κόμμα)",
+      "dotSize": "Μέγεθος Κουκκίδας",
+      "valueSize": "Μέγεθος Τιμής",
+      "labelPosition": "Θέση Ετικέτας",
+      "kvLayout": "Διάταξη",
+      "striped": "Ριγωτές Γραμμές",
+      "compact": "Συμπαγής Λειτουργία",
+      "maxHeight": "Μέγιστο Ύψος (px)",
+      "color": "Χρώμα",
+      "buttonLabel": "",
+      "buttonColor": "",
+      "confirmText": "",
+      "confirmTextHint": "",
+      "successMessage": "",
+      "successMessageHint": "",
+      "enabled": "",
+      "template": {
+        "label": "",
+        "description": ""
+      }
+    },
+    "placeholder": {
+      "exampleLabel": "",
+      "exampleLabelShort": "",
+      "exampleHeader": "",
+      "exampleUnit": "",
+      "iconUrl": "",
+      "url": "",
+      "headerName": "",
+      "jsonPath": "",
+      "tablePath": "",
+      "columnJsonPath": "",
+      "valuePath": "",
+      "maxPath": "",
+      "goodValues": "",
+      "color": ""
+    },
+    "cardStyleOption": {
+      "filled": "",
+      "outline": "",
+      "subtle": ""
+    },
+    "layoutOption": {
+      "list": "",
+      "grid": ""
+    },
+    "sizeOption": {
+      "sm": "",
+      "md": "",
+      "lg": "",
+      "xl": ""
+    },
+    "labelPositionOption": {
+      "above": "",
+      "below": ""
+    },
+    "fieldset": {
+      "general": "",
+      "connection": "",
+      "display": ""
+    },
+    "displayTypeDescription": {
+      "singleValue": "",
+      "keyValue": "",
+      "table": "",
+      "statGrid": "",
+      "progressBars": "",
+      "statusIndicator": "",
+      "countGrid": "",
+      "raw": "",
+      "actionButton": "",
+      "customJsx": ""
+    },
+    "method": {
+      "GET": "",
+      "POST": "",
+      "PUT": "",
+      "DELETE": "",
+      "PATCH": ""
+    },
+    "authType": {
+      "none": "",
+      "bearer": "",
+      "basic": "",
+      "apiKeyHeader": "",
+      "apiKeyQuery": ""
+    },
+    "displayType": {
+      "singleValue": "",
+      "keyValue": "",
+      "table": "",
+      "statGrid": "",
+      "progressBars": "",
+      "statusIndicator": "",
+      "countGrid": "",
+      "raw": "",
+      "actionButton": "",
+      "customJsx": ""
+    },
+    "secret": {
+      "apiKey": "",
+      "username": "",
+      "password": "",
+      "savedPlaceholder": ""
+    },
+    "preview": {
+      "title": "",
+      "test": "",
+      "hint": "",
+      "rawResponse": ""
+    },
+    "notification": {
+      "created": "",
+      "updated": "",
+      "deleted": "",
+      "imported": "",
+      "aiPromptCopied": "",
+      "aiPromptDescription": "",
+      "aiPromptCopy": "",
+      "aiPromptNoResponse": "",
+      "aiPromptCopyError": "",
+      "createError": "",
+      "updateError": "",
+      "importError": "",
+      "exportError": "",
+      "duplicated": "",
+      "duplicateError": "",
+      "toggleError": "",
+      "deleteError": "",
+      "previewError": "",
+      "executed": "",
+      "executeError": ""
+    },
+    "table": {
+      "name": "",
+      "url": "",
+      "display": ""
+    },
+    "widget": {
+      "disabled": ""
     }
   },
   "integration": {
@@ -651,11 +906,11 @@
         "title": "",
         "notification": {
           "success": {
-            "title": "",
+            "title": "Επιτυχής δημιουργία",
             "message": ""
           },
           "error": {
-            "title": "",
+            "title": "Αποτυχία δημιουργίας",
             "message": ""
           }
         },
@@ -666,7 +921,7 @@
               "label": ""
             },
             "new": {
-              "title": "",
+              "title": "Νέο",
               "url": {
                 "label": "",
                 "description": ""
@@ -715,10 +970,10 @@
         "label": "Όνομα"
       },
       "url": {
-        "label": ""
+        "label": "Url"
       },
       "attemptSearchEngineCreation": {
-        "label": "",
+        "label": "Δημιουργία Μηχανής Αναζήτησης",
         "description": ""
       },
       "app": {
@@ -730,10 +985,49 @@
       },
       "appHref": {
         "placeholder": ""
+      },
+      "apiKeySettings": {
+        "label": "Λήψη κλειδιού API"
       }
     },
     "action": {
       "create": ""
+    },
+    "grid": {
+      "widgetCount": "{count} γουίτζετ",
+      "noWidgets": "Κανένα widget",
+      "detected": "Εντοπίστηκε μέσω Docker"
+    },
+    "category": {
+      "dnsHole": "DNS",
+      "mediaService": "Πολυμέσα",
+      "calendar": "Ημερολόγιο",
+      "mediaSearch": "Αναζήτηση",
+      "mediaRelease": "Κυκλοφορίες",
+      "mediaRequest": "Αιτήματα",
+      "downloadClient": "Λήψεις",
+      "usenet": "Usenet",
+      "torrent": "Τόρρεντ",
+      "miscellaneous": "Διάφορα",
+      "smartHomeServer": "Έξυπνο Σπίτι",
+      "indexerManager": "Διαχειριστής ευρετηρίων",
+      "healthMonitoring": "Υγεία",
+      "search": "Αναζήτηση",
+      "mediaTranscoding": "Μετακωδικοποίηση",
+      "networkController": "Δίκτυο",
+      "releasesProvider": "Κυκλοφορίες",
+      "notifications": "Ειδοποιήσεις",
+      "firewall": "Τείχος Προστασίας",
+      "timetable": "Χρονοδιάγραμμα",
+      "photoService": "Φωτογραφίες",
+      "documents": "Έγγραφα",
+      "notes": "Σημειώσεις",
+      "mediaMonitoring": "Παρακολούθηση",
+      "speedtest": "Τεστ ταχύτητας",
+      "analytics": "Αναλυτικά",
+      "vpn": "",
+      "mediaLibrary": "Βιβλιοθήκη Πολυμέσων",
+      "uptimeMonitoring": "Παρακολούθηση Διαθεσιμότητας"
     },
     "testConnection": {
       "action": {
@@ -774,7 +1068,7 @@
         "certificate": {
           "title": "",
           "description": {
-            "expired": "",
+            "expired": "Το πιστοποιητικό έχει λήξει.",
             "notYetValid": "",
             "untrusted": "",
             "hostnameMismatch": ""
@@ -801,7 +1095,7 @@
               "label": ""
             },
             "upload": {
-              "label": ""
+              "label": "Μεταφόρτωση πιστοποιητικού"
             }
           },
           "hostnameMismatch": {
@@ -837,7 +1131,7 @@
             }
           },
           "details": {
-            "title": "",
+            "title": "Λεπτομέρειες",
             "description": "",
             "content": {
               "action": "",
@@ -939,8 +1233,8 @@
       }
     },
     "secrets": {
-      "title": "",
-      "lastUpdated": "",
+      "title": "Μυστικά",
+      "lastUpdated": "Τελευταία ενημέρωση {date}",
       "notSet": {
         "label": "",
         "tooltip": ""
@@ -957,11 +1251,11 @@
       "kind": {
         "username": {
           "label": "Όνομα Χρήστη",
-          "newLabel": ""
+          "newLabel": "Νέο όνομα χρήστη"
         },
         "apiKey": {
-          "label": "",
-          "newLabel": ""
+          "label": "API Κλειδί",
+          "newLabel": "Νέο API Κλειδί"
         },
         "password": {
           "label": "Κωδικός",
@@ -980,18 +1274,26 @@
           "newLabel": ""
         },
         "topic": {
-          "label": "",
-          "newLabel": ""
+          "label": "Θέμα",
+          "newLabel": "Νέο θέμα"
         },
         "url": {
-          "label": "",
-          "newLabel": ""
+          "label": "Url",
+          "newLabel": "Νέο url"
         },
         "opnsenseApiKey": {
+          "label": "Κλειδί API (Κλειδί)",
+          "newLabel": "Νέο Κλειδί API (Κλειδί)"
+        },
+        "opnsenseApiSecret": {
+          "label": "Κλειδί API (Μυστικό)",
+          "newLabel": "Νέο Κλειδί API (Μυστικό)"
+        },
+        "patchmonApiKey": {
           "label": "",
           "newLabel": ""
         },
-        "opnsenseApiSecret": {
+        "patchmonApiSecret": {
           "label": "",
           "newLabel": ""
         },
@@ -1004,8 +1306,12 @@
           "newLabel": ""
         },
         "privateKey": {
-          "label": "",
-          "newLabel": ""
+          "label": "Ιδιωτικό κλειδί",
+          "newLabel": "Νέο ιδιωτικό κλειδί"
+        },
+        "slug": {
+          "label": "Slug σελίδας κατάστασης",
+          "newLabel": "Νέο slug σελίδας κατάστασης"
         }
       }
     },
@@ -1013,6 +1319,42 @@
       "use": "",
       "interact": "",
       "full": ""
+    },
+    "audiobookshelf": {
+      "name": "Audiobookshelf",
+      "description": "Αυτο-φιλοξενούμενος διακομιστής ηχητικών βιβλίων και podcast"
+    },
+    "navidrome": {
+      "name": "Navidrome",
+      "description": "Αυτο-φιλοξενούμενος διακομιστής ροής μουσικής με συμβατότητα Subsonic API"
+    },
+    "uptimeKuma": {
+      "name": "Uptime Kuma",
+      "description": "Αυτο-φιλοξενούμενη παρακολούθηση διαθεσιμότητας με δημόσιες σελίδες κατάστασης",
+      "secret": {
+        "slug": {
+          "description": "Το slug της δημόσιας σελίδας κατάστασής σας. Προεπιλογή σε \"default\" αν δεν οριστεί."
+        },
+        "apiKey": {
+          "description": "Προαιρετικό κλειδί API για πιστοποιημένη πρόσβαση /metrics"
+        }
+      }
+    },
+    "traefik": {
+      "name": "",
+      "description": ""
+    },
+    "paperlessNgx": {
+      "name": "Paperless-ngx",
+      "description": "Σύστημα διαχείρισης εγγράφων για αρχειοθέτηση και οργάνωση σαρωμένων εγγράφων"
+    },
+    "patchmon": {
+      "name": "",
+      "description": ""
+    },
+    "bazarr": {
+      "name": "",
+      "description": ""
     }
   },
   "media": {
@@ -1049,26 +1391,30 @@
         }
       },
       "copy": {
-        "label": ""
+        "label": "Αντιγραφή URL"
       },
       "open": {
         "label": ""
       }
+    },
+    "noResults": {
+      "title": "Δεν έχουν μεταφορτωθεί πολυμέσα"
     }
   },
   "common": {
-    "success": "",
+    "success": "Επιτυχία",
     "beta": "",
     "error": "Σφάλμα",
     "action": {
       "add": "Προσθήκη",
       "apply": "Εφαρμογή",
       "backToOverview": "",
-      "change": "",
+      "skip": "Παράλειψη",
+      "change": "Αλλαγή",
       "create": "Δημιουργία",
       "createAnother": "",
       "edit": "Επεξεργασία",
-      "import": "",
+      "import": "Εισαγωγή",
       "insert": "Εισαγωγή",
       "remove": "Αφαίρεση",
       "save": "Αποθήκευση",
@@ -1076,32 +1422,37 @@
       "cancel": "Ακύρωση",
       "delete": "Διαγραφή",
       "discard": "",
-      "close": "",
+      "close": "Κλείσιμο",
       "confirm": "Επιβεβαίωση",
-      "continue": "",
+      "continue": "Συνέχεια",
       "previous": "Προηγούμενο",
       "next": "Επόμενο",
-      "checkoutDocs": "",
+      "checkoutDocs": "Δείτε την τεκμηρίωση",
       "checkLogs": "",
       "tryAgain": "Προσπαθήστε ξανά",
-      "loading": ""
+      "loading": "Φόρτωση",
+      "show": "Εμφάνιση",
+      "hide": "Απόκρυψη"
     },
-    "here": "",
+    "here": "εδώ",
     "iconPicker": {
       "label": "",
-      "header": ""
+      "header": "",
+      "headerLoading": "",
+      "noResults": "",
+      "error": ""
     },
     "colorScheme": {
       "options": {
-        "auto": "",
-        "light": "",
-        "dark": ""
+        "auto": "Αυτόματο",
+        "light": "Φωτεινό",
+        "dark": "Σκοτεινό"
       }
     },
     "information": {
-      "min": "",
-      "max": "",
-      "days": "",
+      "min": "Ελάχιστο",
+      "max": "Μέγιστο",
+      "days": "Ημέρες",
       "hours": "Ώρες",
       "minutes": "Λεπτά"
     },
@@ -1128,21 +1479,22 @@
     },
     "multiText": {
       "placeholder": "",
-      "addLabel": ""
+      "addLabel": "Προσθήκη {value}"
     },
     "select": {
       "placeholder": "",
       "badge": {
-        "recommended": ""
+        "recommended": "Προτεινόμενο"
       }
     },
     "userAvatar": {
       "menu": {
-        "switchToDarkMode": "",
-        "switchToLightMode": "",
-        "management": "",
+        "switchToDarkMode": "Εναλλαγή σε σκοτεινή λειτουργία",
+        "switchToLightMode": "Εναλλαγή σε φωτεινή λειτουργία",
+        "management": "Διαχείριση",
+        "docker": "",
         "preferences": "Οι ρυθμίσεις σας",
-        "logout": "",
+        "logout": "Αποσύνδεση",
         "login": "Σύνδεση",
         "homeBoard": "",
         "loggedOut": "",
@@ -1152,9 +1504,9 @@
     "dangerZone": "Επικίνδυνη Περιοχή",
     "noResults": "Δεν βρέθηκαν αποτελέσματα",
     "unsavedChanges": "",
-    "servers": "",
-    "applications": "",
-    "services": "",
+    "servers": "Διακομιστές",
+    "applications": "Εφαρμογές",
+    "services": "Υπηρεσίες",
     "preview": {
       "show": "",
       "hide": ""
@@ -1178,8 +1530,8 @@
           "number": "Το πεδίο αυτό πρέπει να είναι μικρότερο ή ίσο του {maximum}"
         },
         "custom": {
-          "passwordsDoNotMatch": "",
-          "passwordRequirements": "",
+          "passwordsDoNotMatch": "Οι κωδικοί πρόσβασης δεν ταιριάζουν",
+          "passwordRequirements": "Ο κωδικός πρόσβασης δεν πληροί τις απαιτήσεις",
           "boardAlreadyExists": "",
           "invalidFileType": "",
           "invalidFileName": "",
@@ -1191,8 +1543,8 @@
     },
     "unit": {
       "speed": {
-        "kilometersPerHour": "",
-        "milesPerHour": ""
+        "kilometersPerHour": "km/h",
+        "milesPerHour": "mph"
       }
     }
   },
@@ -1204,7 +1556,7 @@
       },
       "option": {
         "title": {
-          "label": ""
+          "label": "Τίτλος"
         },
         "customCssClasses": {
           "label": ""
@@ -1225,31 +1577,32 @@
         }
       },
       "action": {
-        "create": "",
-        "edit": "",
-        "remove": "",
+        "create": "Νέα κατηγορία",
+        "edit": "Μετονομασία κατηγορίας",
+        "remove": "Αφαίρεση κατηγορίας",
         "moveUp": "Μετακίνηση επάνω",
         "moveDown": "Μετακίνηση κάτω",
-        "createAbove": "",
-        "createBelow": "",
+        "createAbove": "Νέα κατηγορία επάνω",
+        "createBelow": "Νέα κατηγορία κάτω",
         "openAllInNewTabs": ""
       },
       "create": {
-        "title": "",
-        "submit": ""
+        "title": "Νέα κατηγορία",
+        "submit": "Προσθήκη κατηγορίας"
       },
       "remove": {
-        "title": "",
+        "title": "Αφαίρεση κατηγορίας",
         "message": ""
       },
       "edit": {
-        "title": "",
-        "submit": ""
+        "title": "Μετονομασία κατηγορίας",
+        "submit": "Μετονομασία κατηγορίας"
       },
       "menu": {
         "label": {
-          "create": "",
-          "changePosition": "Αλλαγή θέσης"
+          "create": "Νέα κατηγορία",
+          "changePosition": "Αλλαγή θέσης",
+          "settings": "Ρυθμίσεις"
         }
       },
       "openAllInNewTabs": {
@@ -1260,16 +1613,25 @@
   },
   "item": {
     "action": {
-      "create": "",
-      "import": "",
-      "edit": "",
-      "moveResize": "",
+      "create": "Νέο στοιχείο",
+      "import": "Εισαγωγή στοιχείου",
+      "edit": "Επεξεργασία στοιχείου",
+      "moveResize": "Μετακίνηση / αλλαγή μεγέθους στοιχείου",
       "duplicate": "",
-      "remove": ""
+      "remove": "Αφαίρεση στοιχείου"
     },
     "menu": {
       "label": {
-        "settings": "Ρυθμίσεις"
+        "settings": "Ρυθμίσεις",
+        "refresh": "",
+        "options": "",
+        "actions": ""
+      },
+      "status": {
+        "success": "",
+        "error": "",
+        "loading": "",
+        "idle": ""
       }
     },
     "create": {
@@ -1295,7 +1657,14 @@
       }
     },
     "edit": {
-      "title": "",
+      "title": "Επεξεργασία στοιχείου",
+      "tab": {
+        "widget": "Επεξεργασία widget",
+        "app": "Επεξεργασία εφαρμογής"
+      },
+      "app": {
+        "propagationNotice": "Οι αλλαγές σε αυτήν την εφαρμογή θα εφαρμοστούν παντού όπου χρησιμοποιείται σε όλους τους πίνακες."
+      },
       "advancedOptions": {
         "label": "",
         "title": ""
@@ -1305,7 +1674,7 @@
           "label": ""
         },
         "title": {
-          "label": ""
+          "label": "Τίτλος"
         },
         "customCssClasses": {
           "label": ""
@@ -1316,13 +1685,20 @@
       }
     },
     "remove": {
-      "title": "",
+      "title": "Αφαίρεση στοιχείου",
       "message": ""
     }
   },
   "widget": {
+    "integrationSelect": {
+      "configureIntegrationFirst": "",
+      "loading": "",
+      "placeholder": "",
+      "noResults": "",
+      "loadError": ""
+    },
     "app": {
-      "name": "",
+      "name": "Εφαρμογή",
       "description": "",
       "option": {
         "appId": {
@@ -1338,7 +1714,7 @@
           "label": ""
         },
         "layout": {
-          "label": "",
+          "label": "Διάταξη",
           "option": {
             "row": "",
             "row-reverse": "",
@@ -1364,11 +1740,11 @@
       }
     },
     "bookmarks": {
-      "name": "",
+      "name": "Σελιδοδείκτες",
       "description": "",
       "option": {
         "title": {
-          "label": ""
+          "label": "Τίτλος"
         },
         "layout": {
           "label": "Διάταξη",
@@ -1388,10 +1764,10 @@
           }
         },
         "hideTitle": {
-          "label": ""
+          "label": "Απόκρυψη τίτλου"
         },
         "hideIcon": {
-          "label": ""
+          "label": "Απόκρυψη εικονιδίων"
         },
         "hideHostname": {
           "label": ""
@@ -1399,9 +1775,21 @@
         "openNewTab": {
           "label": ""
         },
+        "withBorder": {
+          "label": "Εμφάνιση περιγράμματος"
+        },
         "items": {
-          "label": "",
-          "add": ""
+          "label": "Σελιδοδείκτες",
+          "add": "Προσθήκη σελιδοδείκτη"
+        }
+      }
+    },
+    "archiveTeamWarrior": {
+      "name": "",
+      "description": "",
+      "option": {
+        "showBroadcastMessage": {
+          "label": ""
         }
       }
     },
@@ -1465,8 +1853,8 @@
         "internalServerError": ""
       },
       "controls": {
-        "enableAll": "",
-        "disableAll": "",
+        "enableAll": "Ενεργοποίηση Όλων",
+        "disableAll": "Απενεργοποίηση Όλων",
         "setTimer": "",
         "set": "Ορισμός",
         "enabled": "Ενεργοποιημένο",
@@ -1487,7 +1875,7 @@
           "description": ""
         },
         "customTitle": {
-          "label": ""
+          "label": "Τίτλος"
         },
         "is24HourFormat": {
           "label": "",
@@ -1517,6 +1905,16 @@
         "customDateFormat": {
           "label": "",
           "description": ""
+        },
+        "showWeather": {
+          "label": "",
+          "description": ""
+        },
+        "weatherLocation": {
+          "label": ""
+        },
+        "isWeatherFormatFahrenheit": {
+          "label": ""
         }
       }
     },
@@ -1525,13 +1923,13 @@
       "description": "",
       "option": {
         "title": {
-          "label": ""
+          "label": "Τίτλος"
         },
         "domain": {
-          "label": ""
+          "label": "Διεύθυνση διακομιστή"
         },
         "isBedrockServer": {
-          "label": ""
+          "label": "Διακομιστής Bedrock"
         }
       },
       "status": {
@@ -1545,6 +1943,9 @@
       "title": "",
       "noStation": "",
       "option": {
+        "baseUrl": {
+          "label": ""
+        },
         "station": {
           "label": ""
         }
@@ -1575,6 +1976,8 @@
         "clear": "Εκκαθάριση μορφοποίησης",
         "heading": "Επικεφαλίδα {level}",
         "align": "Στοίχιση κειμένου: {position}",
+        "directionLtr": "",
+        "directionRtl": "",
         "blockquote": "Μπλοκ κειμένου παράθεσης",
         "horizontalLine": "Οριζόντια γραμμή",
         "bulletList": "Λίστα με κουκκίδες",
@@ -1625,10 +2028,10 @@
       "description": "",
       "option": {
         "noteId": {
-          "label": ""
+          "label": "Σημείωση"
         },
         "showTitle": {
-          "label": ""
+          "label": "Εμφάνιση τίτλου"
         },
         "showUpdatedAt": {
           "label": ""
@@ -1641,15 +2044,15 @@
       "integrationRequired": "",
       "updatedAt": "",
       "untitled": "",
-      "edit": "",
-      "save": "",
-      "cancel": "",
+      "edit": "Επεξεργασία",
+      "save": "Αποθήκευση",
+      "cancel": "Ακύρωση",
       "readOnlyViewer": "",
       "saveForbidden": "",
       "saveFailed": ""
     },
     "iframe": {
-      "name": "iframe",
+      "name": "iFrame",
       "description": "Ενσωματώστε οποιοδήποτε περιεχόμενο από το διαδίκτυο. Ορισμένοι ιστότοποι ενδέχεται να περιορίζουν την πρόσβαση.",
       "option": {
         "embedUrl": {
@@ -1708,7 +2111,7 @@
       }
     },
     "smartHome-executeAutomation": {
-      "name": "",
+      "name": "Εκτέλεση Αυτοματισμού",
       "description": "",
       "option": {
         "displayName": {
@@ -1845,7 +2248,7 @@
           "label": "Τοποθεσία καιρού"
         },
         "showCity": {
-          "label": ""
+          "label": "Εμφάνιση πόλης"
         },
         "hasForecast": {
           "label": ""
@@ -1864,7 +2267,8 @@
         "sunrise": "",
         "sunset": "",
         "maxWindSpeed": "",
-        "maxWindGusts": ""
+        "maxWindGusts": "",
+        "humidity": ""
       },
       "kind": {
         "clear": "Καθαρός",
@@ -1901,7 +2305,7 @@
       "name": "Παρακολούθηση της υγείας του συστήματος",
       "description": "Εμφανίζει πληροφορίες που δείχνουν την κατάσταση και την υγεία του/ων συστήματος/ων σας.",
       "tab": {
-        "system": "",
+        "system": "Σύστημα",
         "cluster": ""
       },
       "option": {
@@ -1923,6 +2327,11 @@
         "fileSystem": {
           "label": "Εμφάνιση Πληροφοριών Συστήματος Αρχείων"
         },
+        "visibleStorageVolumes": {
+          "label": "",
+          "description": "",
+          "placeholder": ""
+        },
         "defaultTab": {
           "label": ""
         },
@@ -1941,8 +2350,8 @@
         "version": "",
         "uptime": "",
         "loadAverage": "",
-        "minute": "",
-        "minutes": "",
+        "minute": "1 λεπτό",
+        "minutes": "{count} λεπτά",
         "used": "",
         "available": "Διαθέσιμο",
         "lastSeen": ""
@@ -1953,8 +2362,8 @@
       },
       "cluster": {
         "summary": {
-          "cpu": "",
-          "memory": ""
+          "cpu": "CPU",
+          "memory": "RAM"
         },
         "resource": {
           "node": {
@@ -1977,8 +2386,8 @@
             "plugin": ""
           },
           "detail": {
-            "cpu": "",
-            "memory": "",
+            "cpu": "Πυρήνες",
+            "memory": "Μνήμη",
             "storage": "",
             "uptime": "",
             "haState": "",
@@ -1991,39 +2400,53 @@
         "table": {
           "header": {
             "name": "",
-            "cpu": "",
-            "memory": "",
+            "cpu": "CPU",
+            "memory": "RAM",
             "node": ""
           }
         }
       }
     },
     "dockerContainers": {
-      "name": "",
+      "name": "Στατιστικά Docker",
       "description": "",
       "option": {
+        "columns": {
+          "label": ""
+        },
         "enableRowSorting": {
           "label": ""
         },
         "defaultSort": {
           "label": "",
           "option": {
-            "name": "",
-            "state": "",
-            "cpuUsage": "",
+            "name": "Όνομα",
+            "state": "Κατάσταση",
+            "cpuUsage": "Χρήση CPU",
             "memoryUsage": ""
           }
         },
         "descendingDefaultSort": {
           "label": ""
+        },
+        "columnOrder": {
+          "label": ""
+        },
+        "columnWidths": {
+          "label": ""
         }
       },
       "error": {
-        "internalServerError": ""
+        "internalServerError": "",
+        "layoutSaveTitle": "",
+        "layoutSaveMessage": ""
+      },
+      "empty": {
+        "noContainers": ""
       }
     },
     "coolify": {
-      "name": "",
+      "name": "Coolify",
       "description": "",
       "option": {
         "showServers": {
@@ -2033,7 +2456,7 @@
           "label": ""
         },
         "showServices": {
-          "label": ""
+          "label": "Εμφάνιση υπηρεσιών"
         }
       },
       "empty": {
@@ -2055,6 +2478,43 @@
         "title": ""
       }
     },
+    "vpn": {
+      "name": "",
+      "description": "",
+      "serviceUnavailable": "",
+      "option": {}
+    },
+    "ups": {
+      "name": "UPS",
+      "description": "Παρακολούθηση της κατάστασης των συσκευών UPS μέσω ενός διακομιστή NUT",
+      "option": {
+        "showBattery": {
+          "label": "Εμφάνιση μπαταρίας"
+        },
+        "showLoad": {
+          "label": "Εμφάνιση φορτίου"
+        },
+        "showVoltage": {
+          "label": "Εμφάνιση τάσης"
+        }
+      },
+      "status": {
+        "online": "Σε σύνδεση",
+        "onBattery": "Σε μπαταρία",
+        "lowBattery": "Χαμηλή μπαταρία",
+        "charging": "Φόρτιση",
+        "unknown": "Άγνωστο"
+      },
+      "field": {
+        "runtime": "Χρόνος λειτουργίας",
+        "load": "Φορτίο",
+        "input": "Είσοδος",
+        "output": "Έξοδος"
+      },
+      "error": {
+        "internalServerError": "Αποτυχία ανάκτησης δεδομένων UPS"
+      }
+    },
     "tracearr": {
       "name": "",
       "description": "",
@@ -2074,13 +2534,13 @@
       },
       "stats": {
         "activeStreams": "",
-        "totalUsers": "",
+        "totalUsers": "Συνολικοί Χρήστες",
         "transcodes": "",
         "bandwidth": ""
       },
       "streams": {
         "empty": "",
-        "user": "",
+        "user": "Χρήστης",
         "media": "",
         "state": "",
         "quality": "",
@@ -2132,99 +2592,99 @@
           "label": "",
           "description": "",
           "option": {
-            "today": "",
-            "24h": "",
-            "7d": "",
-            "30d": "",
-            "month": "",
-            "lastMonth": ""
+            "today": "Σήμερα",
+            "24h": "Τελευταίες 24 ώρες",
+            "7d": "Τελευταίες 7 ημέρες",
+            "30d": "Τελευταίες 30 ημέρες",
+            "month": "Αυτός ο μήνας",
+            "lastMonth": "Προηγούμενος μήνας"
           }
         },
         "eventName": {
-          "label": "",
-          "description": "",
-          "placeholder": "",
-          "loading": "",
-          "noEvents": "",
-          "none": "",
-          "configureWebsiteFirst": ""
+          "label": "Συμβάν",
+          "description": "Εμφάνιση συνολικών εμφανίσεων ενός συγκεκριμένου συμβάντος",
+          "placeholder": "Επιλέξτε ένα συμβάν",
+          "loading": "Φόρτωση συμβάντων...",
+          "noEvents": "Δεν βρέθηκαν συμβάντα",
+          "none": "Κανένα συμβάν",
+          "configureWebsiteFirst": "Επιλέξτε πρώτα έναν ιστότοπο για να φορτώσετε συμβάντα"
         },
         "chartType": {
-          "label": "",
-          "description": "",
+          "label": "Τύπος γραφήματος",
+          "description": "Στυλ εμφάνισης για το γράφημα",
           "option": {
-            "bar": "",
-            "sparkline": ""
+            "bar": "Ραβδόγραμμα",
+            "sparkline": "Μικρογράφημα"
           }
         },
         "chartStyle": {
-          "label": "",
-          "description": "",
+          "label": "Στυλ γραφήματος",
+          "description": "Πώς να εμφανίζονται οι σειρές συμβάντων στο γράφημα",
           "option": {
-            "grouped": "",
-            "overlay": ""
+            "grouped": "Πλάι-πλάι",
+            "overlay": "Επικάλυψη (υποσύνολο)"
           }
         },
         "viewMode": {
-          "label": "",
-          "description": "",
+          "label": "Προβολή",
+          "description": "Τι να εμφανίζεται στο σώμα του widget",
           "option": {
-            "chart": "",
-            "events": "",
-            "topPages": "",
-            "topReferrers": ""
+            "chart": "Γράφημα",
+            "events": "Γράφημα συμβάντων",
+            "topPages": "Κορυφαίες σελίδες",
+            "topReferrers": "Κορυφαίοι παραπομποί"
           }
         },
         "eventNames": {
-          "label": "",
-          "description": "",
-          "placeholder": "",
-          "loading": "",
-          "noEvents": "",
-          "configureWebsiteFirst": ""
+          "label": "Συμβάντα",
+          "description": "Επιλέξτε ένα ή περισσότερα συμβάντα για το γράφημα",
+          "placeholder": "Επιλέξτε συμβάντα...",
+          "loading": "Φόρτωση συμβάντων...",
+          "noEvents": "Δεν βρέθηκαν συμβάντα",
+          "configureWebsiteFirst": "Επιλέξτε πρώτα έναν ιστότοπο για να φορτώσετε συμβάντα"
         },
         "topCount": {
-          "label": "",
-          "description": ""
+          "label": "Στοιχεία προς εμφάνιση",
+          "description": "Αριθμός κορυφαίων στοιχείων προς εμφάνιση (μέγιστο 500)"
         }
       },
       "event": {
-        "occurrences": "",
-        "label": ""
+        "occurrences": "συμβάντα",
+        "label": "συμβάντα"
       },
       "topPages": {
-        "direct": ""
+        "direct": "Απευθείας"
       },
       "topReferrers": {
-        "direct": ""
+        "direct": "Απευθείας"
       },
       "events": {
-        "selectPrompt": ""
+        "selectPrompt": "Επιλέξτε συμβάντα για το γράφημα"
       },
       "error": {
-        "noIntegration": "",
-        "noWebsite": "",
-        "noData": "",
-        "internalServerError": ""
+        "noIntegration": "Δεν έχει ρυθμιστεί ενσωμάτωση Umami",
+        "noWebsite": "Δεν έχει ρυθμιστεί ιστότοπος",
+        "noData": "Δεν υπάρχουν διαθέσιμα δεδομένα",
+        "internalServerError": "Αποτυχία ανάκτησης δεδομένων Umami"
       }
     },
     "common": {
       "location": {
-        "query": "",
-        "latitude": "",
-        "longitude": "",
+        "query": "Πόλη / Ταχυδρομικός κώδικας",
+        "latitude": "Γεωγραφικό πλάτος",
+        "longitude": "Γεωγραφικό μήκος",
         "disabledTooltip": "",
-        "unknownLocation": "",
+        "unknownLocation": "Άγνωστη τοποθεσία",
         "search": "Αναζήτηση",
         "table": {
           "header": {
-            "city": "",
-            "country": "",
-            "coordinates": "",
-            "population": ""
+            "city": "Πόλη",
+            "country": "Χώρα",
+            "coordinates": "Συντεταγμένες",
+            "population": "Πληθυσμός"
           },
           "action": {
-            "select": ""
+            "select": "Επιλέξτε {city}, {countryCode}"
           },
           "population": {
             "fallback": "Άγνωστο"
@@ -2236,7 +2696,7 @@
         "description": ""
       },
       "app": {
-        "noData": "",
+        "noData": "Δε βρέθηκε εφαρμογή",
         "description": "",
         "quickCreate": ""
       },
@@ -2276,13 +2736,33 @@
         "showOnlyPlaying": {
           "label": "",
           "description": ""
+        },
+        "showBitrate": {
+          "label": "",
+          "description": ""
+        },
+        "showLocation": {
+          "label": "",
+          "description": ""
         }
+      },
+      "footer": {
+        "streams": "",
+        "totalBitrate": ""
       },
       "items": {
         "currentlyPlaying": "",
         "user": "",
         "name": "",
         "id": "",
+        "status": "",
+        "directPlay": "",
+        "directStream": "",
+        "transcodeVideo": "",
+        "transcodeAudio": "",
+        "transcoding": "",
+        "paused": "",
+        "remaining": "",
         "metadata": {
           "title": "",
           "video": {
@@ -2301,6 +2781,238 @@
             "target": ""
           }
         }
+      }
+    },
+    "paperlessNgx": {
+      "name": "Paperless-ngx",
+      "description": "Επισκόπηση του αρχείου εγγράφων σας στο Paperless-ngx",
+      "documentsTotal": "Συνολικά Έγγραφα",
+      "documentsInbox": "Εισερχόμενα",
+      "correspondents": "Αλληλογράφοι",
+      "tags": "Ετικέτες",
+      "documentTypes": "Τύποι Εγγράφων",
+      "inboxRatio": "Αναλογία Εισερχομένων",
+      "inbox": "εισερχόμενα",
+      "total": "σύνολο",
+      "option": {
+        "showInboxRatio": {
+          "label": "Εμφάνιση αναλογίας εισερχομένων",
+          "description": "Εμφάνιση της αναλογίας εισερχομένων προς το σύνολο των εγγράφων στην ενότητα κορυφής"
+        },
+        "showInboxRing": {
+          "label": "Εμφάνιση δακτυλίου εισερχομένων",
+          "description": "Εμφάνιση δακτυλίου προόδου παράλληλα με την αναλογία εισερχομένων"
+        },
+        "showDocumentsTotal": {
+          "label": "Εμφάνιση συνολικών εγγράφων",
+          "description": "Εμφάνιση του συνολικού αριθμού εγγράφων στο αρχείο σας"
+        },
+        "showDocumentsInbox": {
+          "label": "Εμφάνιση πλήθους εισερχομένων",
+          "description": "Εμφάνιση του αριθμού των μη επεξεργασμένων εγγράφων στα εισερχόμενα"
+        },
+        "showCorrespondents": {
+          "label": "Εμφάνιση αλληλογράφων",
+          "description": "Εμφάνιση του συνολικού αριθμού αλληλογράφων"
+        },
+        "showTags": {
+          "label": "Εμφάνιση ετικετών",
+          "description": "Εμφάνιση του συνολικού αριθμού ετικετών"
+        },
+        "showDocumentTypes": {
+          "label": "Εμφάνιση τύπων εγγράφων",
+          "description": "Εμφάνιση του συνολικού αριθμού τύπων εγγράφων"
+        }
+      },
+      "error": {
+        "internalServerError": "Αποτυχία λήψης δεδομένων Paperless-ngx"
+      }
+    },
+    "patchmon": {
+      "name": "",
+      "description": "",
+      "title": "",
+      "totalHosts": "",
+      "hostsNeedingUpdates": "",
+      "securityUpdates": "",
+      "upToDateHosts": "",
+      "hostsWithSecurityUpdates": "",
+      "recentUpdates24h": "",
+      "totalOutdatedPackages": "",
+      "totalRepos": "",
+      "osDistribution": "",
+      "compliance": "",
+      "complianceRatio": "",
+      "lastUpdated": "",
+      "option": {
+        "showTotalHosts": {
+          "label": "",
+          "description": ""
+        },
+        "showHostsNeedingUpdates": {
+          "label": "",
+          "description": ""
+        },
+        "showSecurityUpdates": {
+          "label": "",
+          "description": ""
+        },
+        "showUpToDateHosts": {
+          "label": "",
+          "description": ""
+        },
+        "showHostsWithSecurityUpdates": {
+          "label": "",
+          "description": ""
+        },
+        "showRecentUpdates24h": {
+          "label": "",
+          "description": ""
+        },
+        "showTotalOutdatedPackages": {
+          "label": "",
+          "description": ""
+        },
+        "showTotalRepos": {
+          "label": "",
+          "description": ""
+        },
+        "enableThresholdColors": {
+          "label": "",
+          "description": ""
+        },
+        "useCustomThresholds": {
+          "label": "",
+          "description": ""
+        },
+        "thresholdMode": {
+          "option": {
+            "absolute": "",
+            "percent": ""
+          }
+        },
+        "hostsNeedingUpdatesThresholdMode": {
+          "label": "",
+          "description": ""
+        },
+        "hostsNeedingUpdatesWarningAt": {
+          "label": "",
+          "description": ""
+        },
+        "hostsNeedingUpdatesCriticalAt": {
+          "label": "",
+          "description": ""
+        },
+        "securityUpdatesThresholdMode": {
+          "label": "",
+          "description": ""
+        },
+        "securityUpdatesWarningAt": {
+          "label": "",
+          "description": ""
+        },
+        "securityUpdatesCriticalAt": {
+          "label": "",
+          "description": ""
+        },
+        "hostsWithSecurityUpdatesThresholdMode": {
+          "label": "",
+          "description": ""
+        },
+        "hostsWithSecurityUpdatesWarningAt": {
+          "label": "",
+          "description": ""
+        },
+        "hostsWithSecurityUpdatesCriticalAt": {
+          "label": "",
+          "description": ""
+        },
+        "upToDateHostsThresholdMode": {
+          "label": "",
+          "description": ""
+        },
+        "upToDateHostsWarningAt": {
+          "label": "",
+          "description": ""
+        },
+        "upToDateHostsCriticalAt": {
+          "label": "",
+          "description": ""
+        },
+        "totalOutdatedPackagesThresholdMode": {
+          "label": "",
+          "description": ""
+        },
+        "totalOutdatedPackagesWarningAt": {
+          "label": "",
+          "description": ""
+        },
+        "totalOutdatedPackagesCriticalAt": {
+          "label": "",
+          "description": ""
+        },
+        "showOsDistribution": {
+          "label": "",
+          "description": ""
+        },
+        "osDistributionLimit": {
+          "label": "",
+          "description": "",
+          "option": {
+            "3": "",
+            "5": "",
+            "10": "",
+            "all": ""
+          }
+        },
+        "showOsVersion": {
+          "label": "",
+          "description": ""
+        },
+        "showComplianceHero": {
+          "label": "",
+          "description": ""
+        },
+        "osDisplayMode": {
+          "label": "",
+          "description": "",
+          "option": {
+            "bars": "",
+            "donut": ""
+          }
+        }
+      },
+      "error": {
+        "internalServerError": ""
+      }
+    },
+    "bazarr": {
+      "name": "",
+      "description": "",
+      "episodes": "",
+      "movies": "",
+      "providers": "",
+      "status": "",
+      "option": {
+        "showMissingEpisodes": {
+          "label": "",
+          "description": ""
+        },
+        "showMissingMovies": {
+          "label": "",
+          "description": ""
+        },
+        "showProviderIssues": {
+          "label": "",
+          "description": ""
+        },
+        "showHealthIssues": {
+          "label": "",
+          "description": ""
+        }
+      },
+      "error": {
+        "internalServerError": ""
       }
     },
     "immich-serverStats": {
@@ -2325,12 +3037,13 @@
         }
       },
       "users": "",
-      "photos": "",
+      "photos": "Φωτογραφίες",
       "videos": "",
       "storage": ""
     },
     "immich-albumCarousel": {
       "name": "",
+      "allPhotos": "",
       "option": {
         "albumId": {
           "label": "",
@@ -2343,10 +3056,13 @@
         "showPhotoInfo": {
           "label": "",
           "description": ""
+        },
+        "randomizePhotos": {
+          "label": "",
+          "description": ""
         }
       },
       "description": "",
-      "noAlbumSelected": "",
       "noPhotos": ""
     },
     "downloads": {
@@ -2389,11 +3105,20 @@
         "limitPerIntegration": {
           "label": "",
           "description": ""
+        },
+        "columnOrder": {
+          "label": ""
+        },
+        "columnWidths": {
+          "label": ""
         }
       },
       "errors": {
         "noColumns": "",
-        "noCommunications": ""
+        "noCommunications": "",
+        "noItems": "",
+        "actionFailed": "",
+        "actionFailedMessage": ""
       },
       "items": {
         "actions": {
@@ -2416,7 +3141,8 @@
           "detailsTitle": ""
         },
         "id": {
-          "columnTitle": ""
+          "columnTitle": "",
+          "detailsTitle": ""
         },
         "integration": {
           "columnTitle": "Ενσωμάτωση"
@@ -2441,7 +3167,7 @@
           "detailsTitle": ""
         },
         "size": {
-          "columnTitle": "",
+          "columnTitle": "Μέγεθος Αρχείου",
           "detailsTitle": ""
         },
         "state": {
@@ -2450,7 +3176,8 @@
         },
         "time": {
           "columnTitle": "",
-          "detailsTitle": ""
+          "detailsTitle": "",
+          "eta": ""
         },
         "type": {
           "columnTitle": "",
@@ -2494,7 +3221,23 @@
           }
         }
       },
-      "globalRatio": ""
+      "globalRatio": "",
+      "contextMenu": {
+        "copyName": "",
+        "copyId": "",
+        "clearFilters": ""
+      },
+      "footer": {
+        "filter": ""
+      },
+      "stats": {
+        "show": "",
+        "hide": "",
+        "overallProgress": "",
+        "totalSize": "",
+        "clients": ""
+      },
+      "disconnected": ""
     },
     "mediaReleases": {
       "name": "",
@@ -2531,6 +3274,12 @@
       "option": {
         "linksTargetNewTab": {
           "label": "Άνοιγμα συνδέσμων σε νέα καρτέλα"
+        },
+        "statusFilter": {
+          "label": ""
+        },
+        "recentDays": {
+          "label": ""
         }
       },
       "pending": {
@@ -2610,7 +3359,7 @@
           "transcodes": "Μετακωδικοποιήσεις",
           "transcodesCount": "",
           "healthChecksCount": "",
-          "filesCount": "",
+          "filesCount": "Αρχεία",
           "savedSpace": "",
           "healthChecks": "",
           "videoCodecs": "Κωδικοποιητές",
@@ -2637,6 +3386,35 @@
           }
         }
       }
+    },
+    "mediaMissing": {
+      "name": "",
+      "description": "",
+      "option": {
+        "showMissing": {
+          "label": ""
+        },
+        "showQueued": {
+          "label": ""
+        },
+        "pageSize": {
+          "label": ""
+        }
+      },
+      "tab": {
+        "missing": "",
+        "queued": ""
+      },
+      "type": {
+        "movie": "",
+        "episode": ""
+      },
+      "empty": {
+        "missing": "",
+        "queued": "",
+        "noTabsEnabled": ""
+      },
+      "timeLeft": ""
     },
     "rssFeed": {
       "name": "",
@@ -2707,6 +3485,9 @@
           "provider": {
             "label": ""
           },
+          "providerUrl": {
+            "label": ""
+          },
           "identifier": {
             "label": "",
             "placeholder": ""
@@ -2754,6 +3535,13 @@
           "noProvider": {
             "label": "",
             "tooltip": ""
+          },
+          "tokens": {
+            "label": "",
+            "token": "",
+            "configured": "",
+            "notConfigured": "",
+            "save": ""
           }
         }
       },
@@ -2761,7 +3549,7 @@
       "pre-release": "",
       "archived": "",
       "forked": "",
-      "starsCount": "",
+      "starsCount": "Αστέρια",
       "forksCount": "",
       "issuesCount": "",
       "markViewed": "",
@@ -2776,8 +3564,9 @@
           "invalidIdentifier": "",
           "noMatchingVersion": "",
           "noReleasesFound": "",
-          "noProviderSeleceted": "",
-          "noProviderResponse": ""
+          "noProviderSelected": "",
+          "noProviderResponse": "",
+          "unexpected": ""
         }
       }
     },
@@ -2806,7 +3595,7 @@
           }
         },
         "users": {
-          "label": ""
+          "label": "Χρήστες"
         },
         "guests": {
           "label": ""
@@ -2829,7 +3618,7 @@
         "integrationsDisconnected": "",
         "unknownContentOption": ""
       },
-      "name": "",
+      "name": "Κατάσταση Δικτύου",
       "description": ""
     },
     "networkController": {
@@ -2841,7 +3630,7 @@
       "name": "",
       "description": "",
       "tab": {
-        "system": "",
+        "system": "Σύστημα",
         "interfaces": ""
       },
       "error": {
@@ -2854,12 +3643,12 @@
         "fwname": "",
         "version": "",
         "versiontitle": "",
-        "cputitle": "",
+        "cputitle": "Χρήση CPU",
         "memorytitle": "",
-        "cpu": "",
-        "memory": "",
+        "cpu": "CPU",
+        "memory": "Μνήμη",
         "interfaces": {
-          "name": "",
+          "name": "όνομα",
           "trans": "",
           "recv": "",
           "title": ""
@@ -2870,7 +3659,11 @@
       "name": "",
       "description": "",
       "noItems": "",
-      "option": {}
+      "option": {
+        "hideLogos": {
+          "label": ""
+        }
+      }
     },
     "speedtestTracker": {
       "name": "",
@@ -2892,23 +3685,150 @@
       "latestResult": "",
       "averages": "",
       "tests": "",
-      "recentResults": "",
-      "recentResultsSpeed": "",
+      "recentResults": "Πρόσφατα Αποτελέσματα",
+      "recentResultsSpeed": "Ταχύτητα",
       "recentResultsPing": "",
       "download": "",
       "upload": "",
       "ping": "",
-      "status": "",
+      "status": "Κατάσταση",
       "avgDownload": "",
       "avgUpload": "",
       "avgPing": "",
-      "healthy": "",
+      "healthy": "Υγείες",
       "unhealthy": "",
-      "ok": "",
+      "ok": "ΟΚ",
       "fail": "",
       "noSectionsEnabled": "",
       "error": {
         "internalServerError": ""
+      }
+    },
+    "uptimeKuma": {
+      "name": "Uptime Kuma",
+      "description": "Παρακολούθηση στατιστικών διαθεσιμότητας από τη σελίδα κατάστασης Uptime Kuma",
+      "option": {
+        "showAverageUptime": {
+          "label": "Εμφάνιση μέσης διαθεσιμότητας",
+          "description": "Εμφάνιση του συνδυασμένου ποσοστού μέσης διαθεσιμότητας 24 ωρών"
+        },
+        "showUptimeRing": {
+          "label": "Εμφάνιση δακτυλίου διαθεσιμότητας",
+          "description": "Εμφάνιση δακτυλίου προόδου παράλληλα με την τιμή μέσης διαθεσιμότητας"
+        },
+        "showTotalMonitors": {
+          "label": "Εμφάνιση συνόλου παρακολούθων",
+          "description": "Εμφάνιση του συνολικού αριθμού των διαμορφωμένων παρακολούθων"
+        },
+        "showUpCount": {
+          "label": "Εμφάνιση αριθμού σε λειτουργία",
+          "description": "Εμφάνιση πόσοι παρακολουθούνται είναι αυτήν τη στιγμή ενεργοί"
+        },
+        "showDownCount": {
+          "label": "Εμφάνιση αριθμού εκτός λειτουργίας",
+          "description": "Εμφάνιση πόσοι παρακολουθούνται είναι αυτήν τη στιγμή εκτός λειτουργίας"
+        },
+        "showPausedCount": {
+          "label": "Εμφάνιση αριθμού σε παύση",
+          "description": "Εμφάνιση πόσοι παρακολουθούνται είναι αυτήν τη στιγμή σε παύση"
+        }
+      },
+      "averageUptime": "Μέση διαθεσιμότητα (24ωρο)",
+      "stats": {
+        "totalMonitors": "Σύνολο παρακολούθων",
+        "upCount": "Ενεργός",
+        "downCount": "Εκτός",
+        "pausedCount": "Σε παύση"
+      },
+      "error": {
+        "internalServerError": "Αποτυχία λήψης δεδομένων διαθεσιμότητας"
+      }
+    },
+    "traefik": {
+      "name": "",
+      "description": "",
+      "option": {
+        "showTcp": {
+          "label": ""
+        },
+        "showUdp": {
+          "label": ""
+        },
+        "showEntryPoints": {
+          "label": ""
+        }
+      },
+      "instances": "",
+      "versionUnknown": "",
+      "summary": {
+        "routers": "",
+        "entryPoints": ""
+      },
+      "resource": {
+        "routers": "",
+        "services": "",
+        "middlewares": ""
+      },
+      "status": {
+        "healthy": "",
+        "errors": "",
+        "warnings": ""
+      },
+      "error": {
+        "internalServerError": ""
+      }
+    },
+    "audioStats": {
+      "name": "Στατιστικά Ήχου",
+      "description": "Στατιστικά βιβλιοθήκης και αναπαραγωγής από Navidrome ή Audiobookshelf",
+      "option": {
+        "showArtists": {
+          "label": "Εμφάνιση καλλιτεχνών",
+          "description": "Εμφάνιση του συνολικού αριθμού καλλιτεχνών στη βιβλιοθήκη μουσικής σας (Navidrome)"
+        },
+        "showAlbums": {
+          "label": "Εμφάνιση άλμπουμ",
+          "description": "Εμφάνιση του συνολικού αριθμού άλμπουμ στη βιβλιοθήκη μουσικής σας (Navidrome)"
+        },
+        "showSongs": {
+          "label": "Εμφάνιση τραγουδιών",
+          "description": "Εμφάνιση του συνολικού αριθμού τραγουδιών στη βιβλιοθήκη μουσικής σας (Navidrome)"
+        },
+        "showLibraryCount": {
+          "label": "Εμφάνιση αριθμού βιβλιοθηκών",
+          "description": "Εμφάνιση του αριθμού βιβλιοθηκών στην εγκατάστασή σας (Audiobookshelf)"
+        },
+        "showAudiobooks": {
+          "label": "Εμφάνιση ηχητικών βιβλίων",
+          "description": "Εμφάνιση του συνολικού αριθμού ηχητικών βιβλίων σε όλες τις βιβλιοθήκες (Audiobookshelf)"
+        },
+        "showPodcasts": {
+          "label": "Εμφάνιση podcast",
+          "description": "Εμφάνιση του συνολικού αριθμού podcast σε όλες τις βιβλιοθήκες (Audiobookshelf)"
+        },
+        "showListeningTime": {
+          "label": "Εμφάνιση χρόνου ακρόασης",
+          "description": "Εμφάνιση του συνολικού χρόνου ακρόασής σας (Audiobookshelf)"
+        },
+        "showActiveSessions": {
+          "label": "Εμφάνιση ενεργών συνεδριών",
+          "description": "Εμφάνιση του αριθμού των ενεργών συνεδριών αναπαραγωγής (Audiobookshelf)"
+        },
+        "compactMode": {
+          "label": "Συμπαγής λειτουργία",
+          "description": "Χρήση πυκνότερης διάταξης με μικρότερα πλακίδια, ιδανική για μικρά μεγέθη widget"
+        }
+      },
+      "artists": "Καλλιτέχνες",
+      "albums": "Άλμπουμ",
+      "songs": "Τραγούδια",
+      "libraryCount": "Βιβλιοθήκες",
+      "audiobooks": "Ηχητικά βιβλία",
+      "podcasts": "Ποντκαστ",
+      "listeningTime": "Χρόνος Ακρόασης",
+      "activeSessions": "Ενεργές Συνεδρίες",
+      "error": {
+        "internalServerError": "Αποτυχία λήψης δεδομένων στατιστικών ήχου"
       }
     },
     "systemResources": {
@@ -2922,10 +3842,10 @@
           "label": "",
           "description": "",
           "option": {
-            "cpu": "",
-            "memory": "",
+            "cpu": "CPU",
+            "memory": "Μνήμη",
             "gpu": "",
-            "network": ""
+            "network": "Δίκτυο"
           }
         },
         "labelDisplayMode": {
@@ -2939,7 +3859,7 @@
         }
       },
       "card": {
-        "cpu": "",
+        "cpu": "CPU",
         "memory": "",
         "gpu": "",
         "network": "",
@@ -2958,7 +3878,7 @@
           "label": "",
           "option": {
             "percentage": {
-              "label": ""
+              "label": "Ποσοστό (π.χ., 76%)"
             },
             "absolute": {
               "label": ""
@@ -2970,10 +3890,286 @@
         },
         "showBackgroundBar": {
           "label": ""
+        },
+        "visibleStorageVolumes": {
+          "label": "",
+          "description": "",
+          "placeholder": ""
         }
       },
       "status": {
         "unhealthy": ""
+      }
+    },
+    "customApi": {
+      "name": "",
+      "description": "",
+      "option": {
+        "definitionId": {
+          "label": ""
+        },
+        "refreshInterval": {
+          "label": "",
+          "description": ""
+        }
+      },
+      "noDefinition": "",
+      "definitionNotFound": "",
+      "noDisplayOutput": "",
+      "executeConfirm": "",
+      "executing": "",
+      "executeSuccess": "",
+      "executeFailed": ""
+    },
+    "beszelSystemTable": {
+      "name": "Beszel Συστήματα (Πίνακας)",
+      "description": "Προβολή πίνακα όλων των συστημάτων που παρακολουθούνται από το Beszel με ταξινομήσιμες στήλες και δείκτες κατάστασης",
+      "option": {
+        "statusFilter": {
+          "label": "Φίλτρο κατάστασης"
+        },
+        "sortBy": {
+          "label": "Ταξινόμηση κατά"
+        },
+        "sortDirection": {
+          "label": "Κατεύθυνση ταξινόμησης"
+        },
+        "showCpu": {
+          "label": "Εμφάνιση CPU"
+        },
+        "showMemory": {
+          "label": "Εμφάνιση μνήμης"
+        },
+        "showDisk": {
+          "label": "Εμφάνιση δίσκου"
+        },
+        "showGpu": {
+          "label": "Εμφάνιση GPU"
+        },
+        "showLoadAvg": {
+          "label": "Εμφάνιση μέσου φόρτου"
+        },
+        "showNet": {
+          "label": "Εμφάνιση δικτύου"
+        },
+        "showTemp": {
+          "label": "Εμφάνιση θερμοκρασίας"
+        },
+        "showBattery": {
+          "label": "Εμφάνιση μπαταρίας"
+        },
+        "showServices": {
+          "label": "Εμφάνιση υπηρεσιών"
+        },
+        "showUptime": {
+          "label": "Εμφάνιση χρόνου λειτουργίας"
+        },
+        "showAgent": {
+          "label": "Εμφάνιση έκδοσης agent"
+        },
+        "columnOrder": {
+          "label": ""
+        },
+        "columnWidths": {
+          "label": ""
+        }
+      },
+      "noRecords": "Δεν βρέθηκαν συστήματα",
+      "error": {
+        "internalServerError": "",
+        "layoutSaveTitle": "",
+        "layoutSaveMessage": ""
+      },
+      "column": {
+        "system": "Σύστημα",
+        "cpu": "CPU",
+        "memory": "Μνήμη",
+        "disk": "Δίσκος",
+        "gpu": "GPU",
+        "loadAvg": "Μέσος φόρτος",
+        "net": "Δίκτυο",
+        "temp": "Θερμοκρασία",
+        "battery": "Μπαταρία",
+        "services": "Υπηρεσίες",
+        "uptime": "Χρόνος λειτουργίας",
+        "agent": "Πράκτορας"
+      }
+    },
+    "beszelSystemGrid": {
+      "name": "Beszel Συστήματα (Πλέγμα)",
+      "description": "Προβολή πλέγματος καρτών όλων των συστημάτων που παρακολουθούνται από το Beszel με μετρήσεις σε πραγματικό χρόνο",
+      "option": {
+        "statusFilter": {
+          "label": "Φίλτρο κατάστασης"
+        },
+        "showCpu": {
+          "label": "Εμφάνιση CPU"
+        },
+        "showMemory": {
+          "label": "Εμφάνιση μνήμης"
+        },
+        "showDisk": {
+          "label": "Εμφάνιση δίσκου"
+        },
+        "showGpu": {
+          "label": "Εμφάνιση GPU"
+        },
+        "showLoadAvg": {
+          "label": "Εμφάνιση μέσου φόρτου"
+        },
+        "showNet": {
+          "label": "Εμφάνιση δικτύου"
+        },
+        "showTemp": {
+          "label": "Εμφάνιση θερμοκρασίας"
+        },
+        "showBattery": {
+          "label": "Εμφάνιση μπαταρίας"
+        },
+        "showServices": {
+          "label": "Εμφάνιση υπηρεσιών"
+        },
+        "showUptime": {
+          "label": "Εμφάνιση χρόνου λειτουργίας"
+        },
+        "showAgent": {
+          "label": "Εμφάνιση έκδοσης agent"
+        }
+      },
+      "error": {
+        "internalServerError": ""
+      },
+      "empty": {
+        "noSystems": ""
+      },
+      "metric": {
+        "cpu": "CPU",
+        "memory": "Μνήμη",
+        "disk": "Δίσκος",
+        "gpu": "GPU",
+        "loadAvg": "Μέσος φόρτος",
+        "net": "Δίκτυο",
+        "temp": "Θερμοκρασία",
+        "battery": "Μπαταρία",
+        "services": "Υπηρεσίες",
+        "uptime": "Χρόνος λειτουργίας",
+        "agent": "Πράκτορας"
+      }
+    },
+    "beszelAlerts": {
+      "name": "Beszel Ειδοποιήσεις",
+      "description": "Προβολή διαμορφώσεων και ιστορικού ειδοποιήσεων Beszel",
+      "option": {
+        "showHistory": {
+          "label": "Εμφάνιση ιστορικού ειδοποιήσεων"
+        },
+        "maxHistoryItems": {
+          "label": "Μέγιστος αριθμός στοιχείων ιστορικού"
+        }
+      },
+      "empty": "Δεν έχουν διαμορφωθεί ειδοποιήσεις",
+      "error": {
+        "internalServerError": ""
+      },
+      "history": "Ιστορικό",
+      "resolved": "Επιλύθηκε",
+      "status": {
+        "triggered": "Ενεργοποιήθηκε",
+        "ok": "ΟΚ"
+      }
+    },
+    "beszelSystemStats": {
+      "name": "Beszel Στατιστικά Συστήματος",
+      "description": "Γραφήματα χρονοσειρών για μετρήσεις CPU, μνήμης, δίσκου, δικτύου και Docker containers",
+      "option": {
+        "systemId": {
+          "label": "",
+          "description": ""
+        },
+        "timePeriod": {
+          "label": "Χρονική περίοδος"
+        },
+        "showCpu": {
+          "label": "Εμφάνιση γραφήματος CPU"
+        },
+        "showMemory": {
+          "label": "Εμφάνιση γραφήματος μνήμης"
+        },
+        "showDisk": {
+          "label": "Εμφάνιση γραφήματος δίσκου"
+        },
+        "showDiskIO": {
+          "label": "Εμφάνιση γραφήματος I/O δίσκου"
+        },
+        "showNetwork": {
+          "label": "Εμφάνιση γραφήματος δικτύου"
+        },
+        "showDockerCpu": {
+          "label": "Εμφάνιση γραφήματος CPU Docker"
+        },
+        "showDockerMemory": {
+          "label": "Εμφάνιση γραφήματος μνήμης Docker"
+        },
+        "showDockerNetwork": {
+          "label": "Εμφάνιση γραφήματος δικτύου Docker"
+        }
+      },
+      "selectSystem": "Επιλογή συστήματος",
+      "empty": {
+        "noSystems": ""
+      },
+      "error": {
+        "internalServerError": "",
+        "liveConnectionFailed": "",
+        "switchToHistorical": "",
+        "systemNotFound": ""
+      },
+      "chart": {
+        "cpu": {
+          "title": "Χρήση CPU",
+          "subtitle": "Μέση χρήση CPU σε όλο το σύστημα",
+          "series": "CPU"
+        },
+        "memory": {
+          "title": "Χρήση Μνήμης",
+          "subtitle": "Ακριβής χρήση τη στιγμή της καταγραφής",
+          "series": "Σε χρήση",
+          "cache": "Προσωρινή μνήμη/Προσωρινά αποθέματα"
+        },
+        "disk": {
+          "title": "Χρήση Δίσκου",
+          "subtitle": "",
+          "series": ""
+        },
+        "diskIO": {
+          "title": "I/O Δίσκου",
+          "subtitle": "Διακίνηση δεδομένων του ριζικού συστήματος αρχείων",
+          "read": "Ανάγνωση",
+          "write": "Εγγραφή"
+        },
+        "storage": {
+          "title": "",
+          "subtitle": "",
+          "series": ""
+        },
+        "network": {
+          "title": "Εύρος Ζώνης",
+          "subtitle": "Κίνηση δικτύου των δημόσιων διεπαφών",
+          "sent": "Απεσταλμένα",
+          "recv": "Ληφθέντα"
+        },
+        "dockerCpu": {
+          "title": "Χρήση CPU Docker",
+          "subtitle": "Μέση χρήση CPU των containers"
+        },
+        "dockerMemory": {
+          "title": "Χρήση Μνήμης Docker",
+          "subtitle": "Χρήση μνήμης των docker containers"
+        },
+        "dockerNetwork": {
+          "title": "I/O Δικτύου Docker",
+          "subtitle": "Κίνηση δικτύου των docker containers"
+        }
       }
     }
   },
@@ -3183,11 +4379,11 @@
         "label": "",
         "description": "",
         "option": {
-          "xs": "",
-          "sm": "",
-          "md": "",
-          "lg": "",
-          "xl": ""
+          "xs": "Πολύ μικρό",
+          "sm": "Μικρό",
+          "md": "Μεσαίο",
+          "lg": "Μεγάλο",
+          "xl": "Πολύ μεγάλο"
         }
       },
       "name": {
@@ -3251,7 +4447,7 @@
             "rename": {
               "label": "",
               "description": "",
-              "button": "",
+              "button": "Μετονομασία ονόματος",
               "modal": {
                 "title": ""
               }
@@ -3300,7 +4496,7 @@
       "notFound": {
         "title": "",
         "description": "",
-        "link": "",
+        "link": "Προβολή όλων των πινάκων",
         "notice": ""
       },
       "homeBoard": {
@@ -3317,7 +4513,7 @@
         },
         "anonymous": {
           "description": "",
-          "link": "",
+          "link": "Προβολή δημόσιων πινάκων",
           "notice": ""
         }
       }
@@ -3348,12 +4544,18 @@
       "title": "",
       "text": ""
     },
+    "error": {
+      "title": "",
+      "text": "",
+      "digest": ""
+    },
     "navbar": {
       "items": {
         "home": "Αρχική",
         "boards": "Πίνακες",
         "apps": "Εφαρμογές",
         "integrations": "",
+        "customWidgets": "",
         "searchEngies": "",
         "medias": "",
         "users": {
@@ -3370,9 +4572,10 @@
             "docker": "",
             "kubernetes": "",
             "logs": "",
-            "api": "",
+            "api": "API και MCP",
             "certificates": "",
-            "tasks": ""
+            "tasks": "Διεργασίες",
+            "backup": "Αντίγραφο ασφαλείας"
           }
         },
         "settings": "Ρυθμίσεις",
@@ -3382,7 +4585,7 @@
             "documentation": "Τεκμηρίωση",
             "submitIssue": "",
             "discord": "Κοινότητα Discord",
-            "sourceCode": ""
+            "sourceCode": "Πηγαίος Κώδικας"
           }
         },
         "about": "Σχετικά"
@@ -3412,7 +4615,7 @@
         }
       },
       "board": {
-        "title": "Οι πίνακές σας",
+        "title": "Οι πίνακες σας",
         "action": {
           "new": {
             "label": ""
@@ -3452,6 +4655,9 @@
           "public": "",
           "private": ""
         },
+        "noResults": {
+          "title": "Δεν υπάρχουν πίνακες ακόμα"
+        },
         "modal": {
           "createBoard": {
             "field": {
@@ -3476,13 +4682,30 @@
               "board": {
                 "title": "",
                 "type": {
-                  "general": "",
+                  "general": "Γενικά",
                   "mobile": ""
                 }
               },
               "search": "",
               "firstDayOfWeek": "Πρώτη ημέρα της εβδομάδας",
-              "accessibility": "Προσβασιμότητα"
+              "accessibility": "Προσβασιμότητα",
+              "onboardingTours": {
+                "title": "Περιηγήσεις ενσωμάτωσης",
+                "description": "Επαναφέρετε τις περιηγήσεις ενσωμάτωσης για να τις δείτε ξανά στην επόμενη επίσκεψή σας στην περιοχή διαχείρισης ή στον πίνακα.",
+                "reset": "Επαναφορά περιηγήσεων ενσωμάτωσης",
+                "resetSuccess": {
+                  "title": "Οι περιηγήσεις επαναφέρθηκαν",
+                  "message": "Οι περιηγήσεις ενσωμάτωσης θα εμφανιστούν ξανά στην επόμενη επίσκεψή σας"
+                },
+                "status": {
+                  "completed": "Ολοκληρώθηκε",
+                  "notStarted": "Δεν ξεκίνησε"
+                },
+                "name": {
+                  "management": "Διαχείριση",
+                  "dashboard": "Πίνακας"
+                }
+              }
             }
           },
           "security": {
@@ -3501,10 +4724,10 @@
         },
         "create": {
           "metaTitle": "Δημιουργία χρήστη",
-          "title": "",
+          "title": "Δημιουργία νέου χρήστη",
           "step": {
             "personalInformation": {
-              "label": ""
+              "label": "Προσωπικές πληροφορίες"
             },
             "security": {
               "label": "Ασφάλεια"
@@ -3576,11 +4799,11 @@
             "title": "",
             "alert": "",
             "board": {
-              "title": ""
+              "title": "Πίνακες"
             }
           },
           "members": {
-            "title": "",
+            "title": "Μέλη",
             "search": "",
             "notFound": ""
           },
@@ -3596,7 +4819,7 @@
         "title": "Ρυθμίσεις",
         "notification": {
           "success": {
-            "message": ""
+            "message": "Οι ρυθμίσεις αποθηκεύτηκαν επιτυχώς"
           },
           "error": {
             "message": ""
@@ -3606,18 +4829,6 @@
           "analytics": {
             "title": "",
             "general": {
-              "title": "",
-              "text": ""
-            },
-            "widgetData": {
-              "title": "",
-              "text": ""
-            },
-            "integrationData": {
-              "title": "",
-              "text": ""
-            },
-            "usersData": {
               "title": "",
               "text": ""
             }
@@ -3680,7 +4891,7 @@
             "defaultColorScheme": {
               "label": "",
               "options": {
-                "auto": "",
+                "auto": "Αυτόματο",
                 "light": "",
                 "dark": ""
               }
@@ -3704,85 +4915,13 @@
             "disabled": ""
           },
           "job": {
-            "minecraftServerStatus": {
-              "label": ""
-            },
-            "timetable": {
-              "label": ""
-            },
             "iconsUpdater": {
               "label": ""
             },
             "analytics": {
               "label": ""
             },
-            "smartHomeEntityState": {
-              "label": ""
-            },
             "ping": {
-              "label": ""
-            },
-            "mediaServer": {
-              "label": "Διακομιστής πολυμέσων"
-            },
-            "mediaOrganizer": {
-              "label": ""
-            },
-            "downloads": {
-              "label": ""
-            },
-            "mediaRequestStats": {
-              "label": ""
-            },
-            "mediaRequestList": {
-              "label": ""
-            },
-            "rssFeeds": {
-              "label": ""
-            },
-            "indexerManager": {
-              "label": ""
-            },
-            "healthMonitoring": {
-              "label": ""
-            },
-            "dnsHole": {
-              "label": ""
-            },
-            "updateChecker": {
-              "label": ""
-            },
-            "mediaTranscoding": {
-              "label": ""
-            },
-            "networkController": {
-              "label": ""
-            },
-            "refreshNotifications": {
-              "label": ""
-            },
-            "dockerContainers": {
-              "label": ""
-            },
-            "firewallCpu": {
-              "label": ""
-            },
-            "firewallMemory": {
-              "label": ""
-            },
-            "firewallVersion": {
-              "label": ""
-            },
-            "firewallInterfaces": {
-              "label": ""
-            },
-            "weather": {
-              "label": ""
-            },
-            "tracearr": {
-              "label": ""
-            },
-            "umamiActiveVisitors": {
               "label": ""
             }
           },
@@ -3890,7 +5029,215 @@
                   "actions": ""
                 }
               }
+            },
+            "mcp": {
+              "label": "AI / MCP",
+              "title": "Ενσωμάτωση AI",
+              "subtitle": "Διακομιστής Model Context Protocol (MCP)",
+              "description": "Συνδέστε βοηθούς AI στην εγκατάσταση Homarr σας και ελέγξτε ολόκληρο το εργαστήριό σας μέσω φυσικής γλώσσας. Αναζητήστε και ζητήστε πολυμέσα στο Overseerr, διαχειριστείτε Docker containers, ενεργοποιήστε/απενεργοποιήστε το Pi-hole, ελέγξτε την υγεία διακομιστών, ελέγξτε συσκευές Home Assistant και πολλά άλλα — όλα από τον βοηθό AI σας.",
+              "noApiKey": "Χρειάζεστε ένα κλειδί API για να πιστοποιηθείτε στον διακομιστή MCP.",
+              "createApiKeyButton": "Δημιουργία κλειδιού API",
+              "endpoint": {
+                "title": "Τερματικό MCP"
+              },
+              "authentication": {
+                "title": "Πιστοποίηση",
+                "intro": "Μπορείτε να πιστοποιηθείτε στον διακομιστή MCP σας χρησιμοποιώντας είτε ένα κλειδί API είτε OAuth. Και οι δύο μέθοδοι παρέχουν το ίδιο επίπεδο πρόσβασης.",
+                "apiKey": {
+                  "title": "Κλειδί API (χειροκίνητα)",
+                  "description": "Περάστε την κεφαλίδα ApiKey με το πλήρες κλειδί API σας στη διαμόρφωση του πελάτη MCP."
+                },
+                "oauth": {
+                  "title": "OAuth (σύνδεση μέσω προγράμματος περιήγησης)",
+                  "description": "Πελάτες που υποστηρίζουν OAuth (όπως Claude Code, opencode ή Cursor) μπορούν να πιστοποιηθούν ανοίγοντας ένα παράθυρο προγράμματος περιήγησης. Εκτελέστε την εντολή auth στον πελάτη σας, συνδεθείτε στο Homarr μέσω του προγράμματος περιήγησης και είστε συνδεδεμένοι — ένα κλειδί API δημιουργείται αυτόματα.",
+                  "hint": "Τα tokens OAuth εμφανίζονται ως κανονικά κλειδιά API στην καρτέλα Πιστοποίηση. Μπορείτε να τα ανακαλέσετε οποιαδήποτε στιγμή."
+                },
+                "permissions": "Το κλειδί API καθορίζει τα δικαιώματα που είναι διαθέσιμα στο AI — λειτουργεί με το ίδιο επίπεδο πρόσβασης με τον κάτοχο του κλειδιού."
+              },
+              "clientConfig": {
+                "title": "Διαμόρφωση Πελάτη",
+                "streamableHttp": {
+                  "recommended": "Προτεινόμενο",
+                  "title": "Streamable HTTP",
+                  "worksWith": "Λειτουργεί με: Cursor, Claude Desktop, VS Code Copilot, Windsurf, Claude Code",
+                  "addToConfig": "Προσθέστε στο αρχείο διαμόρφωσης του πελάτη MCP σας:",
+                  "cursor": "{name}: {file} στις ρυθμίσεις έργου ή καθολικές ρυθμίσεις σας",
+                  "claudeDesktop": "{name}: {file}",
+                  "claudeCode": "{name}: {file} ή χρησιμοποιήστε την εντολή {command}",
+                  "vsCodeCopilot": "{name}: {file} στις ρυθμίσεις χώρου εργασίας",
+                  "replaceHint": "Αντικαταστήστε το σύμβολο κράτησης θέσης με το κλειδί API που λάβατε κατά τη δημιουργία του."
+                },
+                "stdio": {
+                  "title": "stdio (πελάτες παλαιού τύπου μέσω γέφυρας mcp-remote)",
+                  "description": "Για πελάτες που υποστηρίζουν μόνο τη μεταφορά stdio. Απαιτείται εγκατεστημένη τοπικά η εξάρτηση {dependency} (Node.js):"
+                }
+              },
+              "testConnection": {
+                "title": "Δοκιμάστε τη Σύνδεσή Σας",
+                "description": "Εκτελέστε αυτό στο τερματικό σας για να επαληθεύσετε ότι το τερματικό είναι προσβάσιμο και το κλειδί API σας λειτουργεί:",
+                "hint": "Μια επιτυχής απόκριση επιστρέφει τις δυνατότητες του διακομιστή MCP. Αν δείτε σφάλμα, ελέγξτε την απόκριση JSON για υποδείξεις."
+              },
+              "availableTools": {
+                "title": "Διαθέσιμα Εργαλεία",
+                "description": "{count} εργαλεία διαθέσιμα. Αναπτύξτε μια κατηγορία για να δείτε μεμονωμένα εργαλεία και τις περιγραφές τους.",
+                "columnType": "Τύπος",
+                "columnName": "Εργαλείο",
+                "columnDescription": "Περιγραφή"
+              },
+              "troubleshooting": {
+                "title": "Αντιμετώπιση προβλημάτων",
+                "missingHeader": {
+                  "title": "\"Λείπει η κεφαλίδα ApiKey\"",
+                  "description": "Ο πελάτης σας δεν στέλνει την κεφαλίδα {header}. Βεβαιωθείτε ότι η ενότητα {section} στη διαμόρφωση MCP είναι σωστή. Ορισμένοι πελάτες απαιτούν επανεκκίνηση μετά από αλλαγές στη διαμόρφωση."
+                },
+                "invalidFormat": {
+                  "title": "\"Μη έγκυρη μορφή ApiKey\"",
+                  "description": "Βεβαιωθείτε ότι αντιγράψατε ολόκληρο το κλειδί API, όχι μόνο ένα μέρος του."
+                },
+                "invalidKey": {
+                  "title": "\"Μη έγκυρο κλειδί API\"",
+                  "description": "Το αναγνωριστικό κλειδιού δεν βρέθηκε ή το token είναι λάθος. Τα κλειδιά API μπορούν να προβληθούν μόνο μία φορά κατά τη δημιουργία. Αν το χάσατε, διαγράψτε το παλιό κλειδί και δημιουργήστε ένα νέο."
+                },
+                "connectionRefused": {
+                  "title": "Απόρριψη σύνδεσης / χρονικό όριο",
+                  "description": "Βεβαιωθείτε ότι η διεύθυνση URL είναι προσβάσιμη από τον πελάτη AI σας. Αν το Homarr εκτελείται πίσω από αντίστροφο διακομιστή μεσολάβησης ή σε Docker, χρησιμοποιήστε την εξωτερική διεύθυνση URL (όχι {localhost}). Βεβαιωθείτε ότι η θύρα είναι σωστή (προεπιλογή: 7575 για Docker)."
+                },
+                "toolsNotAppearing": {
+                  "title": "Τα εργαλεία δεν εμφανίζονται",
+                  "description": "Ορισμένα εργαλεία απαιτούν συγκεκριμένες ενσωματώσεις για να διαμορφωθούν (π.χ. Docker, Overseerr). Η λίστα εργαλείων εξαρτάται από το τι είναι διαθέσιμο στην εγκατάσταση Homarr σας."
+                }
+              },
+              "copy": "Αντιγραφή",
+              "oneClick": {
+                "title": "Εγκατάσταση με ένα κλικ",
+                "subtitle": "Χρησιμοποιεί OAuth — πιστοποιηθείτε στο πρόγραμμα περιήγησής σας κατά την πρώτη χρήση",
+                "vsCode": "Εγκατάσταση στο VS Code",
+                "cursor": "Εγκατάσταση στο Cursor",
+                "copyUrl": "Αντιγραφή URL MCP",
+                "copied": "Αντιγράφηκε!",
+                "copyHint": "Για ChatGPT, Claude Code ή οποιονδήποτε πελάτη MCP",
+                "manualConfig": "Χειροκίνητη Διαμόρφωση"
+              }
             }
+          }
+        },
+        "backup": {
+          "title": "Πλήρες αντίγραφο ασφαλείας βάσης δεδομένων",
+          "metaTitle": "Αντίγραφο ασφαλείας & επαναφορά",
+          "export": {
+            "title": "Εξαγωγή βάσης δεδομένων",
+            "description": "Λήψη πλήρους αντιγράφου ασφαλείας της βάσης δεδομένων SQLite σας, συμπεριλαμβανομένων όλων των ρυθμίσεων, χρηστών, πινάκων και κρυπτογραφημένων μυστικών ενσωμάτωσης. Το αντίγραφο ασφαλείας συσκευάζεται ως αρχείο ZIP με το κλειδί κρυπτογράφησης και μεταδεδομένα.",
+            "button": "Λήψη αντιγράφου ασφαλείας",
+            "error": "Αποτυχία εξαγωγής",
+            "confirm": {
+              "title": "Εξαγωγή ευαίσθητων δεδομένων",
+              "warningTitle": "Αυτή η εξαγωγή περιέχει ολόκληρη τη βάση δεδομένων σας.",
+              "warningBody": "Το αντίγραφο ασφαλείας περιλαμβάνει όλους τους χρήστες, μυστικά ενσωμάτωσης (κρυπτογραφημένα), κλειδιά API, διαμορφώσεις πινάκων και δεδομένα εφαρμογών. Αποθηκεύστε το εξαγόμενο αρχείο με ασφάλεια και μην το μοιράζεστε.",
+              "typePrompt": "Πληκτρολογήστε \"{phrase}\" για να συνεχίσετε",
+              "submit": "Εξαγωγή βάσης δεδομένων",
+              "cancel": "Ακύρωση"
+            }
+          },
+          "import": {
+            "title": "Επαναφορά βάσης δεδομένων",
+            "description": "Μεταφορτώστε ένα προηγουμένως εξαχθέν αντίγραφο ασφαλείας ZIP για να επαναφέρετε τη βάση δεδομένων σας. Αυτό θα αντικαταστήσει ολόκληρη τη βάση δεδομένων σας. Εάν το αντίγραφο ασφαλείας δημιουργήθηκε με διαφορετικό κλειδί κρυπτογράφησης, τα μυστικά θα επανακρυπτογραφηθούν αυτόματα.",
+            "warning": "Η επαναφορά ενός αντιγράφου ασφαλείας θα αντικαταστήσει πλήρως την τρέχουσα βάση δεδομένων σας και θα επανεκκινήσει την εφαρμογή. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.",
+            "dropzone": {
+              "title": "Αποθέστε το αντίγραφο ασφαλείας ZIP εδώ ή κάντε κλικ για περιήγηση",
+              "description": "Γίνονται δεκτά μόνο αρχεία .zip από αντίγραφο ασφαλείας Homarr SQLite"
+            },
+            "changeFile": "Αλλαγή αρχείου",
+            "button": "Επαναφορά βάσης δεδομένων",
+            "success": {
+              "title": "Η επαναφορά ολοκληρώθηκε",
+              "message": "Η βάση δεδομένων επαναφέρθηκε επιτυχώς. Η εφαρμογή επανεκκινείται..."
+            },
+            "error": "Αποτυχία εισαγωγής"
+          },
+          "preview": {
+            "title": "Περιεχόμενα αντιγράφου ασφαλείας",
+            "exported": "Εξήχθη {date}",
+            "loading": "Ανάλυση αρχείου αντιγράφου ασφαλείας...",
+            "errorTitle": "Σφάλμα προεπισκόπησης",
+            "entity": "Οντότητα",
+            "count": "Πλήθος",
+            "boards": "Πίνακες",
+            "entities": {
+              "board": "Πίνακες",
+              "user": "Χρήστες",
+              "app": "Εφαρμογές",
+              "integration": "Ενσωματώσεις",
+              "item": "Γουίτζετς",
+              "media": "Πολυμέσα",
+              "search_engine": "Μηχανές αναζήτησης"
+            },
+            "analyzeError": "Αποτυχία ανάλυσης αρχείου αντιγράφου ασφαλείας",
+            "invalidMissingMetadata": "Μη έγκυρο αντίγραφο ασφαλείας: λείπει το metadata.json",
+            "invalidMissingDb": "Μη έγκυρο αντίγραφο ασφαλείας: λείπει το db.sqlite"
+          },
+          "restore": {
+            "dropzone": {
+              "title": "Αποθέστε το αντίγραφο ασφαλείας ZIP εδώ",
+              "description": "Δέχεται αρχεία .zip από αντίγραφο ασφαλείας Homarr SQLite (μέγιστο 256 MB)"
+            },
+            "analyzing": "Ανάλυση αντιγράφου ασφαλείας...",
+            "changeFile": "Αλλαγή αρχείου",
+            "continueToRestore": "Συνέχεια στην επαναφορά",
+            "tryAgain": "Προσπαθήστε ξανά",
+            "analysisError": "Σφάλμα ανάλυσης",
+            "preview": {
+              "title": "Περιεχόμενα αντιγράφου ασφαλείας",
+              "exported": "Εξήχθη {date}",
+              "entity": "Οντότητα",
+              "count": "Πλήθος",
+              "boards": "Πίνακες",
+              "entities": {
+                "board": "Πίνακες",
+                "user": "Χρήστες",
+                "app": "Εφαρμογές",
+                "integration": "Ενσωματώσεις",
+                "item": "Γουίτζετς",
+                "media": "Πολυμέσα",
+                "search_engine": "Μηχανές αναζήτησης"
+              },
+              "migrationsApplied": "{count} μετεγκατάσταση εφαρμόστηκε",
+              "migrationsAppliedPlural": "{count} μετεγκαταστάσεις εφαρμόστηκαν",
+              "migrationsOlderVersion": "Αυτό το αντίγραφο ασφαλείας ήταν από παλαιότερη έκδοση Homarr. Εφαρμόστηκε {count} μετεγκατάσταση σχήματος για να ενημερωθεί.",
+              "migrationsOlderVersionPlural": "Αυτό το αντίγραφο ασφαλείας ήταν από παλαιότερη έκδοση Homarr. Εφαρμόστηκαν {count} μετεγκαταστάσεις σχήματος για να ενημερωθεί.",
+              "migrationsUpToDate": "Το σχήμα βάσης δεδομένων είναι ενημερωμένο ({count} μετεγκαταστάσεις εφαρμόστηκαν)",
+              "upToDate": "Ενημερωμένο",
+              "migrationsPending": "{count} σε εκκρεμότητα"
+            },
+            "migration": {
+              "title": "Εφαρμογή μετεγκαταστάσεων ({current}/{total})",
+              "migrationLabel": "Μετεγκατάσταση {index}"
+            },
+            "confirm": {
+              "title": "Καταστροφική ενέργεια",
+              "warningTitle": "Αυτό θα αντικαταστήσει μόνιμα ολόκληρη τη βάση δεδομένων σας.",
+              "warningBody": "Όλοι οι τρέχοντες πίνακες, χρήστες, εφαρμογές, ενσωματώσεις, ρυθμίσεις και συνεδρίες θα χαθούν. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί. Η εφαρμογή θα επανεκκινήσει μετά την επαναφορά.",
+              "typePrompt": "Πληκτρολογήστε \"{phrase}\" για να συνεχίσετε",
+              "cancel": "Ακύρωση",
+              "submit": "Επαναφορά βάσης δεδομένων"
+            },
+            "progress": {
+              "title": "Επαναφορά βάσης δεδομένων...",
+              "extracting": "Εξαγωγή αρχείου αντιγράφου ασφαλείας",
+              "migrating": "Εφαρμογή μετεγκαταστάσεων βάσης δεδομένων",
+              "encrypting": "Επανακρυπτογράφηση μυστικών ενσωμάτωσης",
+              "swapping": "Αντικατάσταση αρχείου βάσης δεδομένων",
+              "restarting": "Επανεκκίνηση διακομιστή"
+            },
+            "complete": {
+              "title": "Η επαναφορά ολοκληρώθηκε",
+              "message": "Η βάση δεδομένων επαναφέρθηκε επιτυχώς. Ο διακομιστής επανεκκινείται — παρακαλώ ανανεώστε τη σελίδα σε λίγα δευτερόλεπτα."
+            },
+            "failed": {
+              "title": "Αποτυχία επαναφοράς"
+            },
+            "invalidMissingMetadata": "Μη έγκυρο αντίγραφο ασφαλείας: λείπει το metadata.json",
+            "invalidMissingDb": "Μη έγκυρο αντίγραφο ασφαλείας: λείπει το db.sqlite",
+            "analyzeError": "Αποτυχία ανάλυσης αντιγράφου ασφαλείας"
           }
         }
       },
@@ -3937,9 +5284,14 @@
     "title": "",
     "table": {
       "updated": "",
+      "refresh": {
+        "lastUpdated": ""
+      },
       "search": "",
       "selected": "",
-      "footer": ""
+      "footer": "",
+      "totalCpu": "",
+      "totalMemory": ""
     },
     "field": {
       "name": {
@@ -3959,7 +5311,7 @@
       },
       "stats": {
         "cpu": {
-          "label": ""
+          "label": "CPU"
         },
         "memory": {
           "label": ""
@@ -3972,11 +5324,17 @@
         "label": "Θύρες"
       },
       "host": {
-        "label": ""
+        "label": "Διακομιστής"
       }
     },
     "action": {
       "title": "",
+      "logs": {
+        "label": "Προβολή αρχείων καταγραφής",
+        "page": {
+          "title": "Αρχεία καταγραφής {name}"
+        }
+      },
       "start": {
         "label": "Έναρξη",
         "notification": {
@@ -4018,6 +5376,7 @@
       },
       "remove": {
         "label": "Αφαίρεση",
+        "confirm": "",
         "notification": {
           "success": {
             "title": "",
@@ -4060,7 +5419,8 @@
       }
     },
     "error": {
-      "internalServerError": ""
+      "internalServerError": "",
+      "noColumns": ""
     }
   },
   "kubernetes": {
@@ -4103,10 +5463,10 @@
           }
         },
         "cpu": {
-          "label": ""
+          "label": "CPU"
         },
         "memory": {
-          "label": ""
+          "label": "RAM"
         },
         "pods": {
           "label": ""
@@ -4368,6 +5728,18 @@
           "label": "Επεξεργασία"
         }
       },
+      "custom-widgets": {
+        "label": "",
+        "new": {
+          "label": ""
+        },
+        "edit": {
+          "label": "",
+          "flow": {
+            "label": ""
+          }
+        }
+      },
       "users": {
         "label": "Χρήστες",
         "create": {
@@ -4389,7 +5761,10 @@
           "label": ""
         },
         "docker": {
-          "label": ""
+          "label": "",
+          "logs": {
+            "label": "Αρχεία καταγραφής"
+          }
         },
         "kubernetes": {
           "label": "",
@@ -4499,7 +5874,7 @@
             "title": "",
             "option": {
               "colorScheme": {
-                "auto": "",
+                "auto": "Εναλλαγή λειτουργίας εμφάνισης",
                 "light": "",
                 "dark": ""
               },
@@ -4538,26 +5913,162 @@
                 "label": ""
               }
             }
+          },
+          "preferences": {
+            "title": "Προτιμήσεις",
+            "children": {
+              "detail": {
+                "title": "Επιλέξτε μια προτίμηση για αλλαγή",
+                "backHint": "Πατήστε Backspace ή χρησιμοποιήστε το κουμπί πίσω για να επιστρέψετε",
+                "backAction": "Επιστροφή"
+              }
+            },
+            "notification": {
+              "error": {
+                "message": "Αδυναμία ενημέρωσης προτίμησης"
+              }
+            },
+            "option": {
+              "preferences": {
+                "label": "Άνοιγμα προτιμήσεων"
+              },
+              "boolean": {
+                "enabled": "Ενεργοποιημένο",
+                "disabled": "Απενεργοποιημένο"
+              },
+              "board": {
+                "none": "Κανένα",
+                "unavailable": "Επιλεγμένο (μη διαθέσιμο)"
+              },
+              "searchEngine": {
+                "none": "Κανένα",
+                "unavailable": "Επιλεγμένο (μη διαθέσιμο)"
+              },
+              "colorScheme": {
+                "label": "Συνδυασμός χρωμάτων",
+                "children": {
+                  "detail": {
+                    "title": "Επιλέξτε τον συνδυασμό χρωμάτων σας"
+                  }
+                }
+              },
+              "locale": {
+                "label": "Γλώσσα",
+                "children": {
+                  "detail": {
+                    "title": "Επιλέξτε την προτιμώμενη γλώσσα σας"
+                  }
+                }
+              },
+              "defaultSearchEngineId": {
+                "label": "Προεπιλεγμένη μηχανή αναζήτησης",
+                "children": {
+                  "detail": {
+                    "title": "Επιλέξτε την προεπιλεγμένη μηχανή αναζήτησης"
+                  }
+                }
+              },
+              "openSearchInNewTab": {
+                "label": "Άνοιγμα αποτελεσμάτων αναζήτησης σε νέα καρτέλα",
+                "children": {
+                  "detail": {
+                    "title": "Άνοιγμα αποτελεσμάτων αναζήτησης σε νέα καρτέλα"
+                  }
+                }
+              },
+              "ddgBangs": {
+                "label": "Ενεργοποίηση bangs DuckDuckGo",
+                "children": {
+                  "detail": {
+                    "title": "Ενεργοποίηση bangs DuckDuckGo"
+                  }
+                }
+              },
+              "firstDayOfWeek": {
+                "label": "Πρώτη ημέρα της εβδομάδας",
+                "children": {
+                  "detail": {
+                    "title": "Επιλέξτε την πρώτη ημέρα της εβδομάδας"
+                  }
+                }
+              },
+              "homeBoardId": {
+                "label": "Αρχικός πίνακας",
+                "children": {
+                  "detail": {
+                    "title": "Επιλέξτε τον αρχικό σας πίνακα"
+                  }
+                }
+              },
+              "mobileHomeBoardId": {
+                "label": "Αρχικός πίνακας κινητού",
+                "children": {
+                  "detail": {
+                    "title": "Επιλέξτε τον αρχικό πίνακα κινητού σας"
+                  }
+                }
+              },
+              "pingIconsEnabled": {
+                "label": "Χρήση εικονιδίων για pings",
+                "children": {
+                  "detail": {
+                    "title": "Χρήση εικονιδίων για pings"
+                  }
+                }
+              },
+              "enableRightClickOnWidgets": {
+                "label": "",
+                "children": {
+                  "detail": {
+                    "title": ""
+                  }
+                }
+              },
+              "fullPreferencesPage": {
+                "label": "Άνοιγμα πλήρους σελίδας προτιμήσεων"
+              }
+            }
           }
         }
       },
       "media": {
+        "help": "Αναζητήστε ταινίες ή σειρές για αίτημα",
         "requestMovie": "",
         "requestSeries": "",
-        "openIn": ""
+        "openIn": "",
+        "group": {
+          "title": "Ταινίες και σειρές"
+        },
+        "action": {
+          "search": {
+            "label": "Αναζήτηση ταινιών ή σειρών",
+            "description": "Αρχίστε να πληκτρολογείτε για να αναζητήσετε τις ενσωματώσεις αιτημάτων πολυμέσων σας",
+            "disabled": {
+              "noIntegration": "Προσθέστε μια ενσωμάτωση Overseerr, Jellyseerr ή Seerr για να ενεργοποιήσετε την αναζήτηση πολυμέσων.",
+              "scoped": "Αυτό το widget δεν έχει προσβάσιμη ενσωμάτωση αιτημάτων πολυμέσων."
+            }
+          }
+        },
+        "availability": {
+          "available": "Διαθέσιμο",
+          "partiallyAvailable": "Μερικώς διαθέσιμο",
+          "processing": "Επεξεργασία",
+          "requested": "Ζητήθηκε",
+          "pending": "Ζητήθηκε"
+        }
       },
       "external": {
         "help": "",
         "group": {
           "searchEngine": {
             "title": "",
-            "tipDdgBangs": "",
+            "tipDdgBangs": "Συμβουλή: Μπορείτε να χρησιμοποιήσετε και bangs DuckDuckGo εδώ, π.χ. !something",
             "bang": {
-              "searchWithQuery": "",
-              "pressEnterToOpen": "",
-              "engineSelected": "",
-              "typeQueryToContinue": "",
-              "emptyBangHint": ""
+              "searchWithQuery": "Αναζήτηση \"{query}\" με {label}",
+              "pressEnterToOpen": "Πατήστε Enter για άνοιγμα",
+              "engineSelected": "{label} επιλεγμένο (!{bang})",
+              "typeQueryToContinue": "Πληκτρολογήστε το ερώτημα αναζήτησής σας για να συνεχίσετε",
+              "emptyBangHint": "Πληκτρολογήστε ένα bang, π.χ. !yt, και μετά πατήστε Space για επιλογή"
             },
             "children": {
               "action": {
@@ -4653,7 +6164,7 @@
                 "label": ""
               },
               "manageBoard": {
-                "label": ""
+                "label": "Διαχείριση πινάκων"
               },
               "manageApp": {
                 "label": ""
@@ -4820,7 +6331,11 @@
             "table": {
               "header": {
                 "season": "",
-                "episodes": ""
+                "episodes": "",
+                "status": "Κατάσταση"
+              },
+              "status": {
+                "requested": "Ζητήθηκε"
               }
             },
             "button": {
@@ -4929,6 +6444,73 @@
         "info": "",
         "warn": "",
         "error": ""
+      }
+    }
+  },
+  "onboardingTour": {
+    "learnMore": "Διαβάστε τα έγγραφα",
+    "next": "Επόμενο",
+    "prev": "Πίσω",
+    "done": "Τέλος",
+    "skip": "Παράλειψη περιήγησης",
+    "manage": {
+      "welcome": {
+        "title": "Καλώς ήρθατε στο Homarr!",
+        "description": "Αυτό είναι το κέντρο ελέγχου σας. Από εδώ διαχειρίζεστε πίνακες, εφαρμογές, ενσωματώσεις, χρήστες και ρυθμίσεις διακομιστή. Ας κάνουμε μια περιήγηση σε κάθε ενότητα."
+      },
+      "boardsList": {
+        "title": "Οι Πίνακες σας",
+        "description": "Εδώ είναι όλοι οι πίνακές σας. Κάθε πίνακας έχει τη δική του διάταξη, φόντο και ρυθμίσεις πρόσβασης. Μπορείτε να δείτε ποιος δημιούργησε τον καθένα και αν είναι δημόσιος ή ιδιωτικός."
+      },
+      "boardsCreate": {
+        "title": "Δημιουργία Πίνακα",
+        "description": "Κάντε κλικ εδώ για να δημιουργήσετε έναν νέο πίνακα ή να εισαγάγετε έναν από προηγούμενη εγκατάσταση Homarr. Κάθε πίνακας αποκτά το δικό του URL που μπορείτε να μοιραστείτε."
+      },
+      "appsList": {
+        "title": "Οι εφαρμογές σας",
+        "description": "Αυτές είναι όλες οι εφαρμογές που έχετε προσθέσει — σύνδεσμοι προς τις αυτο-φιλοξενούμενες υπηρεσίες σας. Κάθε εφαρμογή έχει ένα εικονίδιο, προαιρετικό έλεγχο υγείας και ένα σήμα κατάστασης στον πίνακα."
+      },
+      "appsCreate": {
+        "title": "Προσθήκη εφαρμογής",
+        "description": "Καταχωρίστε μια νέα υπηρεσία εδώ. Δώστε της ένα όνομα, URL και εικονίδιο — θα εμφανιστεί ως πλακίδιο στους πίνακές σας με ζωντανή παρακολούθηση κατάστασης."
+      },
+      "integrationsList": {
+        "title": "Οι ενσωματώσεις σας",
+        "description": "Αυτές είναι οι υπηρεσίες που είναι συνδεδεμένες στο Homarr — Sonarr, Radarr, Plex, Jellyfin και 50+ ακόμα. Όλα τα διαπιστευτήρια είναι κρυπτογραφημένα σε κατάσταση ηρεμίας."
+      },
+      "integrationsCreate": {
+        "title": "Προσθήκη ενσωμάτωσης",
+        "description": "Συνδέστε μια νέα υπηρεσία εδώ. Επιλέξτε τον τύπο, εισαγάγετε το URL και το κλειδί API — το Homarr επικυρώνει τη σύνδεση πριν την αποθήκευση."
+      },
+      "usersList": {
+        "title": "Οι χρήστες σας",
+        "description": "Δείτε όλους όσους έχουν πρόσβαση. Οργανώστε τους χρήστες σε ομάδες και ελέγξτε ποιος μπορεί να δει ή να επεξεργαστεί κάθε πίνακα."
+      },
+      "usersCreate": {
+        "title": "Δημιουργία χρήστη",
+        "description": "Προσθέστε έναν νέο λογαριασμό χρήστη εδώ. Μπορείτε επίσης να χρησιμοποιήσετε συνδέσμους πρόσκλησης για εύκολη ενσωμάτωση. Αυτή είναι η περιήγηση — είστε έτοιμοι!"
+      }
+    },
+    "board": {
+      "welcome": {
+        "title": "Αυτός είναι ο πίνακάς σας",
+        "description": "Ένας πίνακας με drag-and-drop όπου τακτοποιείτε εφαρμογές και widgets. Πατήστε Ctrl+K ανά πάσα στιγμή για αναζήτηση εφαρμογών, πινάκων και ενεργειών."
+      },
+      "editMode": {
+        "title": "Λειτουργία επεξεργασίας",
+        "description": "Κάντε κλικ εδώ για να μπείτε σε λειτουργία επεξεργασίας. Μπορείτε στη συνέχεια να προσθέσετε widgets, εφαρμογές και ενότητες — σύρετε για επανατοποθέτηση, αλλάξτε μέγεθος με τη λαβή γωνίας. Κάντε ξανά κλικ για να αποθηκεύσετε τις αλλαγές σας."
+      },
+      "settings": {
+        "title": "Ρυθμίσεις πίνακα",
+        "description": "Αλλάξτε το όνομα αυτού του πίνακα, τις στήλες, το φόντο, τα χρώματα και ποιος μπορεί να έχει πρόσβαση σε αυτόν. Κάθε πίνακας μπορεί να είναι δημόσιος ή ιδιωτικός."
+      },
+      "switcher": {
+        "title": "Εναλλαγή Πινάκων",
+        "description": "Μεταβείτε μεταξύ πινάκων. Δημιουργήστε ξεχωριστούς πίνακες για διαφορετικούς σκοπούς — πολυμέσα, δίκτυα, ανά χρήστη ή ό,τι θέλετε."
+      },
+      "userMenu": {
+        "title": "Το προφίλ σας",
+        "description": "Αλλάξτε τον συνδυασμό χρωμάτων σας, τη γλώσσα, τον αρχικό πίνακα και τις προτιμήσεις σας. Μπορείτε επίσης να μεταβείτε στην περιοχή διαχείρισης από εδώ."
       }
     }
   }

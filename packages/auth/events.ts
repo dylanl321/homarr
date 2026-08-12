@@ -24,6 +24,7 @@ export const createSignInEventHandler = (db: Database): Exclude<NextAuthConfig["
         name: true,
         image: true,
         colorScheme: true,
+        provider: true,
       },
     });
 
@@ -31,7 +32,13 @@ export const createSignInEventHandler = (db: Database): Exclude<NextAuthConfig["
 
     const groupsKey = env.AUTH_OIDC_GROUPS_ATTRIBUTE;
     // Groups from oidc provider are provided from the profile, it's not typed.
-    if (profile && groupsKey in profile && Array.isArray(profile[groupsKey])) {
+    if (
+      !env.AUTH_OIDC_GROUPS_LOCAL_MANAGEMENT &&
+      dbUser.provider === "oidc" &&
+      profile &&
+      groupsKey in profile &&
+      Array.isArray(profile[groupsKey])
+    ) {
       logger.debug(`Using profile groups (${groupsKey}): ${JSON.stringify(profile[groupsKey])}`);
       await synchronizeGroupsWithExternalForUserAsync(db, user.id, profile[groupsKey] as string[]);
     }
@@ -52,7 +59,7 @@ export const createSignInEventHandler = (db: Database): Exclude<NextAuthConfig["
       });
     }
 
-    if (profile) {
+    if (profile && dbUser.provider === "oidc") {
       const profileUsername = extractProfileName(profile);
       if (!profileUsername) {
         throw new Error(`OIDC provider did not return a name properties='${Object.keys(profile).join(",")}'`);

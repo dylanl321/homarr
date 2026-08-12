@@ -1,5 +1,6 @@
 "use client";
 
+import type { MouseEvent as ReactMouseEvent } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ActionIcon,
@@ -38,6 +39,8 @@ import {
   IconRowRemove,
   IconTableOff,
   IconTablePlus,
+  IconTextDirectionLtr,
+  IconTextDirectionRtl,
   IconX,
 } from "@tabler/icons-react";
 import { Color } from "@tiptap/extension-color";
@@ -65,6 +68,7 @@ import { useI18n, useScopedI18n } from "@homarr/translation/client";
 import type { TablerIcon } from "@homarr/ui";
 
 import type { WidgetComponentProps } from "../definition";
+import { NotebookTextDirection, setTextDirection } from "./text-direction";
 
 import "@mantine/tiptap/styles.css";
 import "./notebook.css";
@@ -170,6 +174,7 @@ export function Notebook({ options, setOptions, isEditMode, boardId, itemId }: W
         }),
         TaskList.configure({ itemTypeName: "taskItem" }),
         TextAlign.configure({ types: ["heading", "paragraph"] }),
+        NotebookTextDirection,
         TextStyle,
       ],
       shouldRerenderOnTransaction: true,
@@ -263,8 +268,21 @@ export function Notebook({ options, setOptions, isEditMode, boardId, itemId }: W
     setIsEditing(handleEditToggleCallback);
   }, [setIsEditing, handleEditToggleCallback]);
 
+  const handleDoubleClick = useCallback(
+    (event: ReactMouseEvent<HTMLDivElement>) => {
+      if (!canChange || isEditing) return;
+      // Ignore double-clicks bubbling up from interactive controls (e.g. the
+      // edit/save ActionIcon), which would otherwise toggle edit mode twice.
+      if (event.target instanceof Element && event.target.closest("button, a")) {
+        return;
+      }
+      setIsEditing(handleEditToggleCallback);
+    },
+    [canChange, isEditing, setIsEditing, handleEditToggleCallback],
+  );
+
   return (
-    <Box h="100%">
+    <Box h="100%" onDoubleClick={handleDoubleClick}>
       <RichTextEditor
         p={0}
         mt={0}
@@ -333,6 +351,22 @@ export function Notebook({ options, setOptions, isEditMode, boardId, itemId }: W
                 position: t("widget.notebook.align.right"),
               })}
             />
+            <RichTextEditor.Control
+              title={tControls("directionLtr")}
+              aria-label={tControls("directionLtr")}
+              active={editor?.isActive({ dir: "ltr" })}
+              onClick={() => editor && setTextDirection(editor, "ltr").run()}
+            >
+              <IconTextDirectionLtr {...controlIconProps} />
+            </RichTextEditor.Control>
+            <RichTextEditor.Control
+              title={tControls("directionRtl")}
+              aria-label={tControls("directionRtl")}
+              active={editor?.isActive({ dir: "rtl" })}
+              onClick={() => editor && setTextDirection(editor, "rtl").run()}
+            >
+              <IconTextDirectionRtl {...controlIconProps} />
+            </RichTextEditor.Control>
           </RichTextEditor.ControlsGroup>
 
           <RichTextEditor.ControlsGroup>
@@ -421,7 +455,6 @@ export function Notebook({ options, setOptions, isEditMode, boardId, itemId }: W
             color={primaryColor}
             variant="light"
             size={30}
-            radius={"md"}
             onClick={handleEditToggle}
           >
             {isEditing ? <IconDeviceFloppy {...iconProps} /> : <IconEdit {...iconProps} />}
@@ -438,7 +471,6 @@ export function Notebook({ options, setOptions, isEditMode, boardId, itemId }: W
               color={primaryColor}
               variant="light"
               size={30}
-              radius={"md"}
               onClick={handleEditCancel}
             >
               <IconX {...iconProps} />

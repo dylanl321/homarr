@@ -1,60 +1,56 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useCallback, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { Center, Menu, Stack, Text, useMantineColorScheme } from "@mantine/core";
-import { useHotkeys, useTimeout } from "@mantine/hooks";
-import { IconCheck, IconHome, IconLogin, IconLogout, IconSettings, IconTool } from "@tabler/icons-react";
+import { useCallback } from "react";
+import { Menu } from "@mantine/core";
+import { IconBrandDocker, IconHome, IconLogin, IconLogout, IconSettings, IconTool } from "@tabler/icons-react";
 
 import type { RouterOutputs } from "@homarr/api";
 import { signOut, useSession } from "@homarr/auth/client";
-import { hotkeys } from "@homarr/definitions";
-import { createModal, useModalAction } from "@homarr/modals";
+import { useModalAction } from "@homarr/modals";
 import { useScopedI18n } from "@homarr/translation/client";
 import { Link } from "@homarr/ui";
 
 import { useAuthContext } from "~/app/[locale]/_client-providers/session";
 import { CurrentColorSchemeCombobox } from "./color-scheme/current-color-scheme-combobox";
 import { CurrentLanguageCombobox } from "./language/current-language-combobox";
+import { DockerQuickAccessModal } from "./layout/header/docker-quick-access-modal";
 import { AvailableUpdatesMenuItem } from "./layout/header/update";
 
 interface UserAvatarMenuProps {
   children: ReactNode;
-  availableUpdatesPromise?: Promise<RouterOutputs["updateChecker"]["getAvailableUpdates"]>;
+  availableUpdates?: RouterOutputs["updateChecker"]["getAvailableUpdates"];
+  isDockerEnabled?: boolean;
+  opened: boolean;
+  onOpenChange: (opened: boolean) => void;
 }
 
-export const UserAvatarMenu = ({ children, availableUpdatesPromise }: UserAvatarMenuProps) => {
+export const UserAvatarMenu = ({
+  children,
+  availableUpdates,
+  isDockerEnabled,
+  opened,
+  onOpenChange,
+}: UserAvatarMenuProps) => {
   const t = useScopedI18n("common.userAvatar.menu");
-  const { toggleColorScheme } = useMantineColorScheme();
-  useHotkeys([[hotkeys.toggleColorScheme, toggleColorScheme]]);
-
   const session = useSession();
-  const router = useRouter();
 
   const { logoutUrl } = useAuthContext();
-  const { openModal } = useModalAction(LogoutModal);
+  const { openModal: openDockerModal } = useModalAction(DockerQuickAccessModal);
 
   const handleSignout = useCallback(async () => {
+    const redirectUrl = logoutUrl ?? "/auth/login";
     await signOut({
       redirect: false,
     });
-    openModal({
-      onTimeout: () => {
-        if (logoutUrl) {
-          window.location.assign(logoutUrl);
-          return;
-        }
-        router.refresh();
-      },
-    });
-  }, [logoutUrl, openModal, router]);
+    window.location.assign(redirectUrl);
+  }, [logoutUrl]);
 
   return (
     // We use keepMounted so we can add event listeners to prevent navigating away without saving the board
-    <Menu width={300} withArrow withinPortal keepMounted>
+    <Menu width={300} withinPortal keepMounted opened={opened} onChange={onOpenChange}>
       <Menu.Dropdown>
-        <AvailableUpdatesMenuItem availableUpdatesPromise={availableUpdatesPromise} />
+        <AvailableUpdatesMenuItem availableUpdates={availableUpdates} />
         <Menu.Item component={Link} href="/boards" leftSection={<IconHome size="1rem" />}>
           {t("homeBoard")}
         </Menu.Item>
@@ -80,6 +76,11 @@ export const UserAvatarMenu = ({ children, availableUpdatesPromise }: UserAvatar
             <Menu.Item component={Link} href="/manage" leftSection={<IconTool size="1rem" />}>
               {t("management")}
             </Menu.Item>
+            {isDockerEnabled && (
+              <Menu.Item leftSection={<IconBrandDocker size="1rem" />} onClick={() => openDockerModal()}>
+                {t("docker")}
+              </Menu.Item>
+            )}
           </>
         )}
         <Menu.Divider />
@@ -97,35 +98,3 @@ export const UserAvatarMenu = ({ children, availableUpdatesPromise }: UserAvatar
     </Menu>
   );
 };
-
-const LogoutModal = createModal<{ onTimeout: () => void }>(({ actions, innerProps }) => {
-  const t = useScopedI18n("common.userAvatar.menu");
-  const { start } = useTimeout(() => {
-    actions.closeModal();
-    innerProps.onTimeout();
-  }, 1500);
-
-  useEffect(() => {
-    start();
-  }, [start]);
-
-  return (
-    <Center h={200 - 2 * 16}>
-      <Stack align="center" c="green">
-        <IconCheck size={50} />
-        <Text ta="center" fw="bold">
-          {t("loggedOut")}
-        </Text>
-      </Stack>
-    </Center>
-  );
-}).withOptions({
-  centered: true,
-  withCloseButton: false,
-  transitionProps: {
-    transition: "pop",
-  },
-  size: 200,
-  closeOnClickOutside: false,
-  closeOnEscape: false,
-});

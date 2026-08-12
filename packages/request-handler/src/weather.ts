@@ -1,18 +1,15 @@
-import dayjs from "dayjs";
 import { z } from "zod";
 
 import { fetchWithTrustedCertificatesAsync } from "@homarr/core/infrastructure/http";
 import { withTimeoutAsync } from "@homarr/core/infrastructure/http/timeout";
 
-import { createCachedWidgetRequestHandler } from "./lib/cached-widget-request-handler";
+import { createWidgetRequestHandler } from "./lib/widget-request-handler";
 
-export const weatherRequestHandler = createCachedWidgetRequestHandler({
-  queryKey: "weatherAtLocation",
-  widgetKind: "weather",
+export const weatherRequestHandler = createWidgetRequestHandler({
   async requestAsync(input: { latitude: number; longitude: number }) {
     const res = await withTimeoutAsync(async (signal) => {
       return await fetchWithTrustedCertificatesAsync(
-        `https://api.open-meteo.com/v1/forecast?latitude=${input.latitude}&longitude=${input.longitude}&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,wind_speed_10m_max,wind_gusts_10m_max&current_weather=true&timezone=auto`,
+        `https://api.open-meteo.com/v1/forecast?latitude=${input.latitude}&longitude=${input.longitude}&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,wind_speed_10m_max,wind_gusts_10m_max,relative_humidity_2m_mean&current_weather=true&timezone=auto`,
         { signal },
       );
     });
@@ -30,11 +27,11 @@ export const weatherRequestHandler = createCachedWidgetRequestHandler({
           sunset: weather.daily.sunset[index],
           maxWindSpeed: weather.daily.wind_speed_10m_max[index],
           maxWindGusts: weather.daily.wind_gusts_10m_max[index],
+          humidity: weather.daily.relative_humidity_2m_mean[index],
         };
       }),
     } satisfies Weather;
   },
-  cacheDuration: dayjs.duration(1, "minute"),
 });
 
 const atLocationOutput = z.object({
@@ -52,6 +49,7 @@ const atLocationOutput = z.object({
     sunset: z.array(z.string()),
     wind_speed_10m_max: z.array(z.number()),
     wind_gusts_10m_max: z.array(z.number()),
+    relative_humidity_2m_mean: z.array(z.number()),
   }),
 });
 
@@ -70,5 +68,6 @@ export interface Weather {
     sunset: string | undefined;
     maxWindSpeed: number | undefined;
     maxWindGusts: number | undefined;
+    humidity: number | undefined;
   }[];
 }

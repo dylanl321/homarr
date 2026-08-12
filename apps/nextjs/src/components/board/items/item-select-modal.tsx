@@ -1,122 +1,290 @@
-import { useMemo, useState } from "react";
-import { Avatar, Button, Card, Center, Grid, Group, Input, Stack, Text, Tooltip } from "@mantine/core";
-import { IconSearch } from "@tabler/icons-react";
+import { useMemo, useRef, useState } from "react";
+import { Avatar, Box, Button, Card, Center, Divider, Group, Image, Stack, Text, Tooltip } from "@mantine/core";
+import { IconApi } from "@tabler/icons-react";
 
+import type { RouterOutputs } from "@homarr/api";
 import { clientApi } from "@homarr/api/client";
-import { createId, objectEntries } from "@homarr/common";
-import { getIconUrl, getIntegrationName } from "@homarr/definitions";
+import { createId } from "@homarr/common";
+import { getIconUrl, getIntegrationName, widgetIntegrationSupport, widgetKinds } from "@homarr/definitions";
 import type { IntegrationKind, WidgetKind } from "@homarr/definitions";
-import { createModal, useModalAction } from "@homarr/modals";
+import { createModal, modalSizeSelect, useModalAction } from "@homarr/modals";
+import { showErrorNotification } from "@homarr/notifications";
 import { useSettings } from "@homarr/settings";
 import { useI18n } from "@homarr/translation/client";
+import { SelectGridLayout, selectGridCardHeight } from "@homarr/ui";
 import type { TablerIcon } from "@homarr/ui";
-import { reduceWidgetOptionsWithDefaultValues, widgetImports } from "@homarr/widgets";
-import { WidgetEditModal } from "@homarr/widgets/modals";
+import { widgetCatalogIcons } from "@homarr/widgets/catalog";
+import { loadWidgetDefinition, reduceWidgetOptionsWithDefinition } from "@homarr/widgets/manifest";
 
 import { useItemActions } from "./item-actions";
+import { resolveMatchingIntegrationsAsync, tryLockSelection, unlockSelection } from "./item-select-data";
+import { LazyWidgetEditModal, preloadWidgetEditModal } from "./lazy-widget-edit-modal";
+import classes from "./item-select-modal.module.css";
 
-export const ItemSelectModal = createModal<void>(({ actions }) => {
+interface ItemSelectModalContentProps {
+  actions: { closeModal: () => void };
+  innerProps: void;
+  integrationData: RouterOutputs["integration"]["all"] | undefined;
+  customWidgetDefs: RouterOutputs["customWidget"]["all"] | undefined;
+  ensureIntegrationDataAsync: () => Promise<RouterOutputs["integration"]["all"]>;
+}
+
+const ItemSelectModalContent = ({
+  actions,
+  integrationData,
+  customWidgetDefs,
+  ensureIntegrationDataAsync,
+}: ItemSelectModalContentProps) => {
   const [search, setSearch] = useState("");
+  const [loadingSelection, setLoadingSelection] = useState<string | null>(null);
+  const selectionLock = useRef(false);
   const t = useI18n();
   const { createItem, updateItemOptions, updateItemAdvancedOptions, updateItemIntegrations } = useItemActions();
-  const { openModal: openEditModal } = useModalAction(WidgetEditModal);
-  const { data: integrationData } = clientApi.integration.all.useQuery();
+  const { openModal: openEditModal } = useModalAction(LazyWidgetEditModal);
   const settings = useSettings();
+
+  const availableKinds = useMemo(() => new Set((integrationData ?? []).map((i) => i.kind)), [integrationData]);
 
   const items = useMemo(
     () =>
-      objectEntries(widgetImports)
-        .map(([kind, value]) => ({
-          kind,
-          supportedIntegrations:
-            "supportedIntegrations" in value.definition
-              ? value.definition.supportedIntegrations.filter((integration) => integration !== "mock")
-              : [],
-          icon: value.definition.icon,
-          name: t(`widget.${kind}.name`),
-          description: t(`widget.${kind}.description`),
-        }))
-        .sort((itemA, itemB) => itemA.name.localeCompare(itemB.name)),
+      widgetKinds
+        .filter((kind) => kind !== "customApi")
+        .map((kind) => {
+          return {
+            kind,
+            supportedIntegrations: (widgetIntegrationSupport[kind] ?? []).filter(
+              (integration) => integration !== "mock",
+            ),
+            icon: widgetCatalogIcons[kind],
+            name: t(`widget.${kind}.name`),
+            description: t(`widget.${kind}.description`),
+          };
+        })
+        .sort((itemA, itemB) => {
+          if (itemA.kind === "app") return -1;
+          if (itemB.kind === "app") return 1;
+
+          return itemA.name.localeCompare(itemB.name);
+        }),
     [t],
   );
 
-  const filteredItems = useMemo(
-    () => items.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())),
-    [items, search],
+  const filteredItems = useMemo(() => {
+    const query = search.toLowerCase().trim();
+    if (!query) return items;
+    return items.filter(
+      (item) =>
+        item.name.toLowerCase().includes(query) ||
+        item.supportedIntegrations.some((kind) => getIntegrationName(kind).toLowerCase().includes(query)),
+    );
+  }, [items, search]);
+
+  const filteredCustomWidgets = useMemo(
+    () =>
+      (customWidgetDefs ?? []).filter((def) => def.enabled && def.name.toLowerCase().includes(search.toLowerCase())),
+    [customWidgetDefs, search],
   );
 
-  const handleAdd = (kind: WidgetKind) => {
-    const definition = widgetImports[kind].definition;
-    const hasIntegrationSupport = "supportedIntegrations" in definition;
+  const notifyDefinitionLoadError = (error: unknown) => {
+    showErrorNotification({
+      title: t("common.error"),
+      message: error instanceof Error ? error.message : String(error),
+    });
+  };
 
-    const matchingIntegrations = hasIntegrationSupport
-      ? (integrationData ?? []).filter((integration) =>
-          (definition.supportedIntegrations as string[]).includes(integration.kind),
-        )
-      : [];
+  const handleAddCustomWidget = async (definitionId: string) => {
+    if (!tryLockSelection(selectionLock)) return;
+    setLoadingSelection(`custom:${definitionId}`);
+    try {
+      const definition = await loadWidgetDefinition("customApi");
+      const itemId = createId();
+      const defaultOptions = reduceWidgetOptionsWithDefinition(definition, settings);
+      createItem({ id: itemId, kind: "customApi", integrationIds: [] });
+      updateItemOptions({ itemId, newOptions: { ...defaultOptions, definitionId } });
+      actions.closeModal();
+    } catch (error) {
+      notifyDefinitionLoadError(error);
+    } finally {
+      unlockSelection(selectionLock);
+      setLoadingSelection(null);
+    }
+  };
 
-    const integrationIds = matchingIntegrations.map((i) => i.id);
-    const itemId = createId();
-    const defaultOptions = reduceWidgetOptionsWithDefaultValues(kind, settings);
+  const handleAdd = async (kind: WidgetKind) => {
+    if (!tryLockSelection(selectionLock)) return;
+    setLoadingSelection(kind);
+    preloadWidgetEditModal();
+    try {
+      const definition = await loadWidgetDefinition(kind);
+      const hasIntegrationSupport = "supportedIntegrations" in definition;
 
-    createItem({ id: itemId, kind, integrationIds });
-    actions.closeModal();
+      const matchingIntegrations = await resolveMatchingIntegrationsAsync({
+        hasIntegrationSupport,
+        supportedIntegrations: definition.supportedIntegrations ?? [],
+        currentData: integrationData,
+        ensureDataAsync: ensureIntegrationDataAsync,
+      });
 
-    openEditModal(
-      {
-        kind,
-        value: {
-          advancedOptions: { title: null, customCssClasses: [], borderColor: "" },
-          options: defaultOptions,
-          integrationIds,
+      const integrationIds = matchingIntegrations.map((i) => i.id);
+      const itemId = createId();
+      const defaultOptions = reduceWidgetOptionsWithDefinition(definition, settings);
+
+      createItem({ id: itemId, kind, integrationIds });
+      actions.closeModal();
+
+      openEditModal(
+        {
+          kind,
+          definition,
+          value: {
+            advancedOptions: { title: null, customCssClasses: [], borderColor: "" },
+            options: defaultOptions,
+            integrationIds,
+          },
+          onSuccessfulEdit: ({ options, integrationIds: newIntegrationIds, advancedOptions }) => {
+            updateItemOptions({ itemId, newOptions: options });
+            updateItemAdvancedOptions({ itemId, newAdvancedOptions: advancedOptions });
+            updateItemIntegrations({ itemId, newIntegrations: newIntegrationIds });
+          },
+          integrationData: matchingIntegrations,
+          integrationSupport: hasIntegrationSupport,
+          settings,
         },
-        onSuccessfulEdit: ({ options, integrationIds: newIntegrationIds, advancedOptions }) => {
-          updateItemOptions({ itemId, newOptions: options });
-          updateItemAdvancedOptions({ itemId, newAdvancedOptions: advancedOptions });
-          updateItemIntegrations({ itemId, newIntegrations: newIntegrationIds });
+        {
+          title: (titleT) => `${titleT("item.edit.title")} - ${titleT(`widget.${kind}.name`)}`,
         },
-        integrationData: matchingIntegrations,
-        integrationSupport: hasIntegrationSupport,
-        settings,
-      },
-      {
-        title: (titleT) => `${titleT("item.edit.title")} - ${titleT(`widget.${kind}.name`)}`,
-      },
-    );
+      );
+    } catch (error) {
+      notifyDefinitionLoadError(error);
+    } finally {
+      unlockSelection(selectionLock);
+      setLoadingSelection(null);
+    }
   };
 
   return (
-    <Stack>
-      <Input
-        value={search}
-        onChange={(event) => setSearch(event.currentTarget.value)}
-        leftSection={<IconSearch />}
-        placeholder={`${t("item.create.search")}...`}
-        data-autofocus
-        onKeyDown={(event) => {
-          // Add item if there is only one item in the list and user presses Enter
-          if (event.key === "Enter" && filteredItems.length === 1) {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            handleAdd(filteredItems[0]!.kind);
-          }
-        }}
-      />
+    <SelectGridLayout
+      search={search}
+      onSearchChange={setSearch}
+      placeholder={`${t("item.create.search")}...`}
+      onSearchKeyDown={(event) => {
+        if (event.key === "Enter" && loadingSelection === null && filteredItems.length === 1) {
+          const [item] = filteredItems;
+          if (item) void handleAdd(item.kind);
+        }
+      }}
+    >
+      {filteredItems.map((item) => (
+        <WidgetItem
+          key={item.kind}
+          item={item}
+          onSelect={() => void handleAdd(item.kind)}
+          onIntent={() => {
+            void loadWidgetDefinition(item.kind).catch(() => undefined);
+            preloadWidgetEditModal();
+          }}
+          disabled={loadingSelection !== null}
+          loading={loadingSelection === item.kind}
+          hasMatchingIntegration={item.supportedIntegrations.some((kind) => availableKinds.has(kind))}
+        />
+      ))}
 
-      <Grid>
-        {filteredItems.map((item) => (
-          <WidgetItem key={item.kind} item={item} onSelect={() => handleAdd(item.kind)} />
-        ))}
-      </Grid>
-    </Stack>
+      {filteredCustomWidgets.length > 0 && (
+        <>
+          <Divider
+            label={t("customWidget.page.list.title")}
+            labelPosition="center"
+            my="sm"
+            style={{ gridColumn: "1 / -1" }}
+          />
+          {filteredCustomWidgets.map((def) => (
+            <Card
+              key={def.id}
+              className={classes.card}
+              h={selectGridCardHeight}
+              withBorder
+              pos="relative"
+              style={{ overflow: "hidden" }}
+              onPointerEnter={() => void loadWidgetDefinition("customApi").catch(() => undefined)}
+            >
+              <Stack h="100%" gap="xs">
+                <Group gap="sm" wrap="nowrap" align="flex-start">
+                  {def.iconUrl ? (
+                    <Image src={def.iconUrl} w={22} h={22} fit="contain" style={{ flexShrink: 0, marginTop: 2 }} />
+                  ) : (
+                    <IconApi size={22} style={{ flexShrink: 0, marginTop: 2 }} />
+                  )}
+                  <Text lh={1.2} style={{ whiteSpace: "normal" }} fw={500} size="sm" lineClamp={2}>
+                    {def.name}
+                  </Text>
+                </Group>
+                <Text lh={1.2} style={{ whiteSpace: "normal" }} size="xs" c="dimmed" lineClamp={1}>
+                  {def.description ?? def.url}
+                </Text>
+              </Stack>
+              <Box
+                className={classes.action}
+                pos="absolute"
+                bottom={0}
+                left={0}
+                right={0}
+                p="xs"
+                style={{
+                  background: "linear-gradient(transparent, var(--mantine-color-body) 30%)",
+                }}
+              >
+                <Button
+                  onClick={() => void handleAddCustomWidget(def.id)}
+                  variant="light"
+                  size="xs"
+                  fullWidth
+                  disabled={loadingSelection !== null}
+                  loading={loadingSelection === `custom:${def.id}`}
+                >
+                  {t("item.create.addToBoard")}
+                </Button>
+              </Box>
+            </Card>
+          ))}
+        </>
+      )}
+
+      {filteredItems.length === 0 && filteredCustomWidgets.length === 0 && (
+        <Center p="xl">
+          <Text c="dimmed">{t("common.noResults")}</Text>
+        </Center>
+      )}
+    </SelectGridLayout>
   );
-}).withOptions({
+};
+
+const ItemSelectModalFrame = (props: Pick<ItemSelectModalContentProps, "actions" | "innerProps">) => {
+  const utils = clientApi.useUtils();
+  const { data: integrationData } = clientApi.integration.all.useQuery();
+  const { data: customWidgetDefs } = clientApi.customWidget.all.useQuery();
+
+  return (
+    <ItemSelectModalContent
+      {...props}
+      integrationData={integrationData}
+      customWidgetDefs={customWidgetDefs}
+      ensureIntegrationDataAsync={() => utils.integration.all.ensureData()}
+    />
+  );
+};
+
+export const ItemSelectModal = createModal<void>((props) => <ItemSelectModalFrame {...props} />).withOptions({
   defaultTitle: (t) => t("item.create.title"),
-  size: "xl",
+  size: modalSizeSelect,
 });
 
 const WidgetItem = ({
   item,
   onSelect,
+  onIntent,
+  disabled,
+  loading,
+  hasMatchingIntegration,
 }: {
   item: {
     kind: WidgetKind;
@@ -126,51 +294,72 @@ const WidgetItem = ({
     icon: TablerIcon;
   };
   onSelect: () => void;
+  onIntent: () => void;
+  disabled: boolean;
+  loading: boolean;
+  hasMatchingIntegration: boolean;
 }) => {
   const t = useI18n();
 
   return (
-    <Grid.Col span={{ xs: 12, sm: 4, md: 3 }}>
-      <Card h="100%">
-        <Stack justify="space-between" h="100%">
-          <Stack gap="xs">
-            <Center>
-              <item.icon />
-            </Center>
-            <Text lh={1.2} style={{ whiteSpace: "normal" }} ta="center">
-              {item.name}
-            </Text>
-            <Text lh={1.2} style={{ whiteSpace: "normal" }} size="xs" ta="center" c="dimmed">
-              {item.description}
-            </Text>
-          </Stack>
-          <SupportedIntegrations mt="auto" integrations={item.supportedIntegrations} />
-          <Button onClick={onSelect} variant="light" size="xs" radius="md" fullWidth>
-            {t(`item.create.addToBoard`)}
-          </Button>
-        </Stack>
-      </Card>
-    </Grid.Col>
+    <Card
+      className={classes.card}
+      h={selectGridCardHeight}
+      withBorder
+      pos="relative"
+      style={{
+        overflow: "hidden",
+        borderColor: hasMatchingIntegration ? "var(--mantine-color-blue-6)" : undefined,
+        borderWidth: hasMatchingIntegration ? 2 : undefined,
+      }}
+      onFocus={onIntent}
+      onPointerEnter={onIntent}
+      aria-busy={loading || undefined}
+    >
+      <Stack h="100%" gap="xs">
+        <Group gap="sm" wrap="nowrap" align="flex-start">
+          <item.icon size={22} style={{ flexShrink: 0, marginTop: 2 }} />
+          <Text lh={1.2} style={{ whiteSpace: "normal" }} fw={500} size="sm" lineClamp={2}>
+            {item.name}
+          </Text>
+        </Group>
+        <Tooltip label={item.description} multiline w={250} disabled={!item.description}>
+          <Text lh={1.2} style={{ whiteSpace: "normal" }} size="xs" c="dimmed" lineClamp={1}>
+            {item.description}
+          </Text>
+        </Tooltip>
+        <SupportedIntegrations integrations={item.supportedIntegrations} />
+      </Stack>
+      <Box
+        className={classes.action}
+        pos="absolute"
+        bottom={0}
+        left={0}
+        right={0}
+        p="xs"
+        style={{
+          background: "linear-gradient(transparent, var(--mantine-color-body) 30%)",
+        }}
+      >
+        <Button onClick={onSelect} variant="light" size="xs" fullWidth disabled={disabled} loading={loading}>
+          {t(`item.create.addToBoard`)}
+        </Button>
+      </Box>
+    </Card>
   );
 };
 
-interface SupportedIntegrationsProps {
-  integrations: IntegrationKind[];
-  mt: string;
-}
-
-const SupportedIntegrations = ({ integrations, mt }: SupportedIntegrationsProps) => {
+const SupportedIntegrations = ({ integrations }: { integrations: IntegrationKind[] }) => {
   if (integrations.length === 0) {
     return null;
   }
 
-  // When there are 8 or more integrations, we show 6 and a "+X" avatar. Otherwise, we show all integrations.
   const countToShow = integrations.length >= 8 ? 6 : 7;
   const moreCount = integrations.length - countToShow;
 
   return (
-    <Center mt={mt}>
-      <Tooltip.Group openDelay={300} closeDelay={100}>
+    <Group gap={2} mt="auto">
+      <Tooltip.Group closeDelay={100}>
         <Group gap={2}>
           {integrations.slice(0, countToShow).map((integration) => (
             <Tooltip key={integration} label={getIntegrationName(integration)} withArrow>
@@ -195,6 +384,6 @@ const SupportedIntegrations = ({ integrations, mt }: SupportedIntegrationsProps)
           )}
         </Group>
       </Tooltip.Group>
-    </Center>
+    </Group>
   );
 };

@@ -3,7 +3,7 @@ import { Card, Center, Group, RingProgress, ScrollArea, Stack, Text, Title, Tool
 import { IconDatabaseHeart, IconFileDescription, IconHeartbeat, IconTransform } from "@tabler/icons-react";
 
 import { useRequiredBoard } from "@homarr/boards/context";
-import { humanFileSize } from "@homarr/common";
+import { formatBytes } from "@homarr/common";
 import type { TdarrPieSegment, TdarrStatistics } from "@homarr/integrations";
 import { useI18n } from "@homarr/translation/client";
 import type { TablerIcon } from "@homarr/ui";
@@ -41,7 +41,7 @@ export function StatisticsPanel(props: StatisticsPanelProps) {
         <StatisticItem
           icon={IconDatabaseHeart}
           label={t("savedSpace")}
-          value={humanFileSize(Math.floor(allLibs.totalSavedSpace))}
+          value={formatBytes(Math.floor(allLibs.totalSavedSpace))}
         />
       </Group>
       <Group justify="center" wrap="wrap" grow>
@@ -91,7 +91,7 @@ function StatisticItem(props: StatisticItemProps) {
   const board = useRequiredBoard();
   return (
     <Tooltip label={props.label}>
-      <Card p={0} withBorder radius={board.itemRadius} miw={48} flex={1}>
+      <Card p={0} radius={board.itemRadius} miw={48} flex={1}>
         <Group justify="center" align="center" gap="xs" w="100%" wrap="nowrap">
           <props.icon size={16} style={{ minWidth: 16 }} />
           <Text size="md">{props.value}</Text>

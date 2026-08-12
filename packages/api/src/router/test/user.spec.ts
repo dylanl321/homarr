@@ -81,13 +81,7 @@ describe("initUser should initialize the first user", () => {
     await expect(actAsync()).rejects.toThrow("passwordsDoNotMatch");
   });
 
-  it.each([
-    ["aB2%"], // too short
-    ["abc123DEF"], // does not contain special characters
-    ["abcDEFghi+"], // does not contain numbers
-    ["ABC123+/-"], // does not contain lowercase
-    ["abc123+/-"], // does not contain uppercase
-  ])("should throw error that password requirements do not match for '%s' as password", async (password) => {
+  it.each([["aB2%"], ["short"]])("should reject passwords shorter than 8 characters for '%s'", async (password) => {
     const db = createDb();
     await createOnboardingStepAsync(db, "user");
     const caller = userRouter.createCaller({
@@ -103,7 +97,55 @@ describe("initUser should initialize the first user", () => {
         confirmPassword: password,
       });
 
-    await expect(actAsync()).rejects.toThrow("passwordRequirements");
+    await expect(actAsync()).rejects.toThrow();
+  });
+
+  it("should accept passwords without complexity requirements", async () => {
+    const db = createDb();
+    await createOnboardingStepAsync(db, "user");
+    const caller = userRouter.createCaller({
+      db,
+      deviceType: undefined,
+      session: null,
+    });
+
+    await caller.initUser({
+      username: "test",
+      password: "abc123DEF",
+      confirmPassword: "abc123DEF",
+    });
+
+    const user = await db.query.users.findFirst({
+      columns: {
+        id: true,
+      },
+    });
+
+    expect(user).toBeDefined();
+  });
+
+  it("should accept passwords with special characters like LoveHomarr<3", async () => {
+    const db = createDb();
+    await createOnboardingStepAsync(db, "user");
+    const caller = userRouter.createCaller({
+      db,
+      deviceType: undefined,
+      session: null,
+    });
+
+    await caller.initUser({
+      username: "test",
+      password: "LoveHomarr<3",
+      confirmPassword: "LoveHomarr<3",
+    });
+
+    const user = await db.query.users.findFirst({
+      columns: {
+        id: true,
+      },
+    });
+
+    expect(user).toBeDefined();
   });
 });
 
@@ -312,6 +354,83 @@ describe("delete should delete user", () => {
     expect(usersInDb).toHaveLength(2);
     expect(usersInDb[0]).containSubset(initialUsers[0]);
     expect(usersInDb[1]).containSubset(initialUsers[2]);
+  });
+});
+
+describe("changeEnableRightClickOnWidgets should toggle the right-click preference", () => {
+  test("non-admin can toggle their own preference", async () => {
+    const db = createDb();
+    const caller = userRouter.createCaller({
+      db,
+      deviceType: undefined,
+      session: defaultSession,
+    });
+
+    await db.insert(users).values({
+      id: defaultOwnerId,
+      name: "owner",
+    });
+
+    await caller.changeEnableRightClickOnWidgets({ id: defaultOwnerId, enableRightClickOnWidgets: false });
+
+    const updated = await db.query.users.findFirst({
+      where: eq(users.id, defaultOwnerId),
+      columns: { enableRightClickOnWidgets: true },
+    });
+    expect(updated?.enableRightClickOnWidgets).toBe(false);
+
+    await caller.changeEnableRightClickOnWidgets({ id: defaultOwnerId, enableRightClickOnWidgets: true });
+
+    const restored = await db.query.users.findFirst({
+      where: eq(users.id, defaultOwnerId),
+      columns: { enableRightClickOnWidgets: true },
+    });
+    expect(restored?.enableRightClickOnWidgets).toBe(true);
+  });
+
+  test("non-admin cannot toggle another user's preference", async () => {
+    const db = createDb();
+    const caller = userRouter.createCaller({
+      db,
+      deviceType: undefined,
+      session: defaultSession,
+    });
+
+    const otherUserId = createId();
+    await db.insert(users).values({ id: defaultOwnerId });
+    await db.insert(users).values({ id: otherUserId, name: "other" });
+
+    await expect(
+      caller.changeEnableRightClickOnWidgets({ id: otherUserId, enableRightClickOnWidgets: false }),
+    ).rejects.toThrow("User not found");
+
+    const other = await db.query.users.findFirst({
+      where: eq(users.id, otherUserId),
+      columns: { enableRightClickOnWidgets: true },
+    });
+    expect(other?.enableRightClickOnWidgets).toBe(true);
+  });
+
+  test("admin can toggle another user's preference", async () => {
+    const db = createDb();
+    const adminSession = createSession(["admin"]);
+    const caller = userRouter.createCaller({
+      db,
+      deviceType: undefined,
+      session: adminSession,
+    });
+
+    const targetUserId = createId();
+    await db.insert(users).values({ id: defaultOwnerId });
+    await db.insert(users).values({ id: targetUserId, name: "target" });
+
+    await caller.changeEnableRightClickOnWidgets({ id: targetUserId, enableRightClickOnWidgets: false });
+
+    const target = await db.query.users.findFirst({
+      where: eq(users.id, targetUserId),
+      columns: { enableRightClickOnWidgets: true },
+    });
+    expect(target?.enableRightClickOnWidgets).toBe(false);
   });
 });
 

@@ -7,7 +7,10 @@
         "description": "Para começar, por favor selecione como você deseja configurar sua instância Homarr.",
         "action": {
           "scratch": "Começar do zero",
-          "importOldmarr": "Importe de uma instância do Homarr anterior a 1.0"
+          "importOldmarr": "Importe de uma instância do Homarr anterior a 1.0",
+          "restoreSqlite": "Restaurar do backup SQLite",
+          "restoreSqliteDescription": "Fazer o upload de um backup completo do banco de dados SQLite de uma instância anterior da Homarr. Isso restaurará todos os painéis, usuários, apps, integrações e configurações.",
+          "backToOptions": "← Retorna às opções de instalação"
         }
       },
       "import": {
@@ -90,6 +93,48 @@
         "title": "Configurações",
         "subtitle": "Definir as configurações do servidor."
       },
+      "integrations": {
+        "title": "Integrações",
+        "subtitle": "Selecione os serviços que você usa.",
+        "description": "Escolha as integrações que deseja conectar. Vamos configurar seu painel com os widgets correspondentes automaticamente.",
+        "action": {
+          "continue": "Continuar",
+          "skip": "Pular por enquanto"
+        },
+        "configure": {
+          "progress": "{current} de {total}",
+          "skip": "Pular esta integração",
+          "finishing": "Configurando seu painel...",
+          "error": {
+            "title": "Falha na configuração",
+            "message": "Algo deu errado ao configurar seu painel. Por favor, tente novamente."
+          },
+          "helpers": {
+            "tooltip": "Auxiliares de URL",
+            "description": "Esses auxiliares tentam adivinhar a URL dos seus serviços. Se não funcionar, digite o endereço manualmente."
+          }
+        },
+        "urlTemplate": {
+          "label": "URL base",
+          "placeholder": "homelab.local ou 192.168.1.1",
+          "hint": "Digite seu domínio base ou IP para preencher automaticamente as URLs das integrações",
+          "warning": "Definir sua URL base agora preencherá automaticamente todas as URLs das integrações, economizando tempo durante a configuração",
+          "preview": "ex.: {example}",
+          "mode": {
+            "subdomain": "Subdomínio",
+            "hostPort": "Host:Porta"
+          }
+        },
+        "docker": {
+          "detected": "Docker detectou {count} serviços",
+          "detectedBreakdown": "{integrations} integrações · {apps} apps",
+          "summary": "O Homarr detectou {apps} apps, dos quais {integrations} possuem integrações nativas",
+          "appBadge": "App",
+          "appSectionLabel": "Apps para adicionar ao painel ({count} selecionados)",
+          "scanning": "Verificando Docker...",
+          "scanningDescription": "Procurando contêineres em execução no seu sistema"
+        }
+      },
       "finish": {
         "title": "Concluir configuração",
         "subtitle": "Você está pronto para começar!",
@@ -132,7 +177,8 @@
       },
       "password": {
         "label": "Senha",
-        "requirement": {
+        "suggestionsTitle": "Sugestões de senha",
+        "suggestion": {
           "length": "Inclua pelo menos 8 caracteres",
           "lowercase": "Inclui letras minúsculas",
           "uppercase": "Inclui letras maiúsculas",
@@ -151,6 +197,10 @@
       },
       "pingIconsEnabled": {
         "label": "Usar ícone para pings"
+      },
+      "enableRightClickOnWidgets": {
+        "label": "",
+        "description": ""
       },
       "defaultSearchEngine": {
         "label": "Mecanismo de pesquisa padrão"
@@ -638,6 +688,211 @@
       "add": "Adicione um aplicativo"
     }
   },
+  "customWidget": {
+    "page": {
+      "list": {
+        "title": "Widgets Personalizados",
+        "noResults": "Nenhum widget personalizado ainda. Crie o seu primeiro!",
+        "loading": "Carregando..."
+      },
+      "create": {
+        "title": "Criar widget personalizado",
+        "subtitle": "Defina uma URL de API, autenticação e como exibir os dados de resposta."
+      },
+      "edit": {
+        "title": "Editar widget personalizado"
+      }
+    },
+    "action": {
+      "create": "Criar",
+      "import": "Importar",
+      "save": "Salvar",
+      "delete": "Excluir widget personalizado",
+      "deleteConfirm": "Tem certeza de que deseja excluir \"{name}\"? Esta ação não pode ser desfeita.",
+      "export": "Exportar",
+      "addMapping": "Adicionar Mapeamento",
+      "addColumn": "Adicionar Coluna",
+      "edit": "Editar",
+      "removeMapping": "Remover Mapeamento",
+      "removeColumn": "Remover coluna",
+      "addItem": "Adicionar Item",
+      "removeItem": "Remover item",
+      "addBar": "Adicionar barra",
+      "duplicate": "Duplicar",
+      "copyAiPrompt": "Copiar prompt de IA",
+      "enable": "Habilitado",
+      "disable": "Desabilitado",
+      "menu": "Ações"
+    },
+    "field": {
+      "name": "Nome",
+      "description": "Descrição",
+      "iconUrl": "URL do ícone",
+      "url": "URL",
+      "authType": "Tipo de Autenticação",
+      "headerName": "Nome do parâmetro de cabeçalho/consulta",
+      "method": "Método",
+      "requestBody": "Corpo da requisição",
+      "displayType": "Tipo de exibição",
+      "jsonPath": "Caminho JSON",
+      "jsonPathHint": "Usar sintaxe JSONPath para extrair valores, por exemplo, $.data.temperature ou $.items[0].name",
+      "label": "Rótulo",
+      "unit": "Unidade",
+      "mappings": "Mapeamentos",
+      "tablePath": "Caminho Array JSON",
+      "tablePathHint": "Caminho para o array na resposta, por exemplo, $.data.items",
+      "columns": "Colunas",
+      "header": "Header (cabeçalho)",
+      "items": "Itens",
+      "gridColumns": "Colunas da grade",
+      "cardStyle": "Estilo de cartão",
+      "bars": "Barras",
+      "valuePath": "Caminho do valor JSON",
+      "maxPath": "Caminho do Max Valor JSON",
+      "showPercentage": "Mostrar porcentagem",
+      "barSize": "Tamanho da barra",
+      "goodValues": "Valores bons (separados por vírgula)",
+      "dotSize": "Tamanho do ponto",
+      "valueSize": "Tamanho do valor",
+      "labelPosition": "Posição do rótulo",
+      "kvLayout": "Layout",
+      "striped": "Linhas Listradas",
+      "compact": "Modo Compacto",
+      "maxHeight": "Altura máxima (px)",
+      "color": "Cor",
+      "buttonLabel": "Rótulo do botão",
+      "buttonColor": "Cor do botão",
+      "confirmText": "Texto de confirmação",
+      "confirmTextHint": "Se definido, um diálogo de confirmação irá aparecer antes de executar a solicitação",
+      "successMessage": "Mensagem de Sucesso",
+      "successMessageHint": "Mensagem mostrada após execução com sucesso",
+      "enabled": "Habilitado",
+      "template": {
+        "label": "Template JSX",
+        "description": ""
+      }
+    },
+    "placeholder": {
+      "exampleLabel": "Temperatura da CPU",
+      "exampleLabelShort": "Temp CPU",
+      "exampleHeader": "Nome",
+      "exampleUnit": "°C",
+      "iconUrl": "https://...",
+      "url": "https://api.exemplo.com/br/api/v1/status",
+      "headerName": "X-API-Key",
+      "jsonPath": "$.data.value",
+      "tablePath": "$.data.items",
+      "columnJsonPath": "$.nome",
+      "valuePath": "$.data.used",
+      "maxPath": "$.data.total",
+      "goodValues": "online, true, up",
+      "color": "azul"
+    },
+    "cardStyleOption": {
+      "filled": "Preenchido",
+      "outline": "Contorno",
+      "subtle": "Sutil"
+    },
+    "layoutOption": {
+      "list": "Lista",
+      "grid": "Grade"
+    },
+    "sizeOption": {
+      "sm": "Pequeno",
+      "md": "Médio",
+      "lg": "Grande",
+      "xl": "Extra grande"
+    },
+    "labelPositionOption": {
+      "above": "Acima",
+      "below": "Abaixo"
+    },
+    "fieldset": {
+      "general": "Geral",
+      "connection": "Conexão com API",
+      "display": "Configurações de tela"
+    },
+    "displayTypeDescription": {
+      "singleValue": "Exibir um valor extraído com rótulo e unidade",
+      "keyValue": "Exibir vários valores rotulados lado a lado",
+      "table": "Exibir linhas de dados em formato de tabela",
+      "statGrid": "Estatísticas coloridas em uma grade — como Pi-Hole ou Widgets Rápidos",
+      "progressBars": "Barras de progresso mostrando uso ou conclusão — para disco, memória, quotas",
+      "statusIndicator": "Pontos de status coloridos mostrando estados online/offline ou de saúde",
+      "countGrid": "Contadores compactos de número + rótulo em uma grade apertada",
+      "raw": "Saída JSON impressa para depuração",
+      "actionButton": "Um botão que aciona uma solicitação quando clicado",
+      "customJsx": "Layout JSX personalizado usando componentes Mantine na lista branca com ligação completa de dados de API"
+    },
+    "method": {
+      "GET": "GET",
+      "POST": "POST",
+      "PUT": "PUT",
+      "DELETE": "DELETE",
+      "PATCH": "PATCH"
+    },
+    "authType": {
+      "none": "Nenhum",
+      "bearer": "Token Bearer",
+      "basic": "Autenticação Básica",
+      "apiKeyHeader": "Chave API (Cabeçalho)",
+      "apiKeyQuery": "Chave API (Consulta)"
+    },
+    "displayType": {
+      "singleValue": "Valor Único",
+      "keyValue": "Chave-Valor",
+      "table": "Tabela",
+      "statGrid": "Grade de Estatísticas",
+      "progressBars": "Barras de Progresso",
+      "statusIndicator": "Indicador de Status",
+      "countGrid": "Grade de Contagem",
+      "raw": "JSON Bruto",
+      "actionButton": "Botão de Ação",
+      "customJsx": "JSX personalizado"
+    },
+    "secret": {
+      "apiKey": "Chave de API / Token",
+      "username": "Usuário",
+      "password": "Senha",
+      "savedPlaceholder": "••••••• (salvo, deixe em branco para manter)"
+    },
+    "preview": {
+      "title": "Pré-visualizar",
+      "test": "Testar",
+      "hint": "Clique em Testar para visualizar a resposta da API com sua configuração atual.",
+      "rawResponse": "Resposta JSON Bruta"
+    },
+    "notification": {
+      "created": "Widget \"{name}\" criado com sucesso.",
+      "updated": "Widget \"{name}atualizado com sucesso.",
+      "deleted": "Widget \"{name}excluído.",
+      "imported": "Widget importado com sucesso.",
+      "aiPromptCopied": "Prompt de IA copiado para a área de transferência",
+      "aiPromptDescription": "Copie um prompt pré-construído para colar qualquer chatbot de AI (ChatGPT, Claude, Gemini...). Ele inclui o esquema completo de widget e a sua resposta de API para que a AI possa gerar uma configuração JSON pronta para importar para você.",
+      "aiPromptCopy": "Copiar para área de transferência",
+      "aiPromptNoResponse": "Dica: Execute um teste primeiro para incluir a sua API de resposta no prompt para melhores resultados.",
+      "aiPromptCopyError": "Falha ao copiar prompt para área de transferência. O seu navegador pode não suportar este recurso.",
+      "createError": "Falha ao criar widget. Verifique se o endpoint API está acessível.",
+      "updateError": "Falha ao atualizar o widget. Suas alterações não foram salvas.",
+      "importError": "Falha ao importar o widget. Certifique-se de que o arquivo seja um widget personalizado válido exportado em JSON.",
+      "exportError": "Falha ao exportar o widget.",
+      "duplicated": "Widget \"{name}duplicado.",
+      "duplicateError": "Falha ao duplicar o widget.",
+      "toggleError": "Falha ao alternar o status do widget.",
+      "deleteError": "Falha ao excluir o widget.",
+      "previewError": "Falha ao buscar a pré-visualização. Verifique a URL e tente novamente.",
+      "executed": "Ação executada com sucesso.",
+      "executeError": "A ação falhou: {error}"
+    },
+    "table": {
+      "name": "Nome",
+      "url": "URL",
+      "display": "Exibição"
+    },
+    "widget": {
+      "disabled": "Este widget está desabilitado"
+    }
+  },
   "integration": {
     "page": {
       "list": {
@@ -730,10 +985,49 @@
       },
       "appHref": {
         "placeholder": "URL de aplicativo personalizada"
+      },
+      "apiKeySettings": {
+        "label": "Obter chave de API"
       }
     },
     "action": {
       "create": "Nova integração"
+    },
+    "grid": {
+      "widgetCount": "{count} widgets",
+      "noWidgets": "Sem widgets",
+      "detected": "Detectado via Docker"
+    },
+    "category": {
+      "dnsHole": "DNS",
+      "mediaService": "Mídia",
+      "calendar": "Calendário",
+      "mediaSearch": "Busca",
+      "mediaRelease": "Lançamentos",
+      "mediaRequest": "Solicitações",
+      "downloadClient": "Downloads",
+      "usenet": "Usenet",
+      "torrent": "Torrent",
+      "miscellaneous": "Diversos",
+      "smartHomeServer": "Casa Inteligente",
+      "indexerManager": "Indexador",
+      "healthMonitoring": "Saúde",
+      "search": "Busca",
+      "mediaTranscoding": "Transcodificação",
+      "networkController": "Rede",
+      "releasesProvider": "Lançamentos",
+      "notifications": "Notificações",
+      "firewall": "Firewall",
+      "timetable": "Grade horária",
+      "photoService": "Fotos",
+      "documents": "Documentos",
+      "notes": "Anotações",
+      "mediaMonitoring": "Monitoramento",
+      "speedtest": "Teste de Velocidade",
+      "analytics": "Análises",
+      "vpn": "VPN",
+      "mediaLibrary": "Biblioteca de mídia",
+      "uptimeMonitoring": "Monitoramento do Uptime"
     },
     "testConnection": {
       "action": {
@@ -995,6 +1289,14 @@
           "label": "Chave de API (Key)",
           "newLabel": "Nova Chave de API (Key)"
         },
+        "patchmonApiKey": {
+          "label": "",
+          "newLabel": ""
+        },
+        "patchmonApiSecret": {
+          "label": "",
+          "newLabel": ""
+        },
         "githubAppId": {
           "label": "ID do Aplicativo",
           "newLabel": "Novo ID de Aplicativo"
@@ -1006,6 +1308,10 @@
         "privateKey": {
           "label": "Chave privada",
           "newLabel": "Nova chave privada"
+        },
+        "slug": {
+          "label": "Slug página de status",
+          "newLabel": "Novo slug da página de status"
         }
       }
     },
@@ -1013,6 +1319,42 @@
       "use": "Selecionar integrações em itens",
       "interact": "Interagir com integrações",
       "full": "Acesso completo à integração"
+    },
+    "audiobookshelf": {
+      "name": "Audiobookshelf",
+      "description": "Servidor auto-hospedado de audiolivros e podcasts"
+    },
+    "navidrome": {
+      "name": "Navidrome",
+      "description": "Servidor auto-hospedado de streaming de música com compatibilidade com a API Subsonic"
+    },
+    "uptimeKuma": {
+      "name": "Uptime Kuma",
+      "description": "Monitoramento de tempo de atividade auto-hospedado com páginas de status públicas",
+      "secret": {
+        "slug": {
+          "description": "O slug da sua página de status pública. O padrão é \"default\" se não definido."
+        },
+        "apiKey": {
+          "description": "Chave de API opcional para acesso autenticado a /metrics"
+        }
+      }
+    },
+    "traefik": {
+      "name": "",
+      "description": ""
+    },
+    "paperlessNgx": {
+      "name": "Paperless-ngx",
+      "description": "Sistema de gerenciamento de documentos para arquivamento e organização de documentos digitalizados"
+    },
+    "patchmon": {
+      "name": "",
+      "description": ""
+    },
+    "bazarr": {
+      "name": "",
+      "description": ""
     }
   },
   "media": {
@@ -1054,6 +1396,9 @@
       "open": {
         "label": "Abrir mídia"
       }
+    },
+    "noResults": {
+      "title": "Nenhuma mídia enviada"
     }
   },
   "common": {
@@ -1064,6 +1409,7 @@
       "add": "Adicionar",
       "apply": "Aplicar",
       "backToOverview": "Voltar à visão geral",
+      "skip": "Pular",
       "change": "Alterar",
       "create": "Criar",
       "createAnother": "Criar e recomeçar",
@@ -1084,12 +1430,17 @@
       "checkoutDocs": "Confira a documentação",
       "checkLogs": "Verifique os logs para mais detalhes",
       "tryAgain": "Tente novamente",
-      "loading": "Carregando"
+      "loading": "Carregando",
+      "show": "Mostrar",
+      "hide": "Esconder"
     },
     "here": "aqui",
     "iconPicker": {
       "label": "URL do ícone",
-      "header": "Digite o nome ou os objetos para filtrar os ícones... O Homarr pesquisará {countIcons} ícones para você."
+      "header": "Digite o nome ou os objetos para filtrar os ícones... O Homarr pesquisará {countIcons} ícones para você.",
+      "headerLoading": "Digite para pesquisar ícones…",
+      "noResults": "Nenhum ícone corresponde a \"{search}\".",
+      "error": "Não foi possível carregar os ícones."
     },
     "colorScheme": {
       "options": {
@@ -1141,6 +1492,7 @@
         "switchToDarkMode": "Alternar para o modo escuro",
         "switchToLightMode": "Alternar para o modo claro",
         "management": "Gerenciamento",
+        "docker": "",
         "preferences": "Suas preferências",
         "logout": "Sair",
         "login": "“Login”",
@@ -1249,7 +1601,8 @@
       "menu": {
         "label": {
           "create": "Nova categoria",
-          "changePosition": "Mudar de posição"
+          "changePosition": "Mudar de posição",
+          "settings": "Configurações"
         }
       },
       "openAllInNewTabs": {
@@ -1269,7 +1622,16 @@
     },
     "menu": {
       "label": {
-        "settings": "Configurações"
+        "settings": "Configurações",
+        "refresh": "",
+        "options": "",
+        "actions": ""
+      },
+      "status": {
+        "success": "",
+        "error": "",
+        "loading": "",
+        "idle": ""
       }
     },
     "create": {
@@ -1296,6 +1658,13 @@
     },
     "edit": {
       "title": "Editar item",
+      "tab": {
+        "widget": "Editar widget",
+        "app": "Editar aplicativo"
+      },
+      "app": {
+        "propagationNotice": "As alterações deste aplicativo serão aplicadas em todos os lugares em que for usado em todos os painéis."
+      },
       "advancedOptions": {
         "label": "Opções avançadas",
         "title": "Opções avançadas de itens"
@@ -1321,6 +1690,13 @@
     }
   },
   "widget": {
+    "integrationSelect": {
+      "configureIntegrationFirst": "Conecte uma integração primeiro",
+      "loading": "Carregando...",
+      "placeholder": "Selecionar uma opção",
+      "noResults": "Nenhum resultado encontrado",
+      "loadError": "Erro ao carregar opções"
+    },
     "app": {
       "name": "Aplicativo",
       "description": "Incorpora um aplicativo no quadro.",
@@ -1399,9 +1775,21 @@
         "openNewTab": {
           "label": "Abrir em nova guia"
         },
+        "withBorder": {
+          "label": "Mostrar bordas"
+        },
         "items": {
           "label": "Marcadores",
           "add": "Adicionar marcador"
+        }
+      }
+    },
+    "archiveTeamWarrior": {
+      "name": "ArchiveTeam Warrior",
+      "description": "Monitore o status do ArchiveTeam Warrior, projetos e trabalhos de arquivamento ativos.",
+      "option": {
+        "showBroadcastMessage": {
+          "label": "Mostrar mensagens de transmissão"
         }
       }
     },
@@ -1517,6 +1905,16 @@
         "customDateFormat": {
           "label": "Formato de data personalizado",
           "description": "Usar ISO 8601 para formatar datas (Isso sobrescreverá outras opções)"
+        },
+        "showWeather": {
+          "label": "",
+          "description": ""
+        },
+        "weatherLocation": {
+          "label": ""
+        },
+        "isWeatherFormatFahrenheit": {
+          "label": ""
         }
       }
     },
@@ -1545,6 +1943,9 @@
       "title": "Partidas {station}",
       "noStation": "Nenhuma estação selecionada",
       "option": {
+        "baseUrl": {
+          "label": ""
+        },
         "station": {
           "label": "Estação"
         }
@@ -1575,6 +1976,8 @@
         "clear": "Limpar formatação",
         "heading": "Cabeçalho {level}",
         "align": "Alinhar texto: {position}",
+        "directionLtr": "",
+        "directionRtl": "",
         "blockquote": "Bloco de Citação",
         "horizontalLine": "Linha horizontal",
         "bulletList": "Lista de marcadores",
@@ -1864,7 +2267,8 @@
         "sunrise": "Nascer do sol",
         "sunset": "Pôr do sol",
         "maxWindSpeed": "Velocidade máxima do vento: {maxWindSpeed} {unit}",
-        "maxWindGusts": "Rajadas máximas de vento: {maxWindGusts} {unit}"
+        "maxWindGusts": "Rajadas máximas de vento: {maxWindGusts} {unit}",
+        "humidity": ""
       },
       "kind": {
         "clear": "Limpar",
@@ -1922,6 +2326,11 @@
         },
         "fileSystem": {
           "label": "Mostrar informações do sistema de arquivos"
+        },
+        "visibleStorageVolumes": {
+          "label": "",
+          "description": "",
+          "placeholder": ""
         },
         "defaultTab": {
           "label": "Aba padrão"
@@ -2002,6 +2411,9 @@
       "name": "Estatísticas do Docker",
       "description": "Estatísticas dos seus contêineres (Esse widget só pode ser adicionado com privilégios de administrador)",
       "option": {
+        "columns": {
+          "label": ""
+        },
         "enableRowSorting": {
           "label": "Ativar ordenação de itens"
         },
@@ -2016,10 +2428,21 @@
         },
         "descendingDefaultSort": {
           "label": "Inverter ordenação"
+        },
+        "columnOrder": {
+          "label": ""
+        },
+        "columnWidths": {
+          "label": ""
         }
       },
       "error": {
-        "internalServerError": "Erro ao obter as estatísticas dos contêineres"
+        "internalServerError": "Erro ao obter as estatísticas dos contêineres",
+        "layoutSaveTitle": "",
+        "layoutSaveMessage": ""
+      },
+      "empty": {
+        "noContainers": ""
       }
     },
     "coolify": {
@@ -2053,6 +2476,43 @@
       },
       "instances": {
         "title": "Instâncias"
+      }
+    },
+    "vpn": {
+      "name": "VPN",
+      "description": "Visão geral das suas conexões VPN",
+      "serviceUnavailable": "VPN indisponível",
+      "option": {}
+    },
+    "ups": {
+      "name": "UPS",
+      "description": "Monitore o status de seus dispositivos UPS através de um servidor NUT",
+      "option": {
+        "showBattery": {
+          "label": "Exibir bateria"
+        },
+        "showLoad": {
+          "label": "Mostrar carga"
+        },
+        "showVoltage": {
+          "label": "Mostrar tensão"
+        }
+      },
+      "status": {
+        "online": "Online",
+        "onBattery": "Na bateria",
+        "lowBattery": "Bateria fraca",
+        "charging": "Carregando",
+        "unknown": "Desconhecido"
+      },
+      "field": {
+        "runtime": "Tempo de execução",
+        "load": "Carga",
+        "input": "Entrada",
+        "output": "Saída"
+      },
+      "error": {
+        "internalServerError": "Falha ao buscar dados do UPS"
       }
     },
     "tracearr": {
@@ -2276,13 +2736,33 @@
         "showOnlyPlaying": {
           "label": "Exibir apenas o que está sendo reproduzido",
           "description": "Desabilitar isso não funcionará para o Plex"
+        },
+        "showBitrate": {
+          "label": "",
+          "description": ""
+        },
+        "showLocation": {
+          "label": "",
+          "description": ""
         }
+      },
+      "footer": {
+        "streams": "",
+        "totalBitrate": ""
       },
       "items": {
         "currentlyPlaying": "Reproduzindo agora",
         "user": "Usuário",
         "name": "Nome",
         "id": "Id",
+        "status": "",
+        "directPlay": "",
+        "directStream": "",
+        "transcodeVideo": "",
+        "transcodeAudio": "",
+        "transcoding": "",
+        "paused": "",
+        "remaining": "",
         "metadata": {
           "title": "Estatísticas para nerds",
           "video": {
@@ -2301,6 +2781,238 @@
             "target": "Codec de destino"
           }
         }
+      }
+    },
+    "paperlessNgx": {
+      "name": "Paperless-ngx",
+      "description": "Visão geral do seu arquivo de documentos Paperless-ngx",
+      "documentsTotal": "Total de documentos",
+      "documentsInbox": "Caixa de entrada",
+      "correspondents": "Correspondentes",
+      "tags": "Tags",
+      "documentTypes": "Tipos de documento",
+      "inboxRatio": "Proporção da caixa de entrada",
+      "inbox": "caixa de entrada",
+      "total": "total",
+      "option": {
+        "showInboxRatio": {
+          "label": "Mostrar proporção da caixa de entrada",
+          "description": "Exibir a proporção de documentos na caixa de entrada em relação ao total na seção de destaque"
+        },
+        "showInboxRing": {
+          "label": "Mostrar anel da caixa de entrada",
+          "description": "Exibir um anel de progresso junto com a proporção da caixa de entrada"
+        },
+        "showDocumentsTotal": {
+          "label": "Mostrar total de documentos",
+          "description": "Mostrar o número total de documentos no seu arquivo"
+        },
+        "showDocumentsInbox": {
+          "label": "Mostrar contagem da caixa de entrada",
+          "description": "Mostrar o número de documentos não processados na caixa de entrada"
+        },
+        "showCorrespondents": {
+          "label": "Mostrar correspondentes",
+          "description": "Mostrar o número total de correspondentes"
+        },
+        "showTags": {
+          "label": "Mostrar tags",
+          "description": "Mostrar o número total de tags"
+        },
+        "showDocumentTypes": {
+          "label": "Mostrar tipos de documento",
+          "description": "Mostrar o número total de tipos de documento"
+        }
+      },
+      "error": {
+        "internalServerError": "Falha ao buscar dados do Paperless-ngx"
+      }
+    },
+    "patchmon": {
+      "name": "",
+      "description": "",
+      "title": "",
+      "totalHosts": "",
+      "hostsNeedingUpdates": "",
+      "securityUpdates": "",
+      "upToDateHosts": "",
+      "hostsWithSecurityUpdates": "",
+      "recentUpdates24h": "",
+      "totalOutdatedPackages": "",
+      "totalRepos": "",
+      "osDistribution": "",
+      "compliance": "",
+      "complianceRatio": "",
+      "lastUpdated": "",
+      "option": {
+        "showTotalHosts": {
+          "label": "",
+          "description": ""
+        },
+        "showHostsNeedingUpdates": {
+          "label": "",
+          "description": ""
+        },
+        "showSecurityUpdates": {
+          "label": "",
+          "description": ""
+        },
+        "showUpToDateHosts": {
+          "label": "",
+          "description": ""
+        },
+        "showHostsWithSecurityUpdates": {
+          "label": "",
+          "description": ""
+        },
+        "showRecentUpdates24h": {
+          "label": "",
+          "description": ""
+        },
+        "showTotalOutdatedPackages": {
+          "label": "",
+          "description": ""
+        },
+        "showTotalRepos": {
+          "label": "",
+          "description": ""
+        },
+        "enableThresholdColors": {
+          "label": "",
+          "description": ""
+        },
+        "useCustomThresholds": {
+          "label": "",
+          "description": ""
+        },
+        "thresholdMode": {
+          "option": {
+            "absolute": "",
+            "percent": ""
+          }
+        },
+        "hostsNeedingUpdatesThresholdMode": {
+          "label": "",
+          "description": ""
+        },
+        "hostsNeedingUpdatesWarningAt": {
+          "label": "",
+          "description": ""
+        },
+        "hostsNeedingUpdatesCriticalAt": {
+          "label": "",
+          "description": ""
+        },
+        "securityUpdatesThresholdMode": {
+          "label": "",
+          "description": ""
+        },
+        "securityUpdatesWarningAt": {
+          "label": "",
+          "description": ""
+        },
+        "securityUpdatesCriticalAt": {
+          "label": "",
+          "description": ""
+        },
+        "hostsWithSecurityUpdatesThresholdMode": {
+          "label": "",
+          "description": ""
+        },
+        "hostsWithSecurityUpdatesWarningAt": {
+          "label": "",
+          "description": ""
+        },
+        "hostsWithSecurityUpdatesCriticalAt": {
+          "label": "",
+          "description": ""
+        },
+        "upToDateHostsThresholdMode": {
+          "label": "",
+          "description": ""
+        },
+        "upToDateHostsWarningAt": {
+          "label": "",
+          "description": ""
+        },
+        "upToDateHostsCriticalAt": {
+          "label": "",
+          "description": ""
+        },
+        "totalOutdatedPackagesThresholdMode": {
+          "label": "",
+          "description": ""
+        },
+        "totalOutdatedPackagesWarningAt": {
+          "label": "",
+          "description": ""
+        },
+        "totalOutdatedPackagesCriticalAt": {
+          "label": "",
+          "description": ""
+        },
+        "showOsDistribution": {
+          "label": "",
+          "description": ""
+        },
+        "osDistributionLimit": {
+          "label": "",
+          "description": "",
+          "option": {
+            "3": "",
+            "5": "",
+            "10": "",
+            "all": ""
+          }
+        },
+        "showOsVersion": {
+          "label": "",
+          "description": ""
+        },
+        "showComplianceHero": {
+          "label": "",
+          "description": ""
+        },
+        "osDisplayMode": {
+          "label": "",
+          "description": "",
+          "option": {
+            "bars": "",
+            "donut": ""
+          }
+        }
+      },
+      "error": {
+        "internalServerError": ""
+      }
+    },
+    "bazarr": {
+      "name": "",
+      "description": "",
+      "episodes": "",
+      "movies": "",
+      "providers": "",
+      "status": "",
+      "option": {
+        "showMissingEpisodes": {
+          "label": "",
+          "description": ""
+        },
+        "showMissingMovies": {
+          "label": "",
+          "description": ""
+        },
+        "showProviderIssues": {
+          "label": "",
+          "description": ""
+        },
+        "showHealthIssues": {
+          "label": "",
+          "description": ""
+        }
+      },
+      "error": {
+        "internalServerError": ""
       }
     },
     "immich-serverStats": {
@@ -2331,6 +3043,7 @@
     },
     "immich-albumCarousel": {
       "name": "Álbum do Immich",
+      "allPhotos": "",
       "option": {
         "albumId": {
           "label": "ID do Álbum",
@@ -2343,10 +3056,13 @@
         "showPhotoInfo": {
           "label": "Mostrar informações da foto",
           "description": "Exibir a data da imagem e o índice atual na parte inferior da apresentação"
+        },
+        "randomizePhotos": {
+          "label": "",
+          "description": ""
         }
       },
       "description": "Apresentação de imagens em seu álbum Imich",
-      "noAlbumSelected": "Nenhum álbum selecionado, edite o widget e escolha um álbum",
       "noPhotos": "Nenhuma foto neste álbum"
     },
     "downloads": {
@@ -2389,11 +3105,20 @@
         "limitPerIntegration": {
           "label": "Limitar itens por integração",
           "description": "Isso limitará o número de itens exibidos por integração, não globalmente"
+        },
+        "columnOrder": {
+          "label": ""
+        },
+        "columnWidths": {
+          "label": ""
         }
       },
       "errors": {
         "noColumns": "Selecionar Colunas em Itens",
-        "noCommunications": "Não foi possível carregar dados da integração"
+        "noCommunications": "Não foi possível carregar dados da integração",
+        "noItems": "",
+        "actionFailed": "",
+        "actionFailedMessage": ""
       },
       "items": {
         "actions": {
@@ -2416,7 +3141,8 @@
           "detailsTitle": "Índice atual no cliente"
         },
         "id": {
-          "columnTitle": "Id"
+          "columnTitle": "Id",
+          "detailsTitle": ""
         },
         "integration": {
           "columnTitle": "Integração"
@@ -2450,7 +3176,8 @@
         },
         "time": {
           "columnTitle": "Tempo de conclusão",
-          "detailsTitle": "Tempo desde/até a conclusão"
+          "detailsTitle": "Tempo desde/até a conclusão",
+          "eta": ""
         },
         "type": {
           "columnTitle": "Tipo",
@@ -2494,7 +3221,23 @@
           }
         }
       },
-      "globalRatio": "Proporção global"
+      "globalRatio": "Proporção global",
+      "contextMenu": {
+        "copyName": "",
+        "copyId": "",
+        "clearFilters": ""
+      },
+      "footer": {
+        "filter": ""
+      },
+      "stats": {
+        "show": "",
+        "hide": "",
+        "overallProgress": "",
+        "totalSize": "",
+        "clients": ""
+      },
+      "disconnected": ""
     },
     "mediaReleases": {
       "name": "Lançamentos de mídias",
@@ -2531,6 +3274,12 @@
       "option": {
         "linksTargetNewTab": {
           "label": "Abrir links em uma nova guia"
+        },
+        "statusFilter": {
+          "label": ""
+        },
+        "recentDays": {
+          "label": ""
         }
       },
       "pending": {
@@ -2638,6 +3387,35 @@
         }
       }
     },
+    "mediaMissing": {
+      "name": "",
+      "description": "",
+      "option": {
+        "showMissing": {
+          "label": ""
+        },
+        "showQueued": {
+          "label": ""
+        },
+        "pageSize": {
+          "label": ""
+        }
+      },
+      "tab": {
+        "missing": "",
+        "queued": ""
+      },
+      "type": {
+        "movie": "",
+        "episode": ""
+      },
+      "empty": {
+        "missing": "",
+        "queued": "",
+        "noTabsEnabled": ""
+      },
+      "timeLeft": ""
+    },
     "rssFeed": {
       "name": "Feeds RSS",
       "description": "Monitora e exibe um ou mais feeds RSS, ATOM ou JSON genéricos",
@@ -2707,6 +3485,9 @@
           "provider": {
             "label": "Provedor"
           },
+          "providerUrl": {
+            "label": ""
+          },
           "identifier": {
             "label": "Identificador",
             "placeholder": "Nome ou Proprietário/Nome"
@@ -2754,6 +3535,13 @@
           "noProvider": {
             "label": "Nenhum provedor",
             "tooltip": "O provedor não pôde ser analisado, defina-o manualmente após importar as imagens"
+          },
+          "tokens": {
+            "label": "",
+            "token": "",
+            "configured": "",
+            "notConfigured": "",
+            "save": ""
           }
         }
       },
@@ -2776,8 +3564,9 @@
           "invalidIdentifier": "Identificador inválido",
           "noMatchingVersion": "Nenhuma versão correspondente encontrada",
           "noReleasesFound": "Nenhum lançamento encontrado",
-          "noProviderSeleceted": "Nenhum provedor selecionado",
-          "noProviderResponse": "Nenhuma resposta do provedor"
+          "noProviderSelected": "",
+          "noProviderResponse": "Nenhuma resposta do provedor",
+          "unexpected": ""
         }
       }
     },
@@ -2870,7 +3659,11 @@
       "name": "Notificações",
       "description": "Exibe histórico de notificações de uma integração",
       "noItems": "Nenhuma notificação para exibir.",
-      "option": {}
+      "option": {
+        "hideLogos": {
+          "label": ""
+        }
+      }
     },
     "speedtestTracker": {
       "name": "Speedtest Tracker",
@@ -2909,6 +3702,133 @@
       "noSectionsEnabled": "Habilite ao menos uma seção nas opções do widget.",
       "error": {
         "internalServerError": "Falha ao obter dados do Speedtest"
+      }
+    },
+    "uptimeKuma": {
+      "name": "Uptime Kuma",
+      "description": "Monitore estatísticas de tempo de atividade da sua página de status do Uptime Kuma",
+      "option": {
+        "showAverageUptime": {
+          "label": "Mostrar tempo de atividade médio",
+          "description": "Exibir a porcentagem combinada de tempo de atividade médio nas últimas 24 horas"
+        },
+        "showUptimeRing": {
+          "label": "Mostrar anel de tempo de atividade",
+          "description": "Exibir um anel de progresso junto com o valor médio de tempo de atividade"
+        },
+        "showTotalMonitors": {
+          "label": "Mostrar total de monitores",
+          "description": "Exibir o número total de monitores configurados"
+        },
+        "showUpCount": {
+          "label": "Mostrar contagem de ativos",
+          "description": "Exibir quantos monitores estão ativos no momento"
+        },
+        "showDownCount": {
+          "label": "Mostrar contagem de inativos",
+          "description": "Exibir quantos monitores estão inativos no momento"
+        },
+        "showPausedCount": {
+          "label": "Mostrar contagem de pausados",
+          "description": "Exibir quantos monitores estão pausados no momento"
+        }
+      },
+      "averageUptime": "Tempo de atividade médio (24h)",
+      "stats": {
+        "totalMonitors": "Total de monitores",
+        "upCount": "Ativo",
+        "downCount": "Inativo",
+        "pausedCount": "Pausado"
+      },
+      "error": {
+        "internalServerError": "Falha ao buscar dados de tempo de atividade"
+      }
+    },
+    "traefik": {
+      "name": "",
+      "description": "",
+      "option": {
+        "showTcp": {
+          "label": ""
+        },
+        "showUdp": {
+          "label": ""
+        },
+        "showEntryPoints": {
+          "label": ""
+        }
+      },
+      "instances": "",
+      "versionUnknown": "",
+      "summary": {
+        "routers": "",
+        "entryPoints": ""
+      },
+      "resource": {
+        "routers": "",
+        "services": "",
+        "middlewares": ""
+      },
+      "status": {
+        "healthy": "",
+        "errors": "",
+        "warnings": ""
+      },
+      "error": {
+        "internalServerError": ""
+      }
+    },
+    "audioStats": {
+      "name": "Estatísticas de áudio",
+      "description": "Estatísticas de biblioteca e reprodução do Navidrome ou Audiobookshelf",
+      "option": {
+        "showArtists": {
+          "label": "Mostrar artistas",
+          "description": "Mostrar o número total de artistas na sua biblioteca de música (Navidrome)"
+        },
+        "showAlbums": {
+          "label": "Mostrar álbuns",
+          "description": "Mostrar o número total de álbuns na sua biblioteca de música (Navidrome)"
+        },
+        "showSongs": {
+          "label": "Mostrar músicas",
+          "description": "Mostrar o número total de músicas na sua biblioteca de música (Navidrome)"
+        },
+        "showLibraryCount": {
+          "label": "Mostrar contagem de bibliotecas",
+          "description": "Mostrar o número de bibliotecas na sua instância (Audiobookshelf)"
+        },
+        "showAudiobooks": {
+          "label": "Mostrar audiolivros",
+          "description": "Mostrar o número total de audiolivros em todas as bibliotecas (Audiobookshelf)"
+        },
+        "showPodcasts": {
+          "label": "Mostrar podcasts",
+          "description": "Mostrar o número total de podcasts em todas as bibliotecas (Audiobookshelf)"
+        },
+        "showListeningTime": {
+          "label": "Mostrar tempo de audição",
+          "description": "Mostrar seu tempo total de audição (Audiobookshelf)"
+        },
+        "showActiveSessions": {
+          "label": "Mostrar sessões ativas",
+          "description": "Mostrar o número de sessões de reprodução ativas no momento (Audiobookshelf)"
+        },
+        "compactMode": {
+          "label": "Modo compacto",
+          "description": "Usar um layout mais denso com blocos menores, ideal para widgets pequenos"
+        }
+      },
+      "artists": "Artistas",
+      "albums": "Álbuns",
+      "songs": "Músicas",
+      "libraryCount": "Bibliotecas",
+      "audiobooks": "Audiolivros",
+      "podcasts": "Podcasts",
+      "listeningTime": "Tempo de audição",
+      "activeSessions": "Sessões ativas",
+      "error": {
+        "internalServerError": "Falha ao buscar dados de estatísticas de áudio"
       }
     },
     "systemResources": {
@@ -2970,10 +3890,286 @@
         },
         "showBackgroundBar": {
           "label": "Exibir barra de uso em segundo plano"
+        },
+        "visibleStorageVolumes": {
+          "label": "",
+          "description": "",
+          "placeholder": ""
         }
       },
       "status": {
         "unhealthy": "Não saudável"
+      }
+    },
+    "customApi": {
+      "name": "API personalizada",
+      "description": "Exibir dados de qualquer API externa com configuração personalizada.",
+      "option": {
+        "definitionId": {
+          "label": "ID de definição"
+        },
+        "refreshInterval": {
+          "label": "Intervalo de atualização",
+          "description": "Com que frequência reobter dados da API (em segundos)"
+        }
+      },
+      "noDefinition": "Nenhuma definição selecionada",
+      "definitionNotFound": "Definição do widget não encontrada. Ela pode ter sido excluída.",
+      "noDisplayOutput": "Nenhuma saída de exibição",
+      "executeConfirm": "Tem certeza de que deseja executar esta ação?",
+      "executing": "Executando...",
+      "executeSuccess": "Ação executada com sucesso",
+      "executeFailed": "Ação falhou. Verifique a configuração do widget."
+    },
+    "beszelSystemTable": {
+      "name": "Sistemas Beszel (Tabela)",
+      "description": "Visualização em tabela de todos os sistemas monitorados pelo Beszel com colunas classificáveis e indicadores de status",
+      "option": {
+        "statusFilter": {
+          "label": "Filtro de status"
+        },
+        "sortBy": {
+          "label": "Ordenar por"
+        },
+        "sortDirection": {
+          "label": "Direção da ordenação"
+        },
+        "showCpu": {
+          "label": "Mostrar CPU"
+        },
+        "showMemory": {
+          "label": "Mostrar memória"
+        },
+        "showDisk": {
+          "label": "Mostrar disco"
+        },
+        "showGpu": {
+          "label": "Mostrar GPU"
+        },
+        "showLoadAvg": {
+          "label": "Mostrar carga média"
+        },
+        "showNet": {
+          "label": "Mostrar rede"
+        },
+        "showTemp": {
+          "label": "Mostrar temperatura"
+        },
+        "showBattery": {
+          "label": "Mostrar bateria"
+        },
+        "showServices": {
+          "label": "Mostrar serviços"
+        },
+        "showUptime": {
+          "label": "Mostrar tempo de atividade"
+        },
+        "showAgent": {
+          "label": "Mostrar versão do agente"
+        },
+        "columnOrder": {
+          "label": ""
+        },
+        "columnWidths": {
+          "label": ""
+        }
+      },
+      "noRecords": "Nenhum sistema encontrado",
+      "error": {
+        "internalServerError": "Não foi possível conectar ao Beszel. Verifique as configurações de integração.",
+        "layoutSaveTitle": "",
+        "layoutSaveMessage": ""
+      },
+      "column": {
+        "system": "Sistema",
+        "cpu": "CPU",
+        "memory": "Memória",
+        "disk": "Disco",
+        "gpu": "GPU",
+        "loadAvg": "Carga média",
+        "net": "Rede",
+        "temp": "Temperatura",
+        "battery": "Bateria",
+        "services": "Serviços",
+        "uptime": "Tempo de atividade",
+        "agent": "Agente"
+      }
+    },
+    "beszelSystemGrid": {
+      "name": "Sistemas Beszel (Grade)",
+      "description": "Visualização em grade de cartões de todos os sistemas monitorados pelo Beszel com métricas em tempo real",
+      "option": {
+        "statusFilter": {
+          "label": "Filtro de status"
+        },
+        "showCpu": {
+          "label": "Mostrar CPU"
+        },
+        "showMemory": {
+          "label": "Mostrar memória"
+        },
+        "showDisk": {
+          "label": "Mostrar disco"
+        },
+        "showGpu": {
+          "label": "Mostrar GPU"
+        },
+        "showLoadAvg": {
+          "label": "Mostrar carga média"
+        },
+        "showNet": {
+          "label": "Mostrar rede"
+        },
+        "showTemp": {
+          "label": "Mostrar temperatura"
+        },
+        "showBattery": {
+          "label": "Mostrar bateria"
+        },
+        "showServices": {
+          "label": "Mostrar serviços"
+        },
+        "showUptime": {
+          "label": "Mostrar tempo de atividade"
+        },
+        "showAgent": {
+          "label": "Mostrar versão do agente"
+        }
+      },
+      "error": {
+        "internalServerError": "Não foi possível conectar ao Beszel. Verifique as configurações de integração."
+      },
+      "empty": {
+        "noSystems": "Nenhum sistema encontrado"
+      },
+      "metric": {
+        "cpu": "CPU",
+        "memory": "Memória",
+        "disk": "Disco",
+        "gpu": "GPU",
+        "loadAvg": "Carga média",
+        "net": "Rede",
+        "temp": "Temperatura",
+        "battery": "Bateria",
+        "services": "Serviços",
+        "uptime": "Tempo de atividade",
+        "agent": "Agente"
+      }
+    },
+    "beszelAlerts": {
+      "name": "Alertas Beszel",
+      "description": "Veja as configurações e o histórico de alertas do Beszel",
+      "option": {
+        "showHistory": {
+          "label": "Mostrar histórico de alertas"
+        },
+        "maxHistoryItems": {
+          "label": "Máximo de itens no histórico"
+        }
+      },
+      "empty": "Nenhum alerta configurado",
+      "error": {
+        "internalServerError": "Não foi possível conectar ao Beszel. Verifique as configurações de integração."
+      },
+      "history": "Histórico",
+      "resolved": "Resolvido",
+      "status": {
+        "triggered": "Acionado",
+        "ok": "OK"
+      }
+    },
+    "beszelSystemStats": {
+      "name": "Estatísticas do sistema Beszel",
+      "description": "Gráficos de série temporal para métricas de CPU, memória, disco, rede e contêineres Docker",
+      "option": {
+        "systemId": {
+          "label": "Sistema",
+          "description": "Selecione um sistema Beszel para exibir estatísticas"
+        },
+        "timePeriod": {
+          "label": "Período de tempo"
+        },
+        "showCpu": {
+          "label": "Mostrar gráfico de CPU"
+        },
+        "showMemory": {
+          "label": "Mostrar gráfico de memória"
+        },
+        "showDisk": {
+          "label": "Mostrar gráfico de disco"
+        },
+        "showDiskIO": {
+          "label": "Mostrar gráfico de E/S de disco"
+        },
+        "showNetwork": {
+          "label": "Mostrar gráfico de rede"
+        },
+        "showDockerCpu": {
+          "label": "Mostrar gráfico de CPU do Docker"
+        },
+        "showDockerMemory": {
+          "label": "Mostrar gráfico de memória do Docker"
+        },
+        "showDockerNetwork": {
+          "label": "Mostrar gráfico de rede do Docker"
+        }
+      },
+      "selectSystem": "Selecionar sistema",
+      "empty": {
+        "noSystems": "Nenhum sistema encontrado"
+      },
+      "error": {
+        "internalServerError": "Não foi possível conectar ao Beszel. Verifique as configurações de integração.",
+        "liveConnectionFailed": "Falha na conexão ao vivo. Sua instância Beszel pode não oferecer suporte a streaming em tempo real.",
+        "switchToHistorical": "Mudar para visualização histórica",
+        "systemNotFound": "Sistema selecionado não encontrado. Escolha um sistema diferente."
+      },
+      "chart": {
+        "cpu": {
+          "title": "Uso da CPU",
+          "subtitle": "Utilização média da CPU em todo o sistema",
+          "series": "CPU"
+        },
+        "memory": {
+          "title": "Uso da memória",
+          "subtitle": "Utilização precisa no momento registrado",
+          "series": "Usado",
+          "cache": "Cache/Buffers"
+        },
+        "disk": {
+          "title": "Uso do disco",
+          "subtitle": "",
+          "series": ""
+        },
+        "diskIO": {
+          "title": "E/S de disco",
+          "subtitle": "Taxa de transferência do sistema de arquivos raiz",
+          "read": "Leitura",
+          "write": "Escrita"
+        },
+        "storage": {
+          "title": "",
+          "subtitle": "",
+          "series": ""
+        },
+        "network": {
+          "title": "Largura de banda",
+          "subtitle": "Tráfego de rede das interfaces públicas",
+          "sent": "Enviado",
+          "recv": "Recebido"
+        },
+        "dockerCpu": {
+          "title": "Uso de CPU do Docker",
+          "subtitle": "Utilização média da CPU dos contêineres"
+        },
+        "dockerMemory": {
+          "title": "Uso de memória do Docker",
+          "subtitle": "Uso de memória dos contêineres Docker"
+        },
+        "dockerNetwork": {
+          "title": "E/S de rede do Docker",
+          "subtitle": "Tráfego de rede dos contêineres Docker"
+        }
       }
     }
   },
@@ -3348,12 +4544,18 @@
       "title": "Não encontrado",
       "text": "Não foi possível encontrar o recurso solicitado"
     },
+    "error": {
+      "title": "Não foi possível carregar esta página",
+      "text": "",
+      "digest": ""
+    },
     "navbar": {
       "items": {
         "home": "Início",
         "boards": "Placas",
         "apps": "Aplicativos",
         "integrations": "Integrações",
+        "customWidgets": "Widgets Personalizados",
         "searchEngies": "Mecanismos de busca",
         "medias": "Mídias",
         "users": {
@@ -3372,7 +4574,8 @@
             "logs": "Logs",
             "api": "API",
             "certificates": "Certificados",
-            "tasks": "Tarefas"
+            "tasks": "Tarefas",
+            "backup": "Backup"
           }
         },
         "settings": "Configurações",
@@ -3381,7 +4584,7 @@
           "items": {
             "documentation": "Documentação",
             "submitIssue": "Enviar um problema",
-            "discord": "Discórdia da comunidade",
+            "discord": "Discord da comunidade",
             "sourceCode": "Código-fonte"
           }
         },
@@ -3452,6 +4655,9 @@
           "public": "Este quadro é publico",
           "private": "Este quadro é privado"
         },
+        "noResults": {
+          "title": "Nenhum painel ainda"
+        },
         "modal": {
           "createBoard": {
             "field": {
@@ -3482,7 +4688,24 @@
               },
               "search": "Buscar",
               "firstDayOfWeek": "Primeiro dia da semana",
-              "accessibility": "Acessibilidade"
+              "accessibility": "Acessibilidade",
+              "onboardingTours": {
+                "title": "Tours de integração",
+                "description": "Redefina os tours de integração para vê-los novamente na sua próxima visita à área de gerenciamento ou ao painel.",
+                "reset": "Redefinir tours de integração",
+                "resetSuccess": {
+                  "title": "Tours redefinidos",
+                  "message": "Os tours de integração serão exibidos novamente na sua próxima visita"
+                },
+                "status": {
+                  "completed": "Concluído",
+                  "notStarted": "Não iniciado"
+                },
+                "name": {
+                  "management": "Gerenciamento",
+                  "dashboard": "Painel"
+                }
+              }
             }
           },
           "security": {
@@ -3608,18 +4831,6 @@
             "general": {
               "title": "Enviar análises anônimas",
               "text": "O Homarr enviará análises anonimizadas usando o software de código aberto Umami. Quando habilitado, coletamos: versão do Homarr, tipo de banco de dados (MySQL/PostgreSQL/SQLite), status Docker/Kubernetes, métodos de autenticação habilitados e a quantidade de cada recurso. Todos os dados são anônimos e agregados - nenhuma informação pessoal, URLs, nomes ou dados identificáveis são coletados. Isso ajuda nossa equipe de código aberto a entender padrões de uso e priorizar o desenvolvimento."
-            },
-            "widgetData": {
-              "title": "Dados de widgets",
-              "text": "Envia quais widgets (e suas quantidades) você configurou. Não inclui URLs, nomes ou quaisquer outros dados."
-            },
-            "integrationData": {
-              "title": "Dados de integrações",
-              "text": "Envia quais integrações (e suas quantidades) você configurou. Não inclui URLs, nomes ou quaisquer outros dados."
-            },
-            "usersData": {
-              "title": "Dados dos usuários",
-              "text": "Envia a quantidade de usuários e se você ativou SSO"
             }
           },
           "crawlingAndIndexing": {
@@ -3704,86 +4915,14 @@
             "disabled": "Desabilitado"
           },
           "job": {
-            "minecraftServerStatus": {
-              "label": "Status do servidor Minecraft"
-            },
-            "timetable": {
-              "label": "Horários"
-            },
             "iconsUpdater": {
               "label": "Atualizador de Ícones"
             },
             "analytics": {
               "label": "Análises"
             },
-            "smartHomeEntityState": {
-              "label": "Estado de Entidade do Smart Home"
-            },
             "ping": {
               "label": "Pings"
-            },
-            "mediaServer": {
-              "label": "Servidor de Mídia"
-            },
-            "mediaOrganizer": {
-              "label": "Organizadores de Mídia"
-            },
-            "downloads": {
-              "label": "Downloads"
-            },
-            "mediaRequestStats": {
-              "label": "Estatísticas de solicitações de mídia"
-            },
-            "mediaRequestList": {
-              "label": "Lista de solicitações de mídia"
-            },
-            "rssFeeds": {
-              "label": "Feeds RSS"
-            },
-            "indexerManager": {
-              "label": "Gerenciador de Indexadores"
-            },
-            "healthMonitoring": {
-              "label": "Monitoramento de saúde"
-            },
-            "dnsHole": {
-              "label": "Dados do DNS Hole"
-            },
-            "updateChecker": {
-              "label": "Verificador de atualizações"
-            },
-            "mediaTranscoding": {
-              "label": "Transcodificação de mídia"
-            },
-            "networkController": {
-              "label": "Controlador de rede"
-            },
-            "refreshNotifications": {
-              "label": "Atualizador de notificações"
-            },
-            "dockerContainers": {
-              "label": "Contêineres do Docker"
-            },
-            "firewallCpu": {
-              "label": "CPU do Firewall"
-            },
-            "firewallMemory": {
-              "label": "Memória do Firewall"
-            },
-            "firewallVersion": {
-              "label": "Versão do Firewall"
-            },
-            "firewallInterfaces": {
-              "label": "Interfaces de firewall"
-            },
-            "weather": {
-              "label": "Clima"
-            },
-            "tracearr": {
-              "label": "Tracearr"
-            },
-            "umamiActiveVisitors": {
-              "label": "Visitantes Ativos do Umami"
             }
           },
           "interval": {
@@ -3890,7 +5029,215 @@
                   "actions": "Ações"
                 }
               }
+            },
+            "mcp": {
+              "label": "IA / MCP",
+              "title": "Integração com IA",
+              "subtitle": "Servidor Model Context Protocol (MCP)",
+              "description": "Conecte assistentes de IA à sua instância do Homarr e controle todo o seu homelab por meio de linguagem natural. Pesquise e solicite mídia no Overseerr, gerencie contêineres Docker, alterne o Pi-hole, verifique a integridade do servidor, controle dispositivos do Home Assistant e muito mais — tudo do seu assistente de IA.",
+              "noApiKey": "Você precisa de uma chave de API para autenticar no servidor MCP.",
+              "createApiKeyButton": "Criar chave de API",
+              "endpoint": {
+                "title": "Endpoint MCP"
+              },
+              "authentication": {
+                "title": "Autenticação",
+                "intro": "Você pode autenticar no seu servidor MCP usando uma chave de API ou OAuth. Ambos os métodos concedem o mesmo nível de acesso.",
+                "apiKey": {
+                  "title": "Chave de API (manual)",
+                  "description": "Passe o cabeçalho ApiKey com sua chave de API completa na configuração do cliente MCP."
+                },
+                "oauth": {
+                  "title": "OAuth (login via navegador)",
+                  "description": "Clientes que suportam OAuth (como Claude Code, opencode ou Cursor) podem autenticar abrindo uma janela do navegador. Execute o comando de autenticação no seu cliente, faça login no Homarr pelo navegador e você estará conectado — uma chave de API é criada automaticamente.",
+                  "hint": "Tokens OAuth aparecem como chaves de API regulares na aba de Autenticação. Você pode revogá-los a qualquer momento."
+                },
+                "permissions": "A chave de API determina as permissões disponíveis para a IA — ela opera com o mesmo nível de acesso do proprietário da chave."
+              },
+              "clientConfig": {
+                "title": "Configuração do cliente",
+                "streamableHttp": {
+                  "recommended": "Recomendado",
+                  "title": "HTTP Streamable",
+                  "worksWith": "Funciona com: Cursor, Claude Desktop, VS Code Copilot, Windsurf, Claude Code",
+                  "addToConfig": "Adicione ao arquivo de configuração do seu cliente MCP:",
+                  "cursor": "{name}: {file} no seu projeto ou configurações globais",
+                  "claudeDesktop": "{name}: {file}",
+                  "claudeCode": "{name}: {file} ou use {command}",
+                  "vsCodeCopilot": "{name}: {file} nas configurações do workspace",
+                  "replaceHint": "Substitua o placeholder pela chave de API que você recebeu ao criá-la."
+                },
+                "stdio": {
+                  "title": "stdio (clientes legados via ponte mcp-remote)",
+                  "description": "Para clientes que suportam apenas transporte stdio. Requer {dependency} (Node.js) instalado localmente:"
+                }
+              },
+              "testConnection": {
+                "title": "Teste sua conexão",
+                "description": "Execute isso no seu terminal para verificar se o endpoint está acessível e sua chave de API funciona:",
+                "hint": "Uma resposta bem-sucedida retorna as capacidades do servidor MCP. Se você vir um erro, verifique a resposta JSON para obter dicas."
+              },
+              "availableTools": {
+                "title": "Ferramentas disponíveis",
+                "description": "{count} ferramentas disponíveis. Expanda uma categoria para ver as ferramentas individuais e suas descrições.",
+                "columnType": "Tipo",
+                "columnName": "Ferramenta",
+                "columnDescription": "Descrição"
+              },
+              "troubleshooting": {
+                "title": "Solução de problemas",
+                "missingHeader": {
+                  "title": "\"Cabeçalho ApiKey ausente\"",
+                  "description": "Seu cliente não está enviando o cabeçalho {header}. Verifique se a seção {section} em sua configuração MCP está correta. Alguns clientes exigem reinicialização após alterações de configuração."
+                },
+                "invalidFormat": {
+                  "title": "\"Formato inválido de ApiKey\"",
+                  "description": "Certifique-se de copiar a chave API completa, não apenas parte dela."
+                },
+                "invalidKey": {
+                  "title": "\"Chave API inválida\"",
+                  "description": "O ID da chave não foi encontrado ou o token está incorreto. As chaves API só podem ser visualizadas uma vez ao serem criadas. Se você a perdeu, exclua a chave antiga e crie uma nova."
+                },
+                "connectionRefused": {
+                  "title": "Conexão recusada / tempo limite",
+                  "description": "Certifique-se de que a URL seja acessível a partir do seu cliente de IA. Se o Homarr estiver atrás de um proxy reverso ou em Docker, use a URL externa (não {localhost}). Verifique se a porta está correta (padrão: 7575 para Docker)."
+                },
+                "toolsNotAppearing": {
+                  "title": "Ferramentas não estão aparecendo",
+                  "description": "Algumas ferramentas exigem integrações específicas configuradas (por exemplo, Docker, Overseerr). A lista de ferramentas depende do que está disponível em sua instância do Homarr."
+                }
+              },
+              "copy": "Copiar",
+              "oneClick": {
+                "title": "Instalar em um clique",
+                "subtitle": "Usa OAuth — autentique-se no navegador no primeiro uso",
+                "vsCode": "Instalar no VS Code",
+                "cursor": "Instalar no Cursor",
+                "copyUrl": "Copiar URL MCP",
+                "copied": "Copiado!",
+                "copyHint": "Para ChatGPT, Claude Code ou qualquer cliente MCP",
+                "manualConfig": "Configuração manual"
+              }
             }
+          }
+        },
+        "backup": {
+          "title": "Backup completo do banco de dados",
+          "metaTitle": "Backup e restauração",
+          "export": {
+            "title": "Exportar banco de dados",
+            "description": "Baixe um backup completo do seu banco de dados SQLite, incluindo todas as configurações, usuários, quadros e segredos de integração criptografados. O backup é empacotado como um arquivo ZIP com a chave de criptografia e metadados.",
+            "button": "Baixar backup",
+            "error": "Falha na exportação",
+            "confirm": {
+              "title": "Exportação de dados sensíveis",
+              "warningTitle": "Esta exportação contém todo o seu banco de dados.",
+              "warningBody": "O backup inclui todos os usuários, segredos de integração (criptografados), chaves de API, configurações de quadro e dados de aplicativos. Armazene o arquivo exportado com segurança e não o compartilhe.",
+              "typePrompt": "Digite \"{phrase}\" para continuar",
+              "submit": "Exportar banco de dados",
+              "cancel": "Cancelar"
+            }
+          },
+          "import": {
+            "title": "Restaurar banco de dados",
+            "description": "Envie um backup ZIP exportado anteriormente para restaurar seu banco de dados. Isso substituirá todo o seu banco de dados. Se o backup foi criado com uma chave de criptografia diferente, os segredos serão automaticamente recriptografados.",
+            "warning": "Restaurar um backup substituirá completamente seu banco de dados atual e reiniciará o aplicativo. Esta ação não pode ser desfeita.",
+            "dropzone": {
+              "title": "Solte seu arquivo ZIP de backup aqui ou clique para navegar",
+              "description": "Somente arquivos .zip de um backup SQLite do Homarr são aceitos"
+            },
+            "changeFile": "Alterar arquivo",
+            "button": "Restaurar banco de dados",
+            "success": {
+              "title": "Restauração concluída",
+              "message": "O banco de dados foi restaurado com sucesso. O aplicativo está reiniciando..."
+            },
+            "error": "Falha na importação"
+          },
+          "preview": {
+            "title": "Conteúdo do backup",
+            "exported": "Exportado em {date}",
+            "loading": "Analisando arquivo de backup...",
+            "errorTitle": "Erro de visualização",
+            "entity": "Entidade",
+            "count": "Contagem",
+            "boards": "Quadros",
+            "entities": {
+              "board": "Quadros",
+              "user": "Usuários",
+              "app": "Aplicativos",
+              "integration": "Integrações",
+              "item": "Widgets",
+              "media": "Mídia",
+              "search_engine": "Mecanismos de busca"
+            },
+            "analyzeError": "Falha ao analisar arquivo de backup",
+            "invalidMissingMetadata": "Backup inválido: metadata.json ausente",
+            "invalidMissingDb": "Backup inválido: db.sqlite ausente"
+          },
+          "restore": {
+            "dropzone": {
+              "title": "Solte seu arquivo ZIP de backup aqui",
+              "description": "Aceita arquivos .zip de um backup SQLite do Homarr (máx. 256 MB)"
+            },
+            "analyzing": "Analisando backup...",
+            "changeFile": "Alterar arquivo",
+            "continueToRestore": "Continuar para restauração",
+            "tryAgain": "Tente novamente",
+            "analysisError": "Erro de análise",
+            "preview": {
+              "title": "Conteúdo do backup",
+              "exported": "Exportado em {date}",
+              "entity": "Entidade",
+              "count": "Contagem",
+              "boards": "Quadros",
+              "entities": {
+                "board": "Quadros",
+                "user": "Usuários",
+                "app": "Aplicativos",
+                "integration": "Integrações",
+                "item": "Widgets",
+                "media": "Mídia",
+                "search_engine": "Mecanismos de busca"
+              },
+              "migrationsApplied": "{count} migração aplicada",
+              "migrationsAppliedPlural": "{count} migrações aplicadas",
+              "migrationsOlderVersion": "Este backup era de uma versão mais antiga do Homarr. {count} migração de esquema foi aplicada para atualizá-lo.",
+              "migrationsOlderVersionPlural": "Este backup era de uma versão mais antiga do Homarr. {count} migrações de esquema foram aplicadas para atualizá-lo.",
+              "migrationsUpToDate": "Esquema do banco de dados está atualizado ({count} migrações aplicadas)",
+              "upToDate": "Atualizado",
+              "migrationsPending": "{count, plural, one {# pendente} other {# pendentes}}"
+            },
+            "migration": {
+              "title": "Aplicando migrações ({current}/{total})",
+              "migrationLabel": "Migração {index}"
+            },
+            "confirm": {
+              "title": "Ação destrutiva",
+              "warningTitle": "Isso substituirá permanentemente todo o seu banco de dados.",
+              "warningBody": "Todos os quadros, usuários, aplicativos, integrações, configurações e sessões atuais serão perdidos. Esta ação não pode ser desfeita. O aplicativo será reiniciado após a restauração.",
+              "typePrompt": "Digite \"{phrase}\" para continuar",
+              "cancel": "Cancelar",
+              "submit": "Restaurar banco de dados"
+            },
+            "progress": {
+              "title": "Restaurando banco de dados...",
+              "extracting": "Extraindo arquivo de backup",
+              "migrating": "Aplicando migrações do banco de dados",
+              "encrypting": "Recriptografando segredos de integração",
+              "swapping": "Substituindo arquivo do banco de dados",
+              "restarting": "Reiniciando servidor"
+            },
+            "complete": {
+              "title": "Restauração concluída",
+              "message": "O banco de dados foi restaurado com sucesso. O servidor está reiniciando — atualize a página em alguns segundos."
+            },
+            "failed": {
+              "title": "Falha na restauração"
+            },
+            "invalidMissingMetadata": "Backup inválido: metadata.json ausente",
+            "invalidMissingDb": "Backup inválido: db.sqlite ausente",
+            "analyzeError": "Falha ao analisar backup"
           }
         }
       },
@@ -3937,9 +5284,14 @@
     "title": "Contêineres",
     "table": {
       "updated": "Atualizado em {when}",
+      "refresh": {
+        "lastUpdated": ""
+      },
       "search": "Buscar {count} contêineres",
       "selected": "{selectCount} de {totalCount} contêineres selecionados",
-      "footer": "Total de contêineres: {count}"
+      "footer": "Total de contêineres: {count}",
+      "totalCpu": "CPU total: {cpu}%",
+      "totalMemory": "Memória total: {memory}"
     },
     "field": {
       "name": {
@@ -3977,6 +5329,12 @@
     },
     "action": {
       "title": "Ações",
+      "logs": {
+        "label": "Exibir logs",
+        "page": {
+          "title": "Logs de {name}"
+        }
+      },
       "start": {
         "label": "Iniciar",
         "notification": {
@@ -4018,6 +5376,7 @@
       },
       "remove": {
         "label": "Excluir",
+        "confirm": "",
         "notification": {
           "success": {
             "title": "Contêineres removidos",
@@ -4060,7 +5419,8 @@
       }
     },
     "error": {
-      "internalServerError": "Falha ao buscar contêineres Docker"
+      "internalServerError": "Falha ao buscar contêineres Docker",
+      "noColumns": ""
     }
   },
   "kubernetes": {
@@ -4368,6 +5728,18 @@
           "label": "Editar"
         }
       },
+      "custom-widgets": {
+        "label": "Widgets personalizados",
+        "new": {
+          "label": "Novo"
+        },
+        "edit": {
+          "label": "Editar",
+          "flow": {
+            "label": "Fluxo"
+          }
+        }
+      },
       "users": {
         "label": "Usuários",
         "create": {
@@ -4389,7 +5761,10 @@
           "label": "Tarefas"
         },
         "docker": {
-          "label": "Docker"
+          "label": "Docker",
+          "logs": {
+            "label": "Registros"
+          }
         },
         "kubernetes": {
           "label": "Kubernetes",
@@ -4538,13 +5913,149 @@
                 "label": "Criar um novo grupo"
               }
             }
+          },
+          "preferences": {
+            "title": "Preferências",
+            "children": {
+              "detail": {
+                "title": "Selecione uma preferência para alterar",
+                "backHint": "Pressione Backspace ou use o botão voltar para retornar",
+                "backAction": "Voltar"
+              }
+            },
+            "notification": {
+              "error": {
+                "message": "Não foi possível atualizar a preferência"
+              }
+            },
+            "option": {
+              "preferences": {
+                "label": "Abrir preferências"
+              },
+              "boolean": {
+                "enabled": "Habilitado",
+                "disabled": "Desabilitado"
+              },
+              "board": {
+                "none": "Nenhum",
+                "unavailable": "Selecionado atualmente (indisponível)"
+              },
+              "searchEngine": {
+                "none": "Nenhum",
+                "unavailable": "Selecionado atualmente (indisponível)"
+              },
+              "colorScheme": {
+                "label": "Esquema de cores",
+                "children": {
+                  "detail": {
+                    "title": "Selecione seu esquema de cores"
+                  }
+                }
+              },
+              "locale": {
+                "label": "Idioma",
+                "children": {
+                  "detail": {
+                    "title": "Selecione seu idioma preferido"
+                  }
+                }
+              },
+              "defaultSearchEngineId": {
+                "label": "Mecanismo de pesquisa padrão",
+                "children": {
+                  "detail": {
+                    "title": "Selecione seu mecanismo de pesquisa padrão"
+                  }
+                }
+              },
+              "openSearchInNewTab": {
+                "label": "Abrir resultados da busca em uma nova guia",
+                "children": {
+                  "detail": {
+                    "title": "Abrir resultados da busca em uma nova guia"
+                  }
+                }
+              },
+              "ddgBangs": {
+                "label": "Ativar bangs do DuckDuckGo",
+                "children": {
+                  "detail": {
+                    "title": "Ativar bangs do DuckDuckGo"
+                  }
+                }
+              },
+              "firstDayOfWeek": {
+                "label": "Primeiro dia da semana",
+                "children": {
+                  "detail": {
+                    "title": "Selecione o primeiro dia da semana"
+                  }
+                }
+              },
+              "homeBoardId": {
+                "label": "Quadro inicial",
+                "children": {
+                  "detail": {
+                    "title": "Selecione seu quadro inicial"
+                  }
+                }
+              },
+              "mobileHomeBoardId": {
+                "label": "Quadro inicial para dispositivos móveis",
+                "children": {
+                  "detail": {
+                    "title": "Selecione seu quadro inicial para dispositivos móveis"
+                  }
+                }
+              },
+              "pingIconsEnabled": {
+                "label": "Usar ícones para pings",
+                "children": {
+                  "detail": {
+                    "title": "Usar ícones para pings"
+                  }
+                }
+              },
+              "enableRightClickOnWidgets": {
+                "label": "",
+                "children": {
+                  "detail": {
+                    "title": ""
+                  }
+                }
+              },
+              "fullPreferencesPage": {
+                "label": "Abrir página de preferências completa"
+              }
+            }
           }
         }
       },
       "media": {
+        "help": "Pesquisar por filmes ou séries para solicitar",
         "requestMovie": "Solicitar filme",
         "requestSeries": "Solicitar série",
-        "openIn": "Abrir em {kind}"
+        "openIn": "Abrir em {kind}",
+        "group": {
+          "title": "Filmes e séries"
+        },
+        "action": {
+          "search": {
+            "label": "Pesquisar por filmes ou séries",
+            "description": "Comece a digitar para pesquisar suas integrações de solicitação de mídia",
+            "disabled": {
+              "noIntegration": "Adicione uma integração Overseerr, Jellyseerr ou Seerr para habilitar a busca de mídia.",
+              "scoped": "Este widget não possui uma integração de solicitação de mídia acessível."
+            }
+          }
+        },
+        "availability": {
+          "available": "Disponível",
+          "partiallyAvailable": "Parcial",
+          "processing": "Processando",
+          "requested": "Solicitado",
+          "pending": "Solicitado"
+        }
       },
       "external": {
         "help": "Usar um mecanismo de busca externo",
@@ -4612,7 +6123,7 @@
                 "label": "Reportar um problema"
               },
               "discord": {
-                "label": "Discórdia da comunidade"
+                "label": "Discord da comunidade"
               }
             }
           }
@@ -4820,7 +6331,11 @@
             "table": {
               "header": {
                 "season": "Temporada",
-                "episodes": "Episódios"
+                "episodes": "Episódios",
+                "status": "Status"
+              },
+              "status": {
+                "requested": "Solicitado"
               }
             },
             "button": {
@@ -4929,6 +6444,73 @@
         "info": "Informação",
         "warn": "Aviso",
         "error": "Erro"
+      }
+    }
+  },
+  "onboardingTour": {
+    "learnMore": "Leia a documentação",
+    "next": "Próximo",
+    "prev": "Voltar",
+    "done": "Concluído",
+    "skip": "Pular tour",
+    "manage": {
+      "welcome": {
+        "title": "Bem-vindo ao Homarr!",
+        "description": "Este é o seu centro de controle. A partir daqui você gerencia quadros, aplicativos, integrações, usuários e configurações do servidor. Vamos fazer um tour por cada seção."
+      },
+      "boardsList": {
+        "title": "Seus quadros",
+        "description": "Aqui estão todos os seus painéis. Cada quadro tem seu próprio layout, plano de fundo e configurações de acesso. Você pode ver quem criou cada um e se é público ou privado."
+      },
+      "boardsCreate": {
+        "title": "Criar um quadro",
+        "description": "Clique aqui para criar um novo painel ou importar um de uma instalação anterior do Homarr. Cada quadro recebe sua própria URL que você pode compartilhar."
+      },
+      "appsList": {
+        "title": "Seus aplicativos",
+        "description": "Estes são todos os aplicativos que você adicionou — links para seus serviços auto-hospedados. Cada aplicativo tem um ícone, verificação de integridade opcional e um selo de status no painel."
+      },
+      "appsCreate": {
+        "title": "Adicionar um aplicativo",
+        "description": "Registre um novo serviço aqui. Dê um nome, URL e ícone — ele aparecerá como um bloco nos seus quadros com monitoramento de status ao vivo."
+      },
+      "integrationsList": {
+        "title": "Suas integrações",
+        "description": "Estes são os serviços conectados ao Homarr — Sonarr, Radarr, Plex, Jellyfin e mais de 50 outros. Todas as credenciais são criptografadas em repouso."
+      },
+      "integrationsCreate": {
+        "title": "Adicionar uma integração",
+        "description": "Conecte um novo serviço aqui. Escolha o tipo, insira a URL e a chave de API — o Homarr valida a conexão antes de salvar."
+      },
+      "usersList": {
+        "title": "Seus usuários",
+        "description": "Veja todos que têm acesso. Organize os usuários em grupos e controle quem pode visualizar ou editar cada quadro."
+      },
+      "usersCreate": {
+        "title": "Criar um usuário",
+        "description": "Adicione uma nova conta de usuário aqui. Você também pode usar links de convite para facilitar a integração. Esse é o tour — você está pronto!"
+      }
+    },
+    "board": {
+      "welcome": {
+        "title": "Este é o seu quadro",
+        "description": "Um painel de arrastar e soltar onde você organiza aplicativos e widgets. Pressione Ctrl+K a qualquer momento para pesquisar por aplicativos, quadros e ações."
+      },
+      "editMode": {
+        "title": "Modo de edição",
+        "description": "Clique aqui para entrar no modo de edição. Você pode então adicionar widgets, aplicativos e seções — arraste para reposicionar, redimensione com a alça do canto. Clique novamente para salvar suas alterações."
+      },
+      "settings": {
+        "title": "Configurações do quadro",
+        "description": "Altere o nome, colunas, plano de fundo, cores e quem pode acessar este quadro. Cada quadro pode ser público ou privado."
+      },
+      "switcher": {
+        "title": "Alternar quadros",
+        "description": "Salte entre quadros. Crie painéis separados para diferentes propósitos — mídia, rede, por usuário ou o que você quiser."
+      },
+      "userMenu": {
+        "title": "Seu perfil",
+        "description": "Altere seu esquema de cores, idioma, quadro inicial e preferências. Você também pode acessar a área de gerenciamento a partir daqui."
       }
     }
   }

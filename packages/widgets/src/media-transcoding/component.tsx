@@ -9,6 +9,7 @@ import { useI18n } from "@homarr/translation/client";
 import type { TablerIcon } from "@homarr/ui";
 
 import { views } from ".";
+import { WidgetEmptyState } from "../common/empty-state";
 import type { WidgetComponentProps } from "../definition";
 import { HealthCheckStatus } from "./health-check-status";
 import { QueuePanel } from "./panels/queue.panel";
@@ -16,6 +17,8 @@ import { StatisticsPanel } from "./panels/statistics.panel";
 import { WorkersPanel } from "./panels/workers.panel";
 
 type View = (typeof views)[number];
+
+const viewBySegmentValue = Object.fromEntries(views.map((view) => [view, view])) as Record<string, View>;
 
 const viewIcons = {
   workers: IconCpu2,
@@ -35,23 +38,14 @@ export default function MediaTranscodingWidget({
     pageSize: queuePageSize,
     page: queuePage,
   };
-  const [transcodingData] = clientApi.widget.mediaTranscoding.getDataAsync.useSuspenseQuery(input, {
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-  });
-
-  const utils = clientApi.useUtils();
-  clientApi.widget.mediaTranscoding.subscribeData.useSubscription(input, {
-    onData(data) {
-      utils.widget.mediaTranscoding.getDataAsync.setData(input, data);
-    },
-  });
+  const { data: transcodingData } = clientApi.widget.mediaTranscoding.getDataAsync.useQuery(input);
 
   const [view, setView] = useState<View>(options.defaultView);
-  const totalQueuePages = Math.ceil((transcodingData.data.queue.totalCount || 1) / queuePageSize);
-
   const t = useI18n("widget.mediaTranscoding");
+
+  if (!transcodingData) return <WidgetEmptyState />;
+
+  const totalQueuePages = Math.ceil((transcodingData.data.queue.totalCount || 1) / queuePageSize);
   const isTiny = width < 256;
 
   return (
@@ -83,7 +77,12 @@ export default function MediaTranscodingWidget({
             };
           })}
           value={view}
-          onChange={(value) => setView(value as View)}
+          onChange={(value) => {
+            const nextView = viewBySegmentValue[value];
+            if (nextView) {
+              setView(nextView);
+            }
+          }}
           size="xs"
         />
 

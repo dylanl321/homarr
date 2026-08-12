@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 
+import "@gfazioli/mantine-onboarding-tour/styles.css";
 import "@homarr/notifications/styles.css";
 import "@homarr/spotlight/styles.css";
 import "@homarr/ui/styles.css";
+import "mantine-datatable/styles.css";
 import "~/styles/color-scheme.scss";
 import "~/styles/scroll-area.scss";
 
@@ -11,11 +13,11 @@ import { notFound } from "next/navigation";
 import type { DayOfWeek } from "@mantine/dates";
 import { NextIntlClientProvider } from "next-intl";
 
-import { api } from "@homarr/api/server";
+import { getRscServerSettingsAsync } from "@homarr/api/server-settings-server";
+import { getRscUserSettingsAsync } from "@homarr/api/user-server";
 import { env } from "@homarr/auth/env";
 import { auth } from "@homarr/auth/next";
-import { db } from "@homarr/db";
-import { getServerSettingsAsync } from "@homarr/db/queries";
+import { createLogger } from "@homarr/core/infrastructure/logs";
 import { ModalProvider } from "@homarr/modals";
 import { Notifications } from "@homarr/notifications";
 import { SettingsProvider } from "@homarr/settings";
@@ -25,6 +27,7 @@ import { isLocaleRTL, isLocaleSupported } from "@homarr/translation";
 
 import { Analytics } from "~/components/layout/analytics";
 import { CrowdinLiveTranslation } from "~/components/layout/crowdin-live-translation";
+
 import { SearchEngineOptimization } from "~/components/layout/search-engine-optimization";
 import { ServiceWorkerRegistration } from "~/components/layout/service-worker-registration";
 import { getCurrentColorSchemeAsync } from "~/theme/color-scheme";
@@ -40,17 +43,19 @@ const fontSans = Inter({
   variable: "--font-sans",
 });
 
+const logger = createLogger({ module: "rootLayout" });
+
 // eslint-disable-next-line no-restricted-syntax
 export const generateMetadata = async (): Promise<Metadata> => ({
   title: "Homarr",
   description:
-    "Simplify the management of your server with Homarr - a sleek, modern dashboard that puts all of your apps and services at your fingertips.",
+    "A self-hosted dashboard for the *arr stack and your entire homelab. Integrates with 50+ services, real-time widgets, no config files.",
   openGraph: {
     title: "Homarr Dashboard",
     description:
-      "Simplify the management of your server with Homarr - a sleek, modern dashboard that puts all of your apps and services at your fingertips.",
+      "A self-hosted dashboard for the *arr stack and your entire homelab. Integrates with 50+ services, real-time widgets, no config files.",
     url: "https://homarr.dev",
-    siteName: "Homarr Documentation",
+    siteName: "Homarr",
   },
   icons: {
     icon: "/logo/logo.png",
@@ -75,15 +80,27 @@ export default async function Layout(props: {
   children: React.ReactNode;
   params: Promise<{ locale: SupportedLanguage }>;
 }) {
-  if (!isLocaleSupported((await props.params).locale)) {
+  const { locale } = await props.params;
+  if (!isLocaleSupported(locale)) {
     notFound();
   }
 
-  const session = await auth();
-  const user = session ? await api.user.getById({ userId: session.user.id }).catch(() => null) : null;
-  const serverSettings = await getServerSettingsAsync(db);
-  const colorScheme = await getCurrentColorSchemeAsync();
-  const direction = isLocaleRTL((await props.params).locale) ? "rtl" : "ltr";
+  const sessionPromise = auth();
+  const userPromise = sessionPromise.then((session) =>
+    session
+      ? getRscUserSettingsAsync(session.user.id).catch((error: unknown) => {
+          logger.error(new Error("Failed to load the authenticated user in the root layout", { cause: error }));
+          return null;
+        })
+      : null,
+  );
+  const [session, user, serverSettings, colorScheme] = await Promise.all([
+    sessionPromise,
+    userPromise,
+    getRscServerSettingsAsync(),
+    getCurrentColorSchemeAsync(),
+  ]);
+  const direction = isLocaleRTL(locale) ? "rtl" : "ltr";
 
   const StackedProvider = composeWrappers([
     (innerProps) => {
@@ -122,8 +139,6 @@ export default async function Layout(props: {
     (innerProps) => <SpotlightProvider {...innerProps} />,
   ]);
 
-  const { locale } = await props.params;
-
   return (
     // Instead of ColorSchemScript we use data-mantine-color-scheme to prevent flickering
     <html
@@ -136,13 +151,13 @@ export default async function Layout(props: {
       suppressHydrationWarning
     >
       <head>
-        <Analytics />
         <SearchEngineOptimization />
         <CrowdinLiveTranslation locale={locale} />
       </head>
-      <body className={["font-sans", fontSans.variable].join(" ")}>
+      <body className={[fontSans.className, fontSans.variable].join(" ")} suppressHydrationWarning>
+        <Analytics enabled={serverSettings.analytics.enableGeneral} />
         <StackedProvider>
-          <Notifications />
+          <Notifications pauseResetOnHover="notification" />
           <ServiceWorkerRegistration />
           {props.children}
         </StackedProvider>

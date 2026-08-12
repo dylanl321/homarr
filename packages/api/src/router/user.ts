@@ -7,12 +7,12 @@ import { comparePasswordsAsync, hashPasswordAsync } from "@homarr/auth";
 import { createId } from "@homarr/common";
 import { createLogger } from "@homarr/core/infrastructure/logs";
 import type { Database } from "@homarr/db";
-import { and, eq, handleTransactionsAsync, like } from "@homarr/db";
+import { and, eq, handleTransactionsAsync, inArray, like } from "@homarr/db";
 import { getMaxGroupPositionAsync } from "@homarr/db/queries";
 import { boards, groupMembers, groupPermissions, groups, invites, users } from "@homarr/db/schema";
 import { selectUserSchema } from "@homarr/db/validationSchemas";
 import type { SupportedAuthProvider } from "@homarr/definitions";
-import { credentialsAdminGroup } from "@homarr/definitions";
+import { credentialsAdminGroup, supportedAuthProviders } from "@homarr/definitions";
 import { byIdSchema } from "@homarr/validation/common";
 import type { userBaseCreateSchema } from "@homarr/validation/user";
 import {
@@ -23,6 +23,7 @@ import {
   userCreateSchema,
   userDdgBangsSchema,
   userEditProfileSchema,
+  userEnableRightClickOnWidgetsSchema,
   userFirstDayOfWeekSchema,
   userInitSchema,
   userPingIconsEnabledSchema,
@@ -32,6 +33,7 @@ import {
 import { convertIntersectionToZodObject } from "../schema-merger";
 import {
   createTRPCRouter,
+  isDemoMode,
   onboardingProcedure,
   permissionRequiredProcedure,
   protectedProcedure,
@@ -143,7 +145,19 @@ export const userRouter = createTRPCRouter({
     }),
   create: permissionRequiredProcedure
     .requiresPermission("admin")
-    .meta({ openapi: { method: "POST", path: "/api/users", tags: ["users"], protect: true } })
+    .meta({
+      openapi: {
+        method: "POST",
+        path: "/api/users",
+        tags: ["users"],
+        protect: true,
+      },
+      mcp: {
+        enabled: true,
+        description:
+          "Create a new user account (admin only). REQUIRED: username (string), password (string), confirmPassword (must match password). OPTIONAL: email (string or null)",
+      },
+    })
     .input(convertIntersectionToZodObject(userCreateSchema))
     .output(z.void())
     .mutation(async ({ ctx, input }) => {
@@ -158,7 +172,14 @@ export const userRouter = createTRPCRouter({
     }),
   setProfileImage: protectedProcedure
     .output(z.void())
-    .meta({ openapi: { method: "PUT", path: "/api/users/profileImage", tags: ["users"], protect: true } })
+    .meta({
+      openapi: {
+        method: "PUT",
+        path: "/api/users/profileImage",
+        tags: ["users"],
+        protect: true,
+      },
+    })
     .input(
       z.object({
         userId: z.string(),
@@ -204,8 +225,26 @@ export const userRouter = createTRPCRouter({
   getAll: permissionRequiredProcedure
     .requiresPermission("admin")
     .input(z.void())
-    .output(z.array(selectUserSchema.pick({ id: true, name: true, email: true, emailVerified: true, image: true })))
-    .meta({ openapi: { method: "GET", path: "/api/users", tags: ["users"], protect: true } })
+    .output(
+      z.array(
+        selectUserSchema.pick({
+          id: true,
+          name: true,
+          email: true,
+          emailVerified: true,
+          image: true,
+        }),
+      ),
+    )
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/api/users",
+        tags: ["users"],
+        protect: true,
+      },
+      mcp: { enabled: true, description: "List all users (admin only)" },
+    })
     .query(({ ctx }) => {
       return ctx.db.query.users.findMany({
         columns: {
@@ -219,9 +258,25 @@ export const userRouter = createTRPCRouter({
     }),
   // Is protected because also used in board access / integration access forms
   selectable: protectedProcedure
-    .input(z.object({ excludeExternalProviders: z.boolean().default(false) }).optional())
-    .output(z.array(selectUserSchema.pick({ id: true, name: true, image: true, email: true })))
-    .meta({ openapi: { method: "GET", path: "/api/users/selectable", tags: ["users"], protect: true } })
+    .input(z.object({ providers: z.array(z.enum(supportedAuthProviders)).optional() }).optional())
+    .output(
+      z.array(
+        selectUserSchema.pick({
+          id: true,
+          name: true,
+          image: true,
+          email: true,
+        }),
+      ),
+    )
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/api/users/selectable",
+        tags: ["users"],
+        protect: true,
+      },
+    })
     .query(({ ctx, input }) => {
       return ctx.db.query.users.findMany({
         columns: {
@@ -230,7 +285,7 @@ export const userRouter = createTRPCRouter({
           image: true,
           email: true,
         },
-        where: input?.excludeExternalProviders ? eq(users.provider, "credentials") : undefined,
+        where: input?.providers ? inArray(users.provider, input.providers) : undefined,
       });
     }),
   search: permissionRequiredProcedure
@@ -241,8 +296,24 @@ export const userRouter = createTRPCRouter({
         limit: z.number().min(1).max(100).default(10),
       }),
     )
-    .output(z.array(selectUserSchema.pick({ id: true, name: true, image: true, email: true })))
-    .meta({ openapi: { method: "POST", path: "/api/users/search", tags: ["users"], protect: true } })
+    .output(
+      z.array(
+        selectUserSchema.pick({
+          id: true,
+          name: true,
+          image: true,
+          email: true,
+        }),
+      ),
+    )
+    .meta({
+      openapi: {
+        method: "POST",
+        path: "/api/users/search",
+        tags: ["users"],
+        protect: true,
+      },
+    })
     .query(async ({ input, ctx }) => {
       const dbUsers = await ctx.db.query.users.findMany({
         columns: {
@@ -275,12 +346,23 @@ export const userRouter = createTRPCRouter({
         mobileHomeBoardId: true,
         firstDayOfWeek: true,
         pingIconsEnabled: true,
+        enableRightClickOnWidgets: true,
         defaultSearchEngineId: true,
         openSearchInNewTab: true,
         ddgBangs: true,
+        completedManageTour: true,
+        completedBoardTour: true,
       }),
     )
-    .meta({ openapi: { method: "GET", path: "/api/users/{userId}", tags: ["users"], protect: true } })
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/api/users/{userId}",
+        tags: ["users"],
+        protect: true,
+      },
+      mcp: { enabled: true, description: "Get user details by user ID. REQUIRED: userId (string)" },
+    })
     .query(async ({ input, ctx }) => {
       // Only admins can view other users details
       if (ctx.session.user.id !== input.userId && !ctx.session.user.permissions.includes("admin")) {
@@ -301,9 +383,12 @@ export const userRouter = createTRPCRouter({
           mobileHomeBoardId: true,
           firstDayOfWeek: true,
           pingIconsEnabled: true,
+          enableRightClickOnWidgets: true,
           defaultSearchEngineId: true,
           openSearchInNewTab: true,
           ddgBangs: true,
+          completedManageTour: true,
+          completedBoardTour: true,
         },
         where: eq(users.id, input.userId),
       });
@@ -320,7 +405,14 @@ export const userRouter = createTRPCRouter({
   editProfile: protectedProcedure
     .input(userEditProfileSchema)
     .output(z.void())
-    .meta({ openapi: { method: "PUT", path: "/api/users/profile", tags: ["users"], protect: true } })
+    .meta({
+      openapi: {
+        method: "PUT",
+        path: "/api/users/profile",
+        tags: ["users"],
+        protect: true,
+      },
+    })
     .mutation(async ({ input, ctx }) => {
       // Only admins can view other users details
       if (ctx.session.user.id !== input.id && !ctx.session.user.permissions.includes("admin")) {
@@ -364,7 +456,15 @@ export const userRouter = createTRPCRouter({
   delete: protectedProcedure
     .input(z.object({ userId: z.string() }))
     .output(z.void())
-    .meta({ openapi: { method: "DELETE", path: "/api/users/{userId}", tags: ["users"], protect: true } })
+    .meta({
+      openapi: {
+        method: "DELETE",
+        path: "/api/users/{userId}",
+        tags: ["users"],
+        protect: true,
+      },
+      mcp: { enabled: true, description: "Delete a user by ID. REQUIRED: userId (string)" },
+    })
     .mutation(async ({ input, ctx }) => {
       // Only admins and user itself can delete a user
       if (ctx.session.user.id !== input.userId && !ctx.session.user.permissions.includes("admin")) {
@@ -379,7 +479,14 @@ export const userRouter = createTRPCRouter({
   changePassword: protectedProcedure
     .input(convertIntersectionToZodObject(userChangePasswordApiSchema))
     .output(z.void())
-    .meta({ openapi: { method: "PATCH", path: "/api/users/{userId}/changePassword", tags: ["users"], protect: true } })
+    .meta({
+      openapi: {
+        method: "PATCH",
+        path: "/api/users/{userId}/changePassword",
+        tags: ["users"],
+        protect: true,
+      },
+    })
     .mutation(async ({ ctx, input }) => {
       const user = ctx.session.user;
       // Only admins can change other users' passwords
@@ -444,7 +551,14 @@ export const userRouter = createTRPCRouter({
   changeHomeBoards: protectedProcedure
     .input(convertIntersectionToZodObject(userChangeHomeBoardsSchema.and(z.object({ userId: z.string() }))))
     .output(z.void())
-    .meta({ openapi: { method: "PATCH", path: "/api/users/changeHome", tags: ["users"], protect: true } })
+    .meta({
+      openapi: {
+        method: "PATCH",
+        path: "/api/users/changeHome",
+        tags: ["users"],
+        protect: true,
+      },
+    })
     .mutation(async ({ input, ctx }) => {
       const user = ctx.session.user;
       // Only admins can change other users passwords
@@ -510,14 +624,28 @@ export const userRouter = createTRPCRouter({
   changeSearchPreferences: protectedProcedure
     .input(convertIntersectionToZodObject(changeSearchPreferencesInputSchema))
     .output(z.void())
-    .meta({ openapi: { method: "PATCH", path: "/api/users/search-preferences", tags: ["users"], protect: true } })
+    .meta({
+      openapi: {
+        method: "PATCH",
+        path: "/api/users/search-preferences",
+        tags: ["users"],
+        protect: true,
+      },
+    })
     .mutation(async ({ input, ctx }) => {
       await changeSearchPreferencesAsync(ctx.db, ctx.session, input);
     }),
   changeColorScheme: protectedProcedure
     .input(userChangeColorSchemeSchema)
     .output(z.void())
-    .meta({ openapi: { method: "PATCH", path: "/api/users/changeScheme", tags: ["users"], protect: true } })
+    .meta({
+      openapi: {
+        method: "PATCH",
+        path: "/api/users/changeScheme",
+        tags: ["users"],
+        protect: true,
+      },
+    })
     .mutation(async ({ input, ctx }) => {
       await ctx.db
         .update(users)
@@ -525,6 +653,32 @@ export const userRouter = createTRPCRouter({
           colorScheme: input.colorScheme,
         })
         .where(eq(users.id, ctx.session.user.id));
+    }),
+  changeEnableRightClickOnWidgets: protectedProcedure
+    .meta({
+      openapi: {
+        method: "PATCH",
+        path: "/api/users/right-click-widgets",
+        tags: ["users"],
+        protect: true,
+      },
+    })
+    .input(convertIntersectionToZodObject(userEnableRightClickOnWidgetsSchema.and(byIdSchema)))
+    .output(z.void())
+    .mutation(async ({ input, ctx }) => {
+      if (!ctx.session.user.permissions.includes("admin") && ctx.session.user.id !== input.id) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "User not found",
+        });
+      }
+
+      await ctx.db
+        .update(users)
+        .set({
+          enableRightClickOnWidgets: input.enableRightClickOnWidgets,
+        })
+        .where(eq(users.id, input.id));
     }),
   changePingIconsEnabled: protectedProcedure
     .input(userPingIconsEnabledSchema.and(byIdSchema))
@@ -542,7 +696,7 @@ export const userRouter = createTRPCRouter({
         .set({
           pingIconsEnabled: input.pingIconsEnabled,
         })
-        .where(eq(users.id, ctx.session.user.id));
+        .where(eq(users.id, input.id));
     }),
   changeDdgBangs: protectedProcedure
     .input(convertIntersectionToZodObject(userDdgBangsSchema.and(byIdSchema)))
@@ -574,7 +728,14 @@ export const userRouter = createTRPCRouter({
   changeFirstDayOfWeek: protectedProcedure
     .input(convertIntersectionToZodObject(userFirstDayOfWeekSchema.and(byIdSchema)))
     .output(z.void())
-    .meta({ openapi: { method: "PATCH", path: "/api/users/firstDayOfWeek", tags: ["users"], protect: true } })
+    .meta({
+      openapi: {
+        method: "PATCH",
+        path: "/api/users/firstDayOfWeek",
+        tags: ["users"],
+        protect: true,
+      },
+    })
     .mutation(async ({ input, ctx }) => {
       // Only admins can change other users first day of week
       if (!ctx.session.user.permissions.includes("admin") && ctx.session.user.id !== input.id) {
@@ -603,8 +764,48 @@ export const userRouter = createTRPCRouter({
         .set({
           firstDayOfWeek: input.firstDayOfWeek,
         })
-        .where(eq(users.id, ctx.session.user.id));
+        .where(eq(users.id, input.id));
     }),
+  completeTour: protectedProcedure
+    .input(z.object({ tour: z.enum(["manage", "board"]) }))
+    .mutation(async ({ input, ctx }) => {
+      const columnByTour = {
+        manage: { completedManageTour: true },
+        board: { completedBoardTour: true },
+      } as const;
+
+      await ctx.db.update(users).set(columnByTour[input.tour]).where(eq(users.id, ctx.session.user.id));
+    }),
+  resetTours: protectedProcedure.mutation(async ({ ctx }) => {
+    await ctx.db
+      .update(users)
+      .set({
+        completedManageTour: false,
+        completedBoardTour: false,
+      })
+      .where(eq(users.id, ctx.session.user.id));
+  }),
+  getTourStatus: protectedProcedure.query(async ({ ctx }) => {
+    if (isDemoMode) {
+      return {
+        completedManageTour: true,
+        completedBoardTour: true,
+      };
+    }
+
+    const user = await ctx.db.query.users.findFirst({
+      columns: {
+        completedManageTour: true,
+        completedBoardTour: true,
+      },
+      where: eq(users.id, ctx.session.user.id),
+    });
+
+    return {
+      completedManageTour: user?.completedManageTour ?? false,
+      completedBoardTour: user?.completedBoardTour ?? false,
+    };
+  }),
 });
 
 const createUserAsync = async (db: Database, input: Omit<z.infer<typeof userBaseCreateSchema>, "groupIds">) => {

@@ -19,14 +19,7 @@ export const BoardProvider = ({
 }: PropsWithChildren<{
   initialBoard: RouterOutputs["board"]["getBoardByName"];
 }>) => {
-  const { data } = clientApi.board.getBoardByName.useQuery(
-    { name: initialBoard.name },
-    {
-      initialData: initialBoard,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-    },
-  );
+  const { data } = clientApi.board.getBoardByName.useQuery({ name: initialBoard.name }, { initialData: initialBoard });
 
   // Update the board name so it can be used within updateBoard method
   updateBoardName(initialBoard.name);
@@ -73,7 +66,7 @@ export const getCurrentLayout = (board: RouterOutputs["board"]["getBoardByName"]
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   if (typeof window === "undefined") return board.layouts.at(0)!.id;
 
-  const sortedLayouts = board.layouts.sort((layoutA, layoutB) => layoutB.breakpoint - layoutA.breakpoint);
+  const sortedLayouts = board.layouts.toSorted((layoutA, layoutB) => layoutB.breakpoint - layoutA.breakpoint);
 
   // Fallback to smallest if none exists with breakpoint smaller than window width
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

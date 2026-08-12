@@ -3,15 +3,12 @@ import { z } from "zod/v4";
 
 import { createId } from "@homarr/common";
 import { createLogger } from "@homarr/core/infrastructure/logs";
-import { asc, eq, like } from "@homarr/db";
+import { and, asc, eq, like } from "@homarr/db";
 import { getServerSettingByKeyAsync, updateServerSettingByKeyAsync } from "@homarr/db/queries";
 import { searchEngines, users } from "@homarr/db/schema";
-import { createIntegrationAsync } from "@homarr/integrations";
 import { byIdSchema, paginatedSchema, searchSchema } from "@homarr/validation/common";
 import { searchEngineEditSchema, searchEngineManageSchema } from "@homarr/validation/search-engine";
-import { mediaRequestOptionsSchema, mediaRequestRequestSchema } from "@homarr/validation/widgets/media-request";
 
-import { createOneIntegrationMiddleware } from "../../middlewares/integration";
 import { createTRPCRouter, permissionRequiredProcedure, protectedProcedure, publicProcedure } from "../../trpc";
 
 const logger = createLogger({ module: "searchEngineRouter" });
@@ -133,9 +130,15 @@ export const searchEngineRouter = createTRPCRouter({
 
     return null;
   }),
-  search: protectedProcedure.input(searchSchema).query(async ({ ctx, input }) => {
+  search: publicProcedure.input(searchSchema).query(async ({ ctx, input }) => {
     return await ctx.db.query.searchEngines.findMany({
-      where: like(searchEngines.short, `${input.query.toLowerCase().trim()}%`),
+      // Public dashboards have no session: restrict anonymous users to generic
+      // (non-integration) engines so custom search engines work there too (#4132),
+      // while integration-backed engines stay available only when signed in.
+      where: and(
+        like(searchEngines.short, `${input.query.toLowerCase().trim()}%`),
+        ctx.session?.user ? undefined : eq(searchEngines.type, "generic"),
+      ),
       with: {
         integration: {
           columns: {
@@ -148,20 +151,6 @@ export const searchEngineRouter = createTRPCRouter({
       limit: input.limit,
     });
   }),
-  getMediaRequestOptions: protectedProcedure
-    .concat(createOneIntegrationMiddleware("query", "jellyseerr", "overseerr"))
-    .input(mediaRequestOptionsSchema)
-    .query(async ({ ctx, input }) => {
-      const integration = await createIntegrationAsync(ctx.integration);
-      return await integration.getSeriesInformationAsync(input.mediaType, input.mediaId);
-    }),
-  requestMedia: protectedProcedure
-    .concat(createOneIntegrationMiddleware("interact", "jellyseerr", "overseerr"))
-    .input(mediaRequestRequestSchema)
-    .mutation(async ({ ctx, input }) => {
-      const integration = await createIntegrationAsync(ctx.integration);
-      return await integration.requestMediaAsync(input.mediaType, input.mediaId, input.seasons);
-    }),
   create: permissionRequiredProcedure
     .requiresPermission("search-engine-create")
     .input(searchEngineManageSchema)

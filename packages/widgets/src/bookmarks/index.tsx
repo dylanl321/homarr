@@ -10,6 +10,7 @@ import { BookmarkAddButton } from "./add-button";
 
 export const { definition, componentLoader } = createWidgetDefinition("bookmarks", {
   icon: IconBookmark,
+  queryKeys: [[["app", "byIds"]]],
   createOptions() {
     return optionsBuilder.from((factory) => ({
       title: factory.text(),
@@ -24,6 +25,7 @@ export const { definition, componentLoader } = createWidgetDefinition("bookmarks
       hideIcon: factory.switch({ defaultValue: false }),
       hideHostname: factory.switch({ defaultValue: false }),
       openNewTab: factory.switch({ defaultValue: true }),
+      withBorder: factory.switch({ defaultValue: false }),
       items: factory.sortableItemList<RouterOutputs["app"]["all"][number], string>({
         ItemComponent: ({ item, handle: Handle, removeItem, rootAttributes }) => {
           return (
