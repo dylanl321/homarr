@@ -21,6 +21,8 @@ import { mediaServerRouter } from "./router/widgets/media-server";
 import { patchmonRouter } from "./router/widgets/patchmon";
 import { smartHomeRouter } from "./router/widgets/smart-home";
 import { widgetSecretsRouter } from "./router/widgets/widget-secrets";
+import { cmdbRouter } from "./router/cmdb";
+import { mediaTraceRouter } from "./router/media-trace";
 
 export const mcpRouter = createTRPCRouter({
   app: appRouterForApps,
@@ -43,4 +45,6 @@ export const mcpRouter = createTRPCRouter({
   patchmon: patchmonRouter,
   smartHome: smartHomeRouter,
   widgetSecrets: widgetSecretsRouter,
+  cmdb: cmdbRouter,
+  mediaTrace: mediaTraceRouter,
 });

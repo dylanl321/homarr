@@ -171,6 +171,7 @@ export class OverseerrIntegration
           posterImagePath: `https://image.tmdb.org/t/p/w600_and_h900_bestv2/${information.posterPath}`,
           href: this.externalUrl(`/${request.type}/${request.media.tmdbId}`).toString(),
           type: request.type,
+          tmdbId: request.media.tmdbId,
           createdAt: request.createdAt,
           airDate: new Date(information.airDate),
           requestedBy: request.requestedBy

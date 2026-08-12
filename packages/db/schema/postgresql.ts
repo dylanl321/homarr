@@ -566,6 +566,130 @@ export const cronJobConfigurations = pgTable("cron_job_configuration", {
   isEnabled: boolean().default(true).notNull(),
 });
 
+export const cmdbResources = pgTable("cmdb_resource", {
+  id: varchar({ length: 64 }).notNull().primaryKey(),
+  name: varchar({ length: 256 }).notNull(),
+  kind: varchar({ length: 64 }).notNull(),
+  description: text(),
+  tags: text().notNull().default("[]"),
+  metadata: text().notNull().default("{}"),
+  createdAt: timestamp().notNull(),
+  updatedAt: timestamp().notNull(),
+});
+
+export const cmdbRelationships = pgTable(
+  "cmdb_relationship",
+  {
+    id: varchar({ length: 64 }).notNull().primaryKey(),
+    sourceId: varchar({ length: 64 })
+      .notNull()
+      .references(() => cmdbResources.id, { onDelete: "cascade" }),
+    targetId: varchar({ length: 64 })
+      .notNull()
+      .references(() => cmdbResources.id, { onDelete: "cascade" }),
+    kind: varchar({ length: 64 }).notNull(),
+    createdAt: timestamp().notNull(),
+  },
+  (table) => ({
+    sourceIdx: index("cmdb_relationship_source_idx").on(table.sourceId),
+    targetIdx: index("cmdb_relationship_target_idx").on(table.targetId),
+  }),
+);
+
+export const cmdbOwners = pgTable(
+  "cmdb_owner",
+  {
+    id: varchar({ length: 64 }).notNull().primaryKey(),
+    resourceId: varchar({ length: 64 })
+      .notNull()
+      .references(() => cmdbResources.id, { onDelete: "cascade" }),
+    ownerType: varchar({ length: 32 }).notNull(),
+    ownerId: varchar({ length: 64 }).notNull(),
+    createdAt: timestamp().notNull(),
+  },
+  (table) => ({
+    resourceIdx: index("cmdb_owner_resource_idx").on(table.resourceId),
+  }),
+);
+
+export const mediaTraces = pgTable(
+  "media_trace",
+  {
+    id: varchar({ length: 64 }).notNull().primaryKey(),
+    title: varchar({ length: 512 }).notNull(),
+    mediaType: varchar({ length: 16 }).notNull(),
+    tmdbId: varchar({ length: 64 }),
+    tvdbId: varchar({ length: 64 }),
+    imdbId: varchar({ length: 64 }),
+    status: varchar({ length: 64 }).notNull(),
+    createdAt: timestamp().notNull(),
+    updatedAt: timestamp().notNull(),
+  },
+  (table) => ({
+    tmdbIdx: index("media_trace_tmdb_idx").on(table.tmdbId),
+    imdbIdx: index("media_trace_imdb_idx").on(table.imdbId),
+  }),
+);
+
+export const mediaTraceEvents = pgTable(
+  "media_trace_event",
+  {
+    id: varchar({ length: 64 }).notNull().primaryKey(),
+    traceId: varchar({ length: 64 })
+      .notNull()
+      .references(() => mediaTraces.id, { onDelete: "cascade" }),
+    stage: varchar({ length: 32 }).notNull(),
+    integrationId: varchar({ length: 64 }),
+    integrationKind: varchar({ length: 64 }),
+    externalId: varchar({ length: 128 }),
+    title: varchar({ length: 512 }),
+    status: varchar({ length: 64 }),
+    payload: text(),
+    occurredAt: timestamp().notNull(),
+    createdAt: timestamp().notNull(),
+  },
+  (table) => ({
+    traceIdx: index("media_trace_event_trace_idx").on(table.traceId),
+  }),
+);
+
+export const cmdbResourceRelations = relations(cmdbResources, ({ many }) => ({
+  relationshipsFrom: many(cmdbRelationships, { relationName: "cmdb_relationship_source" }),
+  relationshipsTo: many(cmdbRelationships, { relationName: "cmdb_relationship_target" }),
+  owners: many(cmdbOwners),
+}));
+
+export const cmdbRelationshipRelations = relations(cmdbRelationships, ({ one }) => ({
+  source: one(cmdbResources, {
+    fields: [cmdbRelationships.sourceId],
+    references: [cmdbResources.id],
+    relationName: "cmdb_relationship_source",
+  }),
+  target: one(cmdbResources, {
+    fields: [cmdbRelationships.targetId],
+    references: [cmdbResources.id],
+    relationName: "cmdb_relationship_target",
+  }),
+}));
+
+export const cmdbOwnerRelations = relations(cmdbOwners, ({ one }) => ({
+  resource: one(cmdbResources, {
+    fields: [cmdbOwners.resourceId],
+    references: [cmdbResources.id],
+  }),
+}));
+
+export const mediaTraceRelations = relations(mediaTraces, ({ many }) => ({
+  events: many(mediaTraceEvents),
+}));
+
+export const mediaTraceEventRelations = relations(mediaTraceEvents, ({ one }) => ({
+  trace: one(mediaTraces, {
+    fields: [mediaTraceEvents.traceId],
+    references: [mediaTraces.id],
+  }),
+}));
+
 export const accountRelations = relations(accounts, ({ one }) => ({
   user: one(users, {
     fields: [accounts.userId],

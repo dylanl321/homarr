@@ -23,4 +23,7 @@ export interface QueuedMediaItem {
   seriesTitle?: string;
   imageUrl?: string | null;
   link: string;
+  tmdbId?: number;
+  tvdbId?: number;
+  imdbId?: string;
 }

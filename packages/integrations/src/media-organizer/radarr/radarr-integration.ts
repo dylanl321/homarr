@@ -181,6 +181,8 @@ export class RadarrIntegration extends Integration implements ICalendarIntegrati
           link: item.movie?.titleSlug
             ? this.externalUrl(`/movie/${item.movie.titleSlug}`).toString()
             : this.externalUrl("/activity/queue").toString(),
+          tmdbId: item.movie?.tmdbId,
+          imdbId: item.movie?.imdbId,
         };
       }),
     };
@@ -231,6 +233,8 @@ const radarrQueueItemSchema = z.object({
       title: z.string(),
       year: z.number().optional(),
       titleSlug: z.string(),
+      tmdbId: z.number().optional(),
+      imdbId: z.string().optional(),
       images: z.array(
         z.object({
           coverType: z.string(),
