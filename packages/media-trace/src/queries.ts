@@ -2,10 +2,7 @@ import type { Database } from "@homarr/db";
 import { desc, eq } from "@homarr/db";
 import { mediaTraceEvents, mediaTraces } from "@homarr/db/schema";
 
-export const listMediaTracesAsync = async (
-  db: Database,
-  options?: { search?: string; limit?: number },
-) => {
+export const listMediaTracesAsync = async (db: Database, options?: { search?: string; limit?: number }) => {
   const limit = options?.limit ?? 50;
   const traces = await db.query.mediaTraces.findMany({
     orderBy: [desc(mediaTraces.updatedAt)],

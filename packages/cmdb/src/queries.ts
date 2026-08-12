@@ -30,7 +30,10 @@ export const listCmdbResourcesAsync = async (db: Database, options?: { kind?: st
     if (options?.kind && resource.kind !== options.kind) return false;
     if (options?.search) {
       const needle = options.search.toLowerCase();
-      if (!resource.name.toLowerCase().includes(needle) && !(resource.description ?? "").toLowerCase().includes(needle)) {
+      if (
+        !resource.name.toLowerCase().includes(needle) &&
+        !(resource.description ?? "").toLowerCase().includes(needle)
+      ) {
         return false;
       }
     }

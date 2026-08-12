@@ -6,7 +6,8 @@ import { and, eq, inArray } from "@homarr/db";
 import { integrations, mediaTraceEvents, mediaTraces } from "@homarr/db/schema";
 import { getIntegrationKindsByCategory } from "@homarr/definitions";
 import type { IntegrationKind } from "@homarr/definitions";
-import { createIntegrationAsync, type DownloadClientJobsAndStatus } from "@homarr/integrations";
+import { createIntegrationAsync } from "@homarr/integrations";
+import type { DownloadClientJobsAndStatus } from "@homarr/integrations";
 import type { IMediaOrganizerIntegration, MediaRequest } from "@homarr/integrations/types";
 
 import { titlesLikelyMatch } from "./match";
