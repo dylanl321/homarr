@@ -97,7 +97,7 @@ export class RadarrIntegration extends Integration implements ICalendarIntegrati
   ): z.infer<typeof radarrCalendarEventSchema>["images"][number] | undefined => {
     const flatImages = [...event.images];
 
-    const sortedImages = flatImages.sort(
+    const sortedImages = flatImages.toSorted(
       (imageA, imageB) =>
         mediaOrganizerPriorities.indexOf(imageA.coverType) - mediaOrganizerPriorities.indexOf(imageB.coverType),
     );

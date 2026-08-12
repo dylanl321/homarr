@@ -93,7 +93,7 @@ export class SonarrIntegration extends Integration implements ICalendarIntegrati
   ): z.infer<typeof sonarrCalendarEventSchema>["images"][number] | undefined => {
     const flatImages = [...event.images, ...event.series.images];
 
-    const sortedImages = flatImages.sort(
+    const sortedImages = flatImages.toSorted(
       (imageA, imageB) =>
         mediaOrganizerPriorities.indexOf(imageA.coverType) - mediaOrganizerPriorities.indexOf(imageB.coverType),
     );
