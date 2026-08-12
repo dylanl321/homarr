@@ -27,11 +27,16 @@ import type {
   BackgroundImageRepeat,
   BackgroundImageSize,
   BoardPermission,
+  CmdbOwnerType,
+  CmdbRelationshipKind,
+  CmdbResourceKind,
   ColorScheme,
   GroupPermissionKey,
   IntegrationKind,
   IntegrationPermission,
   IntegrationSecretKind,
+  MediaTraceMediaType,
+  MediaTraceStage,
   OnboardingStep,
   SearchEngineType,
   SectionKind,
@@ -569,7 +574,7 @@ export const cronJobConfigurations = pgTable("cron_job_configuration", {
 export const cmdbResources = pgTable("cmdb_resource", {
   id: varchar({ length: 64 }).notNull().primaryKey(),
   name: varchar({ length: 256 }).notNull(),
-  kind: varchar({ length: 64 }).notNull(),
+  kind: varchar({ length: 64 }).$type<CmdbResourceKind>().notNull(),
   description: text(),
   tags: text().notNull().default("[]"),
   metadata: text().notNull().default("{}"),
@@ -587,7 +592,7 @@ export const cmdbRelationships = pgTable(
     targetId: varchar({ length: 64 })
       .notNull()
       .references(() => cmdbResources.id, { onDelete: "cascade" }),
-    kind: varchar({ length: 64 }).notNull(),
+    kind: varchar({ length: 64 }).$type<CmdbRelationshipKind>().notNull(),
     createdAt: timestamp().notNull(),
   },
   (table) => ({
@@ -603,7 +608,7 @@ export const cmdbOwners = pgTable(
     resourceId: varchar({ length: 64 })
       .notNull()
       .references(() => cmdbResources.id, { onDelete: "cascade" }),
-    ownerType: varchar({ length: 32 }).notNull(),
+    ownerType: varchar({ length: 32 }).$type<CmdbOwnerType>().notNull(),
     ownerId: varchar({ length: 64 }).notNull(),
     createdAt: timestamp().notNull(),
   },
@@ -617,7 +622,7 @@ export const mediaTraces = pgTable(
   {
     id: varchar({ length: 64 }).notNull().primaryKey(),
     title: varchar({ length: 512 }).notNull(),
-    mediaType: varchar({ length: 16 }).notNull(),
+    mediaType: varchar({ length: 16 }).$type<MediaTraceMediaType>().notNull(),
     tmdbId: varchar({ length: 64 }),
     tvdbId: varchar({ length: 64 }),
     imdbId: varchar({ length: 64 }),
@@ -638,7 +643,7 @@ export const mediaTraceEvents = pgTable(
     traceId: varchar({ length: 64 })
       .notNull()
       .references(() => mediaTraces.id, { onDelete: "cascade" }),
-    stage: varchar({ length: 32 }).notNull(),
+    stage: varchar({ length: 32 }).$type<MediaTraceStage>().notNull(),
     integrationId: varchar({ length: 64 }),
     integrationKind: varchar({ length: 64 }),
     externalId: varchar({ length: 128 }),

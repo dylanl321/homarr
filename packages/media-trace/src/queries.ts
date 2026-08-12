@@ -1,29 +1,31 @@
 import type { Database } from "@homarr/db";
-import { desc, eq } from "@homarr/db";
+import { desc, eq, like, or, sql } from "@homarr/db";
 import { mediaTraceEvents, mediaTraces } from "@homarr/db/schema";
 
+const sanitizeSearch = (value: string) => value.replaceAll(/[%_\\]/g, "").trim();
+
 export const listMediaTracesAsync = async (db: Database, options?: { search?: string; limit?: number }) => {
-  const limit = options?.limit ?? 50;
-  const traces = await db.query.mediaTraces.findMany({
+  const search = options?.search ? sanitizeSearch(options.search) : "";
+  const pattern = search ? `%${search.toLowerCase()}%` : null;
+  const searchFilter = pattern
+    ? or(
+        like(sql`lower(${mediaTraces.title})`, pattern),
+        like(sql`lower(${mediaTraces.tmdbId})`, pattern),
+        like(sql`lower(${mediaTraces.imdbId})`, pattern),
+        like(sql`lower(${mediaTraces.tvdbId})`, pattern),
+      )
+    : undefined;
+
+  return await db.query.mediaTraces.findMany({
+    where: searchFilter,
     orderBy: [desc(mediaTraces.updatedAt)],
-    limit,
+    limit: options?.limit ?? 50,
     with: {
       events: {
         orderBy: [desc(mediaTraceEvents.occurredAt)],
       },
     },
   });
-
-  if (!options?.search) return traces;
-
-  const needle = options.search.toLowerCase();
-  return traces.filter(
-    (trace) =>
-      trace.title.toLowerCase().includes(needle) ||
-      (trace.tmdbId ?? "").includes(needle) ||
-      (trace.imdbId ?? "").toLowerCase().includes(needle) ||
-      (trace.tvdbId ?? "").includes(needle),
-  );
 };
 
 export const getMediaTraceByIdAsync = async (db: Database, id: string) => {

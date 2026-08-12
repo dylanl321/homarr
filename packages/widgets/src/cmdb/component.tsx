@@ -9,12 +9,10 @@ import type { WidgetComponentProps } from "../definition";
 
 export default function CmdbWidget({ options }: WidgetComponentProps<"cmdb">) {
   const t = useI18n();
-  const { data = [], isLoading } = clientApi.cmdb.listResources.useQuery(
-    { search: options.search || undefined },
-    { refetchInterval: 30_000 },
-  );
-
-  const resources = data.slice(0, options.limit);
+  const { data = [], isLoading } = clientApi.cmdb.listResources.useQuery({
+    search: options.search.trim() || undefined,
+    limit: options.limit,
+  });
 
   if (isLoading) {
     return (
@@ -26,7 +24,7 @@ export default function CmdbWidget({ options }: WidgetComponentProps<"cmdb">) {
     );
   }
 
-  if (resources.length === 0) {
+  if (data.length === 0) {
     return (
       <Stack h="100%" justify="center" align="center" p="sm">
         <Title order={5}>{t("widget.cmdb.name")}</Title>
@@ -41,7 +39,7 @@ export default function CmdbWidget({ options }: WidgetComponentProps<"cmdb">) {
     <ScrollArea h="100%" p="sm">
       <Stack gap="xs">
         <Title order={5}>{t("widget.cmdb.name")}</Title>
-        {resources.map((resource) => (
+        {data.map((resource) => (
           <Stack key={resource.id} gap={2}>
             <Group justify="space-between" wrap="nowrap">
               <Text size="sm" fw={600} lineClamp={1}>

@@ -1,43 +1,57 @@
+import type { z } from "zod/v4";
+
 import { createId } from "@homarr/common";
-import type { Database } from "@homarr/db";
-import { and, desc, eq } from "@homarr/db";
+import type { Database, SQL } from "@homarr/db";
+import { and, desc, eq, like, or, sql } from "@homarr/db";
 import { cmdbOwners, cmdbRelationships, cmdbResources } from "@homarr/db/schema";
 
+import { CmdbError } from "./errors";
 import type {
+  CmdbResourceKind,
   createCmdbOwnerSchema,
   createCmdbRelationshipSchema,
   createCmdbResourceSchema,
   updateCmdbResourceSchema,
 } from "./types";
-import type { z } from "zod/v4";
 
 type CreateResourceInput = z.infer<typeof createCmdbResourceSchema>;
 type UpdateResourceInput = z.infer<typeof updateCmdbResourceSchema>;
 type CreateRelationshipInput = z.infer<typeof createCmdbRelationshipSchema>;
 type CreateOwnerInput = z.infer<typeof createCmdbOwnerSchema>;
 
-export const listCmdbResourcesAsync = async (db: Database, options?: { kind?: string; search?: string }) => {
-  const resources = await db.query.cmdbResources.findMany({
+const sanitizeSearch = (value: string) => value.replaceAll(/[%_\\]/g, "").trim();
+
+export const listCmdbResourcesAsync = async (
+  db: Database,
+  options?: { kind?: CmdbResourceKind; search?: string; limit?: number },
+) => {
+  const filters: SQL[] = [];
+
+  if (options?.kind) {
+    filters.push(eq(cmdbResources.kind, options.kind));
+  }
+
+  const search = options?.search ? sanitizeSearch(options.search) : "";
+  if (search) {
+    const pattern = `%${search.toLowerCase()}%`;
+    const searchFilter = or(
+      like(sql`lower(${cmdbResources.name})`, pattern),
+      like(sql`lower(${cmdbResources.description})`, pattern),
+    );
+    if (searchFilter) {
+      filters.push(searchFilter);
+    }
+  }
+
+  return await db.query.cmdbResources.findMany({
+    where: filters.length > 0 ? and(...filters) : undefined,
     orderBy: [desc(cmdbResources.updatedAt)],
+    limit: options?.limit ?? 50,
     with: {
       relationshipsFrom: true,
       relationshipsTo: true,
       owners: true,
     },
-  });
-
-  return resources.filter((resource) => {
-    if (options?.kind && resource.kind !== options.kind) return false;
-    if (options?.search) {
-      const needle = options.search.toLowerCase();
-      if (
-        !resource.name.toLowerCase().includes(needle) &&
-        !(resource.description ?? "").toLowerCase().includes(needle)
-      ) {
-        return false;
-      }
-    }
-    return true;
   });
 };
 
@@ -102,6 +116,27 @@ export const deleteCmdbResourceAsync = async (db: Database, id: string) => {
 };
 
 export const createCmdbRelationshipAsync = async (db: Database, input: CreateRelationshipInput) => {
+  if (input.sourceId === input.targetId) {
+    throw new CmdbError("BAD_REQUEST", "A resource cannot relate to itself");
+  }
+
+  const [source, target] = await Promise.all([
+    db.query.cmdbResources.findFirst({ where: eq(cmdbResources.id, input.sourceId) }),
+    db.query.cmdbResources.findFirst({ where: eq(cmdbResources.id, input.targetId) }),
+  ]);
+  if (!source || !target) {
+    throw new CmdbError("NOT_FOUND", "CMDB relationship source or target was not found");
+  }
+
+  const existing = await db.query.cmdbRelationships.findFirst({
+    where: and(
+      eq(cmdbRelationships.sourceId, input.sourceId),
+      eq(cmdbRelationships.targetId, input.targetId),
+      eq(cmdbRelationships.kind, input.kind),
+    ),
+  });
+  if (existing) return existing;
+
   const id = createId();
   await db.insert(cmdbRelationships).values({
     id,
@@ -120,6 +155,13 @@ export const deleteCmdbRelationshipAsync = async (db: Database, id: string) => {
 };
 
 export const createCmdbOwnerAsync = async (db: Database, input: CreateOwnerInput) => {
+  const resource = await db.query.cmdbResources.findFirst({
+    where: eq(cmdbResources.id, input.resourceId),
+  });
+  if (!resource) {
+    throw new CmdbError("NOT_FOUND", "CMDB resource not found");
+  }
+
   const existing = await db.query.cmdbOwners.findFirst({
     where: and(
       eq(cmdbOwners.resourceId, input.resourceId),

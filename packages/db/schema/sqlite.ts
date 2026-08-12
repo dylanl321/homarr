@@ -16,11 +16,16 @@ import type {
   BackgroundImageRepeat,
   BackgroundImageSize,
   BoardPermission,
+  CmdbOwnerType,
+  CmdbRelationshipKind,
+  CmdbResourceKind,
   ColorScheme,
   GroupPermissionKey,
   IntegrationKind,
   IntegrationPermission,
   IntegrationSecretKind,
+  MediaTraceMediaType,
+  MediaTraceStage,
   OnboardingStep,
   SearchEngineType,
   SectionKind,
@@ -559,7 +564,7 @@ export const cronJobConfigurations = sqliteTable("cron_job_configuration", {
 export const cmdbResources = sqliteTable("cmdb_resource", {
   id: text().notNull().primaryKey(),
   name: text().notNull(),
-  kind: text().notNull(),
+  kind: text().$type<CmdbResourceKind>().notNull(),
   description: text(),
   tags: text().notNull().default("[]"),
   metadata: text().notNull().default("{}"),
@@ -577,7 +582,7 @@ export const cmdbRelationships = sqliteTable(
     targetId: text()
       .notNull()
       .references(() => cmdbResources.id, { onDelete: "cascade" }),
-    kind: text().notNull(),
+    kind: text().$type<CmdbRelationshipKind>().notNull(),
     createdAt: int({ mode: "timestamp" }).notNull(),
   },
   (table) => ({
@@ -593,7 +598,7 @@ export const cmdbOwners = sqliteTable(
     resourceId: text()
       .notNull()
       .references(() => cmdbResources.id, { onDelete: "cascade" }),
-    ownerType: text().notNull(),
+    ownerType: text().$type<CmdbOwnerType>().notNull(),
     ownerId: text().notNull(),
     createdAt: int({ mode: "timestamp" }).notNull(),
   },
@@ -607,7 +612,7 @@ export const mediaTraces = sqliteTable(
   {
     id: text().notNull().primaryKey(),
     title: text().notNull(),
-    mediaType: text().notNull(),
+    mediaType: text().$type<MediaTraceMediaType>().notNull(),
     tmdbId: text(),
     tvdbId: text(),
     imdbId: text(),
@@ -628,7 +633,7 @@ export const mediaTraceEvents = sqliteTable(
     traceId: text()
       .notNull()
       .references(() => mediaTraces.id, { onDelete: "cascade" }),
-    stage: text().notNull(),
+    stage: text().$type<MediaTraceStage>().notNull(),
     integrationId: text(),
     integrationKind: text(),
     externalId: text(),

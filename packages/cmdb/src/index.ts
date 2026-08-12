@@ -1,3 +1,4 @@
+export { CmdbError } from "./errors";
 export {
   cmdbOwnerTypes,
   cmdbRelationshipKinds,
@@ -6,10 +7,8 @@ export {
   createCmdbRelationshipSchema,
   createCmdbResourceSchema,
   updateCmdbResourceSchema,
-  type CmdbOwnerType,
-  type CmdbRelationshipKind,
-  type CmdbResourceKind,
 } from "./types";
+export type { CmdbOwnerType, CmdbRelationshipKind, CmdbResourceKind } from "./types";
 export {
   createCmdbOwnerAsync,
   createCmdbRelationshipAsync,

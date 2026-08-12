@@ -97,7 +97,11 @@ const upsertTraceEventAsync = async (db: Database, candidate: TraceCandidate) =>
       createdAt: now,
       updatedAt: now,
     });
-    trace = (await db.query.mediaTraces.findFirst({ where: eq(mediaTraces.id, id) }))!;
+    const created = await db.query.mediaTraces.findFirst({ where: eq(mediaTraces.id, id) });
+    if (!created) {
+      throw new Error(`Failed to load media trace after insert id=${id}`);
+    }
+    trace = created;
   } else {
     await db
       .update(mediaTraces)
@@ -288,10 +292,35 @@ export const runMediaTraceCorrelationAsync = async (db: Database) => {
     ...(await collectDownloadCandidatesAsync(db)),
   ];
 
+  let upsertedCount = 0;
+  let failedCount = 0;
+  let skippedCount = 0;
+
   for (const candidate of candidates) {
-    await upsertTraceEventAsync(db, candidate);
+    if (!candidate.title.trim()) {
+      skippedCount += 1;
+      continue;
+    }
+
+    try {
+      await upsertTraceEventAsync(db, candidate);
+      upsertedCount += 1;
+    } catch (error) {
+      failedCount += 1;
+      logger.warn("Failed to upsert media trace candidate", {
+        title: candidate.title,
+        stage: candidate.stage,
+        integrationId: candidate.integrationId,
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
   }
 
-  logger.info("Media trace correlation finished", { candidateCount: candidates.length });
-  return { candidateCount: candidates.length };
+  logger.info("Media trace correlation finished", {
+    candidateCount: candidates.length,
+    upsertedCount,
+    failedCount,
+    skippedCount,
+  });
+  return { candidateCount: candidates.length, upsertedCount, failedCount, skippedCount };
 };
