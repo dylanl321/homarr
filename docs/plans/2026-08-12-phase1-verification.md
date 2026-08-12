@@ -1,6 +1,6 @@
 # Phase 1 — Candidate differentiator verification
 
-Checkout verified: `dylanl321/homarr` `dev` at `81caaa9d` (pre-MCP). Homarr docs and `homarr-labs/homarr` `dev` already ship MCP via [#5882](https://github.com/homarr-labs/homarr/issues/5882); syncing that is Phase 0 work, not a custom build.
+Initial verification used `dylanl321/homarr` `dev` at `81caaa9d` (pre-MCP). Homarr docs and `homarr-labs/homarr` `dev` ship MCP via [#5882](https://github.com/homarr-labs/homarr/issues/5882). Phase 0 merged `upstream/dev` onto this branch (Homarr **1.74.0**); MCP sources are now present (`packages/api/src/mcp.ts`, `apps/nextjs/src/app/api/mcp/`).
 
 | ID | Capability | Verdict | Evidence |
 |---|---|---|---|
@@ -13,11 +13,9 @@ Checkout verified: `dylanl321/homarr` `dev` at `81caaa9d` (pre-MCP). Homarr docs
 
 ## MCP note (proposal correction)
 
-This checkout has **no** MCP package or `/api/mcp` routes (grep for `mcp` / `@modelcontextprotocol` is empty). OpenAPI today is a **subset** of routers via [`packages/api/src/open-api.ts`](../../packages/api/src/open-api.ts) (`user`, `invite`, `app`, `info` only).
+Pre-sync checkout had **no** MCP routes. After merging `upstream/dev`, MCP is present at `/api/mcp/mcp` (Streamable HTTP) with API-key and OAuth support. Verified: `tools/list` returns 69 tools on Homarr 1.74.0.
 
-Upstream Homarr documents MCP at `/api/mcp/mcp` with Streamable HTTP + API key / OAuth 2.1 + PKCE. Tools are **opt-in**: procedures need `.meta({ mcp: { enabled: true, … } })` and registration in `packages/api/src/mcp.ts` (eager imports). They are not auto-exported from every tRPC procedure on `root.ts`.
-
-Phase 0 must merge `upstream/dev` before custom routers can register as MCP tools.
+OpenAPI remains a **subset** of routers via [`packages/api/src/open-api.ts`](../../packages/api/src/open-api.ts). MCP tools are **opt-in**: procedures need `.meta({ mcp: { enabled: true, … } })` and registration in [`packages/api/src/mcp.ts`](../../packages/api/src/mcp.ts) (eager imports). They are not auto-exported from every tRPC procedure on `root.ts`.
 
 ## Proceed / defer
 

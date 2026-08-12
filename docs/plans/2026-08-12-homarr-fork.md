@@ -51,9 +51,14 @@ Touched upstream core files should stay short: `root.ts`, MCP registry, DB schem
 
 ### Phase 0 — Fork & baseline (this iteration)
 
-- Add `upstream` remote → `homarr-labs/homarr`; merge/rebase `upstream/dev` so built-in MCP (`/api/mcp/mcp`, PR #5882) is present.
-- Prefer Postgres (`DB_DRIVER=node-postgres`).
-- Verification: app boots; board renders; MCP `tools/list` works with an API key.
+- Add `upstream` remote → `homarr-labs/homarr`; merge `upstream/dev` so built-in MCP (`/api/mcp/mcp`, PR #5882) is present. **Done** on this branch (Homarr **1.74.0**).
+- Prefer Postgres (`DB_DRIVER=node-postgres`). **Done** — migrations + seed applied to local Postgres.
+- Verification (local cloud agent):
+  - Next.js `:3000` and websocket `:3001` listening; tasks cron runner active.
+  - Home `/` returns 200 after onboarding finish; seeded board at `/boards/dashboard`.
+  - MCP `initialize` with `ApiKey` returns `serverInfo.name=homarr` / `version=1.74.0`.
+  - MCP `tools/list` returns **69** tools (e.g. `app_*`, `board_*`, `apiKeys_*`).
+- Remotes: `origin` = `dylanl321/homarr`; `upstream` = `homarr-labs/homarr` (add locally after clone: `git remote add upstream https://github.com/homarr-labs/homarr.git`).
 
 ### Phase 1 — Verification spike (this iteration)
 
