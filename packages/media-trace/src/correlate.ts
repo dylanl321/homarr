@@ -97,7 +97,11 @@ const upsertTraceEventAsync = async (db: Database, candidate: TraceCandidate) =>
       createdAt: now,
       updatedAt: now,
     });
-    trace = (await db.query.mediaTraces.findFirst({ where: eq(mediaTraces.id, id) }))!;
+    const created = await db.query.mediaTraces.findFirst({ where: eq(mediaTraces.id, id) });
+    if (!created) {
+      throw new Error(`Failed to load media trace after insert id=${id}`);
+    }
+    trace = created;
   } else {
     await db
       .update(mediaTraces)
