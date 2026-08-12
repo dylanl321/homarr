@@ -1839,6 +1839,40 @@
         }
       }
     },
+    "cmdb": {
+      "name": "CMDB",
+      "description": "List inventory resources and their relationships.",
+      "empty": "No CMDB resources yet. Create some via MCP or the API.",
+      "neighbors": "{from} outbound · {to} inbound · {owners} owners",
+      "option": {
+        "search": {
+          "label": "Search filter"
+        },
+        "limit": {
+          "label": "Max resources"
+        }
+      }
+    },
+    "mediaJourney": {
+      "name": "Media journey",
+      "description": "Correlated path of a title across request, grab, download, import, and library.",
+      "empty": "No media journeys yet. Connect media integrations or run correlation.",
+      "stage": {
+        "request": "Request",
+        "grab": "Grab",
+        "download": "Download",
+        "import": "Import",
+        "library": "Library"
+      },
+      "option": {
+        "search": {
+          "label": "Search filter"
+        },
+        "limit": {
+          "label": "Max journeys"
+        }
+      }
+    },
     "dnsHoleSummary": {
       "name": "DNS Hole Summary",
       "description": "Displays the summary of your DNS Hole",
@@ -4969,6 +5003,9 @@
             },
             "ping": {
               "label": "Pings"
+            },
+            "mediaTraceCorrelation": {
+              "label": "Media journey correlation"
             }
           },
           "interval": {

@@ -43,6 +43,7 @@ import {
   IconTable,
   IconTicket,
   IconTopologyFull,
+  IconTopologyStar,
   IconTransform,
   IconVideo,
   IconWall,
@@ -108,4 +109,6 @@ export const widgetCatalogIcons: Record<WidgetKind, TablerIcon> = {
   traefik: IconRoute,
   customApi: IconApi,
   wud: IconBrandDocker,
+  cmdb: IconTopologyStar,
+  mediaJourney: IconRoute,
 };

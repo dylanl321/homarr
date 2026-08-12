@@ -556,6 +556,130 @@ export const cronJobConfigurations = sqliteTable("cron_job_configuration", {
   isEnabled: int({ mode: "boolean" }).default(true).notNull(),
 });
 
+export const cmdbResources = sqliteTable("cmdb_resource", {
+  id: text().notNull().primaryKey(),
+  name: text().notNull(),
+  kind: text().notNull(),
+  description: text(),
+  tags: text().notNull().default("[]"),
+  metadata: text().notNull().default("{}"),
+  createdAt: int({ mode: "timestamp" }).notNull(),
+  updatedAt: int({ mode: "timestamp" }).notNull(),
+});
+
+export const cmdbRelationships = sqliteTable(
+  "cmdb_relationship",
+  {
+    id: text().notNull().primaryKey(),
+    sourceId: text()
+      .notNull()
+      .references(() => cmdbResources.id, { onDelete: "cascade" }),
+    targetId: text()
+      .notNull()
+      .references(() => cmdbResources.id, { onDelete: "cascade" }),
+    kind: text().notNull(),
+    createdAt: int({ mode: "timestamp" }).notNull(),
+  },
+  (table) => ({
+    sourceIdx: index("cmdb_relationship_source_idx").on(table.sourceId),
+    targetIdx: index("cmdb_relationship_target_idx").on(table.targetId),
+  }),
+);
+
+export const cmdbOwners = sqliteTable(
+  "cmdb_owner",
+  {
+    id: text().notNull().primaryKey(),
+    resourceId: text()
+      .notNull()
+      .references(() => cmdbResources.id, { onDelete: "cascade" }),
+    ownerType: text().notNull(),
+    ownerId: text().notNull(),
+    createdAt: int({ mode: "timestamp" }).notNull(),
+  },
+  (table) => ({
+    resourceIdx: index("cmdb_owner_resource_idx").on(table.resourceId),
+  }),
+);
+
+export const mediaTraces = sqliteTable(
+  "media_trace",
+  {
+    id: text().notNull().primaryKey(),
+    title: text().notNull(),
+    mediaType: text().notNull(),
+    tmdbId: text(),
+    tvdbId: text(),
+    imdbId: text(),
+    status: text().notNull(),
+    createdAt: int({ mode: "timestamp" }).notNull(),
+    updatedAt: int({ mode: "timestamp" }).notNull(),
+  },
+  (table) => ({
+    tmdbIdx: index("media_trace_tmdb_idx").on(table.tmdbId),
+    imdbIdx: index("media_trace_imdb_idx").on(table.imdbId),
+  }),
+);
+
+export const mediaTraceEvents = sqliteTable(
+  "media_trace_event",
+  {
+    id: text().notNull().primaryKey(),
+    traceId: text()
+      .notNull()
+      .references(() => mediaTraces.id, { onDelete: "cascade" }),
+    stage: text().notNull(),
+    integrationId: text(),
+    integrationKind: text(),
+    externalId: text(),
+    title: text(),
+    status: text(),
+    payload: text(),
+    occurredAt: int({ mode: "timestamp" }).notNull(),
+    createdAt: int({ mode: "timestamp" }).notNull(),
+  },
+  (table) => ({
+    traceIdx: index("media_trace_event_trace_idx").on(table.traceId),
+  }),
+);
+
+export const cmdbResourceRelations = relations(cmdbResources, ({ many }) => ({
+  relationshipsFrom: many(cmdbRelationships, { relationName: "cmdb_relationship_source" }),
+  relationshipsTo: many(cmdbRelationships, { relationName: "cmdb_relationship_target" }),
+  owners: many(cmdbOwners),
+}));
+
+export const cmdbRelationshipRelations = relations(cmdbRelationships, ({ one }) => ({
+  source: one(cmdbResources, {
+    fields: [cmdbRelationships.sourceId],
+    references: [cmdbResources.id],
+    relationName: "cmdb_relationship_source",
+  }),
+  target: one(cmdbResources, {
+    fields: [cmdbRelationships.targetId],
+    references: [cmdbResources.id],
+    relationName: "cmdb_relationship_target",
+  }),
+}));
+
+export const cmdbOwnerRelations = relations(cmdbOwners, ({ one }) => ({
+  resource: one(cmdbResources, {
+    fields: [cmdbOwners.resourceId],
+    references: [cmdbResources.id],
+  }),
+}));
+
+export const mediaTraceRelations = relations(mediaTraces, ({ many }) => ({
+  events: many(mediaTraceEvents),
+}));
+
+export const mediaTraceEventRelations = relations(mediaTraceEvents, ({ one }) => ({
+  trace: one(mediaTraces, {
+    fields: [mediaTraceEvents.traceId],
+    references: [mediaTraces.id],
+  }),
+}));
+
 export const accountRelations = relations(accounts, ({ one }) => ({
   user: one(users, {
     fields: [accounts.userId],

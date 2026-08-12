@@ -82,16 +82,15 @@ Touched upstream core files should stay short: `root.ts`, MCP registry, DB schem
 
 ### Phase 2 — Simple CMDB data model
 
-- Add CMDB Drizzle tables + Postgres migrations; unit tests for queries.
+- **Done:** `packages/cmdb`, Drizzle tables `cmdb_resource` / `cmdb_relationship` / `cmdb_owner` (Postgres/SQLite/MySQL migrations), unit tests for schemas.
 
 ### Phase 3 — CMDB tRPC + widget + MCP
 
-- `cmdb` router (CRUD resources/relationships/owners); MCP meta + registration; board widget.
+- **Done:** `cmdb` router + MCP registration; `cmdb` board widget + en translations.
 
 ### Phase 4 — Media journey correlation
 
-- Retain external IDs on relevant integration outputs; `media-trace` tables + correlation job; tRPC + MCP + media-journey widget.
-- Verification: a real or seeded multi-stage event set produces one correlated trace in the widget and via `mediaTrace.*` MCP tools.
+- **Done:** retain `tmdbId`/`tvdbId`/`imdbId` on media-request and *arr queue types; `packages/media-trace` + tables; `mediaTraceCorrelation` cron job; `mediaTrace` router/MCP; `mediaJourney` widget.
 
 ### Phase 5+ — Deferred
 
