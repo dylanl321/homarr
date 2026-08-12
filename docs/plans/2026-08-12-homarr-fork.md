@@ -1,6 +1,6 @@
 # Custom Homarr Fork — Locked Plan
 
-Status: approved for Phase 0–1 execution. Supersedes any “build a dashboard from scratch” approach for capabilities Homarr already ships.
+Status: approved for Phase 0–1; Phase 2–4 build next. Supersedes any “build a dashboard from scratch” approach for capabilities Homarr already ships.
 
 ## Locked decisions
 
@@ -10,7 +10,7 @@ Status: approved for Phase 0–1 execution. Supersedes any “build a dashboard 
 | D1 CMDB / topology | **In scope for v1** — simple model only |
 | D2 Discovery inbox | Deferred (not v1) |
 | D3 Audit log | Deferred (not v1) |
-| D4 Media journey correlation | Deferred (not v1) |
+| D4 Media journey correlation | **In scope for v1** |
 | D5 Two-step guarded actions | **Deferred** — Homarr permissions + UI confirms are enough |
 | D6 Secrets by reference (`op://` / `file://`) | **Deferred** — Homarr AES-256 DB secrets are enough |
 | Data migration from a prior hub app | **None** — greenfield |
@@ -20,7 +20,7 @@ Status: approved for Phase 0–1 execution. Supersedes any “build a dashboard 
 1. **Reuse-first.** Do not reimplement boards, widgets, integrations, auth, or realtime.
 2. **Verify before building.** Phase 1 findings gate custom packages.
 3. **Additive customization.** New logic lives in new `packages/*` + new routers/widgets; minimize core-file churn for upstream merges.
-4. **MCP-aware APIs.** After upstream MCP is synced, expose custom procedures with `.meta({ mcp: … })` and register them in `packages/api/src/mcp.ts`.
+4. **MCP-aware APIs.** Expose custom procedures with `.meta({ mcp: … })` and register them in `packages/api/src/mcp.ts`.
 5. **Upstream what is generic.** Bug fixes and broadly useful integrations go back to `homarr-labs/homarr`.
 
 ## Simple D1 (v1) scope
@@ -32,50 +32,70 @@ Minimal CMDB, not a full ITSM graph:
 - Surface: `packages/cmdb` + tRPC `cmdb` router + one board widget (list + basic topology/neighbors view).
 - Seed: manual create/update via UI/API only (no YAML importer required).
 
+## D4 media journey (v1) scope
+
+Reconstruct a title’s path across services as one trace: **request → grab → download → import → library**.
+
+Homarr today keeps media widgets siloed and **drops external IDs** on most normalized types (only Overseerr/Jellyseerr/Seerr retain TMDB on the raw request path). There is no media cron/Redis channel — widgets pull via request-handler caches.
+
+v1 approach:
+
+- New `packages/media-trace` with tables `media_traces` / `media_trace_events` (stage, integrationId, external ids, title, status, timestamps).
+- Correlation job in `apps/tasks` that periodically samples connected media integrations and upserts events, matching primarily on **`tmdbId` / `tvdbId` / `imdbId`**, with title fallback when IDs are missing (download clients).
+- Minimal upstream-touching patches in integration mappers to **retain** `tmdbId`/`tvdbId`/`imdbId` on calendar / media-organizer / media-server normalized types where the upstream API already provides them (prefer small additive fields; contribute upstream when generic).
+- tRPC `mediaTrace` router + MCP registration + a “media journey” board widget.
+
+Out of v1: perfect download-client matching without *arr queue join; Tracearr stream monitoring (unrelated).
+
 ## Target layout (v1 delta)
 
 ```
 packages/
-  cmdb/                 # NEW: schema helpers, queries
+  cmdb/                 # NEW: schema helpers, queries (D1)
+  media-trace/          # NEW: correlation model + job helpers (D4)
 packages/api/src/
-  root.ts               # + cmdb router
-  mcp.ts                # + cmdb (after upstream MCP sync)
+  root.ts               # + cmdb, mediaTrace routers
+  mcp.ts                # + cmdb, mediaTrace
   router/cmdb.ts        # NEW
-packages/db/            # + CMDB tables via separate schema module + migrations
-packages/widgets/       # + cmdb list/topology widget
+  router/media-trace.ts # NEW
+packages/db/            # + CMDB + media_trace tables via separate schema modules + migrations
+packages/widgets/       # + cmdb widget + media-journey widget
+apps/tasks/             # + media-trace correlation cron job
+packages/integrations/  # small additive ID fields on normalized media types (as needed)
 ```
 
-Touched upstream core files should stay short: `root.ts`, MCP registry, DB schema index, widget registry.
+Touched upstream core files should stay short: `root.ts`, MCP registry, DB schema index, widget registry, plus narrow integration type extensions for IDs.
 
 ## Phases
 
-### Phase 0 — Fork & baseline (this iteration)
+### Phase 0 — Fork & baseline (done)
 
-- Add `upstream` remote → `homarr-labs/homarr`; merge `upstream/dev` so built-in MCP (`/api/mcp/mcp`, PR #5882) is present. **Done** on this branch (Homarr **1.74.0**).
-- Prefer Postgres (`DB_DRIVER=node-postgres`). **Done** — migrations + seed applied to local Postgres.
-- Verification (local cloud agent):
-  - Next.js `:3000` and websocket `:3001` listening; tasks cron runner active.
-  - Home `/` returns 200 after onboarding finish; seeded board at `/boards/dashboard`.
-  - MCP `initialize` with `ApiKey` returns `serverInfo.name=homarr` / `version=1.74.0`.
-  - MCP `tools/list` returns **69** tools (e.g. `app_*`, `board_*`, `apiKeys_*`).
-- Remotes: `origin` = `dylanl321/homarr`; `upstream` = `homarr-labs/homarr` (add locally after clone: `git remote add upstream https://github.com/homarr-labs/homarr.git`).
+- Merged `upstream/dev` → Homarr **1.74.0** (MCP present).
+- Postgres migrations/seed; Next.js `:3000`, websocket `:3001`, tasks runner.
+- MCP `tools/list` → **69** tools with API key; `/boards/dashboard` returns 200.
+- Remotes: `origin` = `dylanl321/homarr`; `upstream` = `homarr-labs/homarr`.
 
-### Phase 1 — Verification spike (this iteration)
+### Phase 1 — Verification spike (done)
 
-- Written findings for D1–D6 with file references: [2026-08-12-phase1-verification.md](./2026-08-12-phase1-verification.md).
-- Result: only simple D1 proceeds to build; D2–D6 deferred.
+- Findings: [2026-08-12-phase1-verification.md](./2026-08-12-phase1-verification.md).
+- Build: simple D1 + D4. Defer: D2, D3, D5, D6.
 
 ### Phase 2 — Simple CMDB data model
 
 - Add CMDB Drizzle tables + Postgres migrations; unit tests for queries.
 
-### Phase 3 — tRPC + widget + MCP
+### Phase 3 — CMDB tRPC + widget + MCP
 
 - `cmdb` router (CRUD resources/relationships/owners); MCP meta + registration; board widget.
 
-### Phase 4+ — Deferred
+### Phase 4 — Media journey correlation
 
-- D2–D6 and packaging/cutover only if product revisits them.
+- Retain external IDs on relevant integration outputs; `media-trace` tables + correlation job; tRPC + MCP + media-journey widget.
+- Verification: a real or seeded multi-stage event set produces one correlated trace in the widget and via `mediaTrace.*` MCP tools.
+
+### Phase 5+ — Deferred
+
+- D2, D3, D5, D6 and packaging/cutover only if product revisits them.
 
 ## Fork hygiene
 

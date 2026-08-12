@@ -7,7 +7,7 @@ Initial verification used `dylanl321/homarr` `dev` at `81caaa9d` (pre-MCP). Homa
 | D1 | CMDB / topology | **Missing — build simple v1** | No `resources` / `relationships` / `owners` / graph tables. Schema covers auth, boards, apps, integrations, icons, cron: [`packages/db/schema/postgresql.ts`](../../packages/db/schema/postgresql.ts) (`apps` ~428, `boards` ~267, `integrations` ~195). Live Docker/K8s routers are ops views, not a persisted topology. |
 | D2 | Discovery inbox | **Missing — deferred** | No discovery/triage tables, routers, or widgets. Docker container listing is live inventory only ([`packages/api/src/router/docker/`](../../packages/api/src/router/docker/)). |
 | D3 | Audit log | **Missing — deferred** | No append-only actor/action/target table. [`packages/api/src/router/log.ts`](../../packages/api/src/router/log.ts) is a Redis runtime log subscription (`other-view-logs`), not an audit trail. |
-| D4 | Media journey correlation | **Missing — deferred** | Media widgets are siloed (requests, downloads, calendar, mediaServer, Tracearr). Tracearr is stream monitoring ([`packages/integrations/src/tracearr/`](../../packages/integrations/src/tracearr/), [`packages/widgets/src/tracearr/`](../../packages/widgets/src/tracearr/)), not request→grab→download→import→library traces. No correlation IDs across integrations. |
+| D4 | Media journey correlation | **Missing — build for v1** | Media widgets are siloed (requests, downloads, calendar, mediaServer, Tracearr). Tracearr is stream monitoring ([`packages/integrations/src/tracearr/`](../../packages/integrations/src/tracearr/), [`packages/widgets/src/tracearr/`](../../packages/widgets/src/tracearr/)), not request→grab→download→import→library traces. No media cron/Redis path; widgets use request-handler caches. Normalized types largely drop `tmdbId`/`tvdbId`/`imdbId` (TMDB survives only on Overseerr/Jellyseerr/Seerr search/request path). Product added D4 to v1 after Phase 1. |
 | D5 | Two-step guarded actions | **Missing — deferred (accepted)** | Mutations execute directly under permissions (`permissionRequiredProcedure`, integration query/interact middleware). UI has `useConfirmModal` ([`packages/modals/src/confirm-modal.tsx`](../../packages/modals/src/confirm-modal.tsx)) only — not prepare→confirm→execute with `action_requests`. Product accepted Homarr permissions for v1. |
 | D6 | Secrets by reference | **Missing — deferred (accepted)** | Secrets are AES-256-CBC ciphertext in `integrationSecret` ([`packages/common/src/encryption.ts`](../../packages/common/src/encryption.ts), `SECRET_ENCRYPTION_KEY`). No `op://` / `file://` resolvers. Product accepted DB-encrypted secrets for v1. |
 
@@ -21,6 +21,6 @@ OpenAPI remains a **subset** of routers via [`packages/api/src/open-api.ts`](../
 
 | Proceed to build | Deferred |
 |---|---|
-| Simple D1 (`resources`, `relationships`, optional `owners`) | D2, D3, D4, D5, D6 |
+| Simple D1 (`resources`, `relationships`, optional `owners`); D4 media journey (`media_traces` + correlation job + widget) | D2, D3, D5, D6 |
 
 See [2026-08-12-homarr-fork.md](./2026-08-12-homarr-fork.md) for locked product decisions and phase sequence.
