@@ -52,6 +52,11 @@ export const {
   customWidgetDefinitions,
   customWidgetSecrets,
   widgetSecrets,
+  cmdbResources,
+  cmdbRelationships,
+  cmdbOwners,
+  mediaTraces,
+  mediaTraceEvents,
 } = schema;
 
 export type User = InferSelectModel<typeof schema.users>;

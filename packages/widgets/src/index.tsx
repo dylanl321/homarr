@@ -64,6 +64,8 @@ import * as beszelSystemStats from "./beszel-system-stats";
 import * as video from "./video";
 import * as weather from "./weather";
 import * as customApi from "./custom-api";
+import * as cmdb from "./cmdb";
+import * as mediaJourney from "./media-journey";
 import * as wud from "./wud";
 
 export type {
@@ -130,6 +132,8 @@ export const widgetImports = {
   beszelSystemStats,
   traefik,
   customApi,
+  cmdb,
+  mediaJourney,
   wud,
 } satisfies WidgetImportRecord;
 

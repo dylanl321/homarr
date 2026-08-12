@@ -1260,6 +1260,9 @@ importers:
       '@homarr/auth':
         specifier: workspace:^0.1.0
         version: link:../auth
+      '@homarr/cmdb':
+        specifier: workspace:^0.1.0
+        version: link:../cmdb
       '@homarr/common':
         specifier: workspace:^0.1.0
         version: link:../common
@@ -1287,6 +1290,9 @@ importers:
       '@homarr/integrations':
         specifier: workspace:^0.1.0
         version: link:../integrations
+      '@homarr/media-trace':
+        specifier: workspace:^0.1.0
+        version: link:../media-trace
       '@homarr/old-import':
         specifier: workspace:^0.1.0
         version: link:../old-import
@@ -1475,6 +1481,25 @@ importers:
         specifier: 'catalog:'
         version: 7.0.2
 
+  packages/cmdb:
+    dependencies:
+      '@homarr/common':
+        specifier: workspace:^0.1.0
+        version: link:../common
+      '@homarr/db':
+        specifier: workspace:^0.1.0
+        version: link:../db
+      zod:
+        specifier: 'catalog:'
+        version: 4.4.3
+    devDependencies:
+      '@homarr/tsconfig':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/typescript
+      typescript:
+        specifier: 'catalog:'
+        version: 7.0.2
+
   packages/common:
     dependencies:
       '@homarr/core':
@@ -1609,6 +1634,9 @@ importers:
       '@homarr/integrations':
         specifier: workspace:^0.1.0
         version: link:../integrations
+      '@homarr/media-trace':
+        specifier: workspace:^0.1.0
+        version: link:../media-trace
       '@homarr/ping':
         specifier: workspace:^0.1.0
         version: link:../ping
@@ -1985,6 +2013,34 @@ importers:
       '@types/xml2js':
         specifier: 'catalog:'
         version: 0.4.14
+      typescript:
+        specifier: 'catalog:'
+        version: 7.0.2
+
+  packages/media-trace:
+    dependencies:
+      '@homarr/common':
+        specifier: workspace:^0.1.0
+        version: link:../common
+      '@homarr/core':
+        specifier: workspace:^0.1.0
+        version: link:../core
+      '@homarr/db':
+        specifier: workspace:^0.1.0
+        version: link:../db
+      '@homarr/definitions':
+        specifier: workspace:^0.1.0
+        version: link:../definitions
+      '@homarr/integrations':
+        specifier: workspace:^0.1.0
+        version: link:../integrations
+      zod:
+        specifier: 'catalog:'
+        version: 4.4.3
+    devDependencies:
+      '@homarr/tsconfig':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/typescript
       typescript:
         specifier: 'catalog:'
         version: 7.0.2
@@ -9407,6 +9463,7 @@ packages:
 
   crypto-js@4.2.0:
     resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
+    deprecated: Active development of CryptoJS has been discontinued. This library is no longer maintained.
 
   crypto-random-string@4.0.0:
     resolution: {integrity: sha512-x8dy3RnvYdlUcPOjkEHqozhiwzKNSq7GcPuXFbnyMOCHxX8V3OgIg/pYuabl2sbUPfIJaeAQB7PMOK8DFIdoRA==}

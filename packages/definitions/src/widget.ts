@@ -54,6 +54,8 @@ export const widgetKinds = [
   "traefik",
   "customApi",
   "wud",
+  "cmdb",
+  "mediaJourney",
 ] as const;
 export type WidgetKind = (typeof widgetKinds)[number];
 

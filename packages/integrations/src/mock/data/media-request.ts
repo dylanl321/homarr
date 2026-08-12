@@ -81,6 +81,7 @@ export class MediaRequestMockService implements IMediaRequestIntegration {
       status: this.randomStatus(),
       href: `https://example.com/media/${index}`,
       type: Math.random() > 0.5 ? "movie" : "tv",
+      tmdbId: 1000 + index,
       requestedBy: {
         avatar: "/images/mock/avatar.jpg",
         displayName: `User ${index}`,

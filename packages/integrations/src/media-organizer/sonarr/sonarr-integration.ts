@@ -186,6 +186,9 @@ export class SonarrIntegration extends Integration implements ICalendarIntegrati
           link: item.series?.titleSlug
             ? this.externalUrl(`/series/${item.series.titleSlug}`).toString()
             : this.externalUrl("/activity/queue").toString(),
+          tmdbId: item.series?.tmdbId,
+          tvdbId: item.series?.tvdbId,
+          imdbId: item.series?.imdbId,
         };
       }),
     };
@@ -234,6 +237,9 @@ const sonarrQueueItemSchema = z.object({
     .object({
       title: z.string(),
       titleSlug: z.string(),
+      tmdbId: z.number().optional(),
+      tvdbId: z.number().optional(),
+      imdbId: z.string().optional(),
       images: z.array(
         z.object({
           coverType: z.string(),

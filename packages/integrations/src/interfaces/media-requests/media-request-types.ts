@@ -28,6 +28,8 @@ export interface MediaRequest {
   id: number;
   name: string;
   type: "movie" | "tv";
+  /** TMDB id when available (Overseerr/Jellyseerr/Seerr). */
+  tmdbId?: number;
   backdropImageUrl: string;
   posterImagePath: string;
   href: string;
