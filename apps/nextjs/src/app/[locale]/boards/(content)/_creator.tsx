@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
+import { cache } from "react";
 import { TRPCError } from "@trpc/server";
 
 // Placed here because gridstack styles are used for board content
 import "~/styles/gridstack.scss";
 
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-
-import { getQueryClient } from "@homarr/api/server";
+import { makeQueryClient } from "@homarr/api/shared";
 import { IntegrationProvider } from "@homarr/auth/client";
 import { auth } from "@homarr/auth/next";
 import { getIntegrationsWithPermissionsAsync } from "@homarr/auth/server";
@@ -18,12 +18,14 @@ import { getI18n } from "@homarr/translation/server";
 import { prefetchForKindAsync } from "@homarr/widgets/prefetch";
 
 import { createMetaTitle } from "~/metadata";
+import { env } from "~/env";
 import { createBoardLayout } from "../_layout-creator";
 import type { Board, Item } from "../_types";
 import { DynamicClientBoard } from "./_dynamic-client";
 import { BoardContentHeaderActions } from "./_header-actions";
 
 const logger = createLogger({ module: "createBoardContentPage" });
+const getQueryClient = cache(makeQueryClient);
 
 export type Params = Record<string, unknown>;
 
@@ -36,18 +38,17 @@ export const createBoardContentPage = <TParams extends Record<string, unknown>>(
 }: Props<TParams>) => {
   return {
     layout: createBoardLayout({
-      headerActions: <BoardContentHeaderActions />,
+      headerActions: <BoardContentHeaderActions demoReadOnly={env.DEMO_MODE && env.DEMO_READ_ONLY} />,
       getInitialBoardAsync: getInitialBoard,
+      withTour: true,
     }),
     // eslint-disable-next-line no-restricted-syntax
     page: async ({ params }: { params: Promise<TParams> }) => {
-      const session = await auth();
-      const integrations = await getIntegrationsWithPermissionsAsync(session);
-
-      const board = await getInitialBoard(await params);
+      const resolvedParams = await params;
       const queryClient = getQueryClient();
 
-      // Prefetch item data
+      const [board, session] = await Promise.all([getInitialBoard(resolvedParams), auth()]);
+
       const itemsMap = board.items.reduce((acc, item) => {
         const existing = acc.get(item.kind);
         if (existing) {
@@ -57,18 +58,20 @@ export const createBoardContentPage = <TParams extends Record<string, unknown>>(
         }
         return acc;
       }, new Map<WidgetKind, Item[]>());
-
-      for (const [kind, items] of itemsMap) {
-        await prefetchForKindAsync(kind, queryClient, items).catch((error) => {
-          logger.error(
-            new ErrorWithMetadata(
-              "Failed to prefetch widget",
-              { widgetKind: kind, itemCount: items.length },
-              { cause: error },
-            ),
-          );
-        });
-      }
+      const [integrations] = await Promise.all([
+        getIntegrationsWithPermissionsAsync(session),
+        ...Array.from(itemsMap).map(([kind, items]) =>
+          prefetchForKindAsync(kind, queryClient, items).catch((error) => {
+            logger.error(
+              new ErrorWithMetadata(
+                "Failed to prefetch widget",
+                { widgetKind: kind, itemCount: items.length },
+                { cause: error },
+              ),
+            );
+          }),
+        ),
+      ]);
 
       return (
         <HydrationBoundary state={dehydrate(queryClient)}>

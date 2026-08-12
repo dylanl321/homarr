@@ -1,18 +1,44 @@
 import { IconPhoto } from "@tabler/icons-react";
 import z from "zod";
 
+import { clientApi } from "@homarr/api/client";
+import { useScopedI18n } from "@homarr/translation/client";
+
 import { createWidgetDefinition } from "../../definition";
 import { optionsBuilder } from "../../options";
+import { ALL_PHOTOS_ALBUM_ID } from "./constants";
 
 export const { definition, componentLoader } = createWidgetDefinition("immich-albumCarousel", {
   icon: IconPhoto,
+  queryKey: [["widget", "immich"]],
+  refetchInterval: null,
   supportedIntegrations: ["immich"],
   integrationsRequired: true,
   createOptions() {
     return optionsBuilder.from((factory) => ({
-      albumId: factory.text({
-        defaultValue: "",
+      albumId: factory.integrationSelect({
+        defaultValue: ALL_PHOTOS_ALBUM_ID,
         withDescription: true,
+        clearable: true,
+        useOptions: (integrationIds: string[]) => {
+          const t = useScopedI18n("widget.immich-albumCarousel");
+          const {
+            data = [],
+            isPending,
+            isError,
+          } = clientApi.widget.immich.getAlbums.useQuery(
+            { integrationId: integrationIds[0] ?? "" },
+            { enabled: integrationIds.length > 0, staleTime: 15 * 60 * 1000 },
+          );
+          return {
+            data: [
+              { value: ALL_PHOTOS_ALBUM_ID, label: t("allPhotos") },
+              ...data.map((album) => ({ value: album.id, label: album.albumName })),
+            ],
+            isPending,
+            isError,
+          };
+        },
       }),
       rotationIntervalSeconds: factory.number({
         defaultValue: 5,
@@ -20,6 +46,10 @@ export const { definition, componentLoader } = createWidgetDefinition("immich-al
         withDescription: true,
       }),
       showPhotoInfo: factory.switch({
+        defaultValue: false,
+        withDescription: true,
+      }),
+      randomizePhotos: factory.switch({
         defaultValue: false,
         withDescription: true,
       }),

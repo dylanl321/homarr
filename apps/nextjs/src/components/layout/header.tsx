@@ -1,13 +1,14 @@
 import type { ReactNode } from "react";
 import { AppShellHeader, Group, UnstyledButton } from "@mantine/core";
 
-import { Spotlight } from "@homarr/spotlight";
 import { Link } from "@homarr/ui";
 
 import { ClientBurger } from "./header/burger";
 import { DesktopSearchInput, MobileSearchButton } from "./header/search";
+import { TourTarget } from "./header/tour-target";
 import { UserButton } from "./header/user";
 import { HomarrLogoWithTitle } from "./logo/homarr-logo";
+import { LazySpotlight } from "./header/lazy-spotlight";
 
 interface Props {
   logo?: ReactNode;
@@ -17,7 +18,7 @@ interface Props {
 
 export const MainHeader = ({ logo, actions, hasNavigation = true }: Props) => {
   return (
-    <AppShellHeader maw="100vw" style={{ overflowX: "hidden" }}>
+    <AppShellHeader maw="100vw" zIndex={201} style={{ overflowX: "hidden" }}>
       <Group h="100%" gap="xl" px="md" justify="apart" wrap="nowrap">
         <Group h="100%" align="center" style={{ flex: 1 }} wrap="nowrap">
           {hasNavigation && <ClientBurger />}
@@ -25,14 +26,18 @@ export const MainHeader = ({ logo, actions, hasNavigation = true }: Props) => {
             {logo ?? <HomarrLogoWithTitle size="md" />}
           </UnstyledButton>
         </Group>
-        <DesktopSearchInput />
+        <TourTarget id="board-search">
+          <DesktopSearchInput />
+        </TourTarget>
         <Group h="100%" align="center" justify="end" style={{ flex: 1 }} wrap="nowrap">
           {actions}
           <MobileSearchButton />
-          <UserButton />
+          <TourTarget id="board-user-menu">
+            <UserButton />
+          </TourTarget>
         </Group>
       </Group>
-      <Spotlight />
+      <LazySpotlight />
     </AppShellHeader>
   );
 };

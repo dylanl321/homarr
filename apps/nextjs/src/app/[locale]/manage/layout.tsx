@@ -2,6 +2,7 @@ import type { PropsWithChildren } from "react";
 import { AppShellMain } from "@mantine/core";
 import {
   IconAffiliateFilled,
+  IconApi,
   IconBook2,
   IconBox,
   IconBrandDiscord,
@@ -10,6 +11,7 @@ import {
   IconBrandTablerFilled,
   IconCertificate,
   IconClipboardListFilled,
+  IconDatabaseExport,
   IconDirectionsFilled,
   IconGitFork,
   IconHelpSquareRoundedFilled,
@@ -25,9 +27,12 @@ import {
   IconUsersGroup,
 } from "@tabler/icons-react";
 
+import { getRscUserSettingsAsync } from "@homarr/api/user-server";
 import { auth } from "@homarr/auth/next";
 import { isProviderEnabled } from "@homarr/auth/server";
+import { createLogger } from "@homarr/core/infrastructure/logs";
 import { createDocumentationLink } from "@homarr/definitions";
+import { dbEnv } from "@homarr/core/infrastructure/db/env";
 import { env } from "@homarr/docker/env";
 import { getScopedI18n } from "@homarr/translation/server";
 
@@ -36,55 +41,87 @@ import { homarrLogoPath } from "~/components/layout/logo/homarr-logo";
 import type { NavigationLink } from "~/components/layout/navigation";
 import { MainNavigation } from "~/components/layout/navigation";
 import { ClientShell } from "~/components/layout/shell";
+import { ManageTourGate } from "~/components/onboarding/manage-tour-gate";
+import { env as nextEnv } from "~/env";
+
+const logger = createLogger({ module: "manageLayout" });
 
 export default async function ManageLayout({ children }: PropsWithChildren) {
-  const t = await getScopedI18n("management.navbar");
-  const session = await auth();
+  const sessionPromise = auth();
+  const shouldRunManageTourPromise = sessionPromise.then(async (session) => {
+    if (!session || nextEnv.DEMO_MODE) return false;
+
+    try {
+      const user = await getRscUserSettingsAsync(session.user.id);
+      return user !== undefined && !user.completedManageTour;
+    } catch (error) {
+      logger.error(new Error("Failed to load the management tour status", { cause: error }));
+      return false;
+    }
+  });
+  const [t, session, shouldRunManageTour] = await Promise.all([
+    getScopedI18n("management.navbar"),
+    sessionPromise,
+    shouldRunManageTourPromise,
+  ]);
   const navigationLinks: NavigationLink[] = [
     {
       label: t("items.home"),
       icon: IconHomeFilled,
       href: "/manage",
+      "data-onboarding-tour-id": "manage-welcome",
     },
     {
       icon: IconLayoutDashboardFilled,
       href: "/manage/boards",
       label: t("items.boards"),
+      "data-onboarding-tour-id": "manage-boards",
     },
     {
       icon: IconBox,
       href: "/manage/apps",
       label: t("items.apps"),
-      hidden: !session,
+      hidden: !session?.user.permissions.includes("app-create"),
       iconProps: {
         strokeWidth: 2.5,
       },
+      "data-onboarding-tour-id": "manage-apps",
     },
     {
       icon: IconAffiliateFilled,
       href: "/manage/integrations",
       label: t("items.integrations"),
-      hidden: !session,
+      hidden: !session?.user.permissions.includes("integration-create"),
+      "data-onboarding-tour-id": "manage-integrations",
+    },
+    {
+      icon: IconApi,
+      href: "/manage/custom-widgets",
+      label: t("items.customWidgets"),
+      hidden: !session?.user.permissions.includes("admin"),
     },
     {
       icon: IconSearch,
       href: "/manage/search-engines",
       label: t("items.searchEngies"),
-      hidden: !session,
+      hidden: !session?.user.permissions.includes("search-engine-create"),
       iconProps: {
         strokeWidth: 2.5,
       },
+      "data-onboarding-tour-id": "manage-search-engines",
     },
     {
       icon: IconPhotoFilled,
       href: "/manage/medias",
       label: t("items.medias"),
-      hidden: !session,
+      hidden: !session?.user.permissions.includes("media-upload"),
+      "data-onboarding-tour-id": "manage-medias",
     },
     {
       icon: IconUserFilled,
       label: t("items.users.label"),
       hidden: !session?.user.permissions.includes("admin"),
+      "data-onboarding-tour-id": "manage-users",
       items: [
         {
           label: t("items.users.items.manage"),
@@ -146,6 +183,12 @@ export default async function ManageLayout({ children }: PropsWithChildren) {
           href: "/manage/tools/tasks",
           hidden: !session?.user.permissions.includes("admin"),
         },
+        {
+          label: t("items.tools.items.backup"),
+          icon: IconDatabaseExport,
+          href: "/manage/tools/backup",
+          hidden: !session?.user.permissions.includes("admin") || dbEnv.DRIVER !== "better-sqlite3",
+        },
       ],
     },
     {
@@ -153,6 +196,7 @@ export default async function ManageLayout({ children }: PropsWithChildren) {
       href: "/manage/settings",
       icon: IconSettingsFilled,
       hidden: !session?.user.permissions.includes("admin"),
+      "data-onboarding-tour-id": "manage-settings",
     },
     {
       label: t("items.help.label"),
@@ -191,11 +235,19 @@ export default async function ManageLayout({ children }: PropsWithChildren) {
     },
   ];
 
-  return (
+  const isAdmin = session?.user.permissions.includes("admin") ?? false;
+
+  const shell = (
     <ClientShell hasNavigation>
       <MainHeader></MainHeader>
       <MainNavigation links={navigationLinks}></MainNavigation>
       <AppShellMain>{children}</AppShellMain>
     </ClientShell>
+  );
+
+  return (
+    <ManageTourGate enabled={shouldRunManageTour} isAdmin={isAdmin}>
+      {shell}
+    </ManageTourGate>
   );
 }

@@ -1,26 +1,14 @@
-import { Suspense } from "react";
-import { UnstyledButton } from "@mantine/core";
-
-import { api } from "@homarr/api/server";
 import { auth } from "@homarr/auth/next";
+import { env } from "@homarr/docker/env";
 
 import { CurrentUserAvatar } from "~/components/user-avatar";
-import { UserAvatarMenu } from "~/components/user-avatar-menu";
-import { UpdateIndicator } from "./update";
+import { UserButtonClient } from "./user-client";
 
 export const UserButton = async () => {
   const session = await auth();
-  const isAdmin = session?.user.permissions.includes("admin");
-  const availableUpdatesPromise = isAdmin ? api.updateChecker.getAvailableUpdates() : undefined;
+  const isAdmin = Boolean(session?.user.permissions.includes("admin"));
+  const isDockerEnabled = isAdmin && env.ENABLE_DOCKER;
   return (
-    <UserAvatarMenu availableUpdatesPromise={availableUpdatesPromise}>
-      <UnstyledButton>
-        <Suspense fallback={<CurrentUserAvatar size="md" />}>
-          <UpdateIndicator availableUpdatesPromise={availableUpdatesPromise} disabled={!isAdmin}>
-            <CurrentUserAvatar size="md" />
-          </UpdateIndicator>
-        </Suspense>
-      </UnstyledButton>
-    </UserAvatarMenu>
+    <UserButtonClient avatar={<CurrentUserAvatar size="md" />} isAdmin={isAdmin} isDockerEnabled={isDockerEnabled} />
   );
 };

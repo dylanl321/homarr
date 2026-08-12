@@ -1,4 +1,6 @@
 // Importing env files here to validate on build
+import path from "node:path";
+
 import "@homarr/auth/env";
 import "@homarr/core/infrastructure/db/env";
 import "@homarr/common/env";
@@ -10,13 +12,27 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 // Package path does not work... so we need to use relative path
 const withNextIntl = createNextIntlPlugin({
-  experimental: {
-    createMessagesDeclaration: "../../packages/translation/src/lang/en.json",
-  },
   requestConfig: "../../packages/translation/src/request.ts",
 });
 
+const getDevelopmentServiceAliases = () => {
+  if (process.env.NODE_ENV !== "development") {
+    return undefined;
+  }
+
+  return {
+    "@homarr/tasks": "./src/instrumentation-noop.ts",
+    "@homarr/websocket": "./src/instrumentation-noop.ts",
+  };
+};
+
 const nextConfig: NextConfig = {
+  // Next previews otherwise create agent instruction files in the application
+  // directory during development.
+  agentRules: false,
+  env: {
+    HOMARR_VERSION: process.env.HOMARR_VERSION ?? "unknown",
+  },
   output: "standalone",
   reactStrictMode: true,
   // react compiler breaks mantine-react-table, so disabled for now
@@ -27,12 +43,17 @@ const nextConfig: NextConfig = {
    * dockerode is required in the external server packages because of https://github.com/homarr-labs/homarr/issues/612
    * isomorphic-dompurify and jsdom are required, see https://github.com/kkomelin/isomorphic-dompurify/issues/356
    */
-  serverExternalPackages: ["dockerode", "isomorphic-dompurify", "jsdom"],
+  serverExternalPackages: ["dockerode", "isomorphic-dompurify", "jsdom", "better-sqlite3"],
   experimental: {
     optimizePackageImports: ["@mantine/core", "@mantine/hooks", "@tabler/icons-react"],
-    turbopackFileSystemCacheForDev: true,
-    preloadEntriesOnStart: false,
-    webpackMemoryOptimizations: true,
+    turbopackFileSystemCacheForBuild: true,
+    useTypeScriptCli: true,
+  },
+  turbopack: {
+    root: path.resolve(import.meta.dirname, "../.."),
+    // Development runs tasks and WebSocket as separate processes. These aliases
+    // keep their production-only instrumentation imports out of the dev graph.
+    resolveAlias: getDevelopmentServiceAliases(),
   },
   transpilePackages: ["@homarr/ui", "@homarr/notifications", "@homarr/modals", "@homarr/spotlight", "@homarr/widgets"],
   images: {

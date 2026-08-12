@@ -1,6 +1,9 @@
 import type { MRT_Localization } from "mantine-react-table";
 
-import { objectKeys } from "@homarr/common";
+import type { SupportedLanguage } from "./languages";
+
+export { supportedLanguages } from "./languages";
+export type { SupportedLanguage } from "./languages";
 
 export const localeConfigurations = {
   ca: {
@@ -138,6 +141,17 @@ export const localeConfigurations = {
     },
     importDayJsLocale() {
       return import("dayjs/locale/et").then((module) => module.default);
+    },
+  },
+  fi: {
+    name: "Suomi",
+    translatedName: "Finnish",
+    icon: flagIcon("fi"),
+    importMrtLocalization() {
+      return import("mantine-react-table/locales/fi/index.esm.mjs").then((module) => module.MRT_Localization_FI);
+    },
+    importDayJsLocale() {
+      return import("dayjs/locale/fi").then((module) => module.default);
     },
   },
   fr: {
@@ -422,10 +436,7 @@ export type LanguageIconDefinition =
       url: string;
     };
 
-export const supportedLanguages = objectKeys(localeConfigurations);
-export type SupportedLanguage = (typeof supportedLanguages)[number];
-
-export const fallbackLocale = "en" satisfies SupportedLanguage;
+export { fallbackLocale } from "./languages";
 
 export const isLocaleRTL = (locale: SupportedLanguage) =>
   "isRTL" in localeConfigurations[locale] && localeConfigurations[locale].isRTL;

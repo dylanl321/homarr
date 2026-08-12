@@ -7,7 +7,10 @@
         "description": "Ak chcete začať, vyberte, ako chcete nastaviť inštanciu Homár.",
         "action": {
           "scratch": "Začať odznova",
-          "importOldmarr": "Import z Homarr pred 1.0"
+          "importOldmarr": "Import z Homarr pred 1.0",
+          "restoreSqlite": "Obnoviť zo zálohy SQLite",
+          "restoreSqliteDescription": "Nahrajte úplnú zálohu databázy SQLite z predchádzajúcej inštancie Homarr. Tým sa obnovia všetky dosky, používatelia, aplikácie, integrácie a nastavenia.",
+          "backToOptions": "← Späť na možnosti nastavenia"
         }
       },
       "import": {
@@ -90,6 +93,48 @@
         "title": "Nastavenia",
         "subtitle": "Nakonfigurujte nastavenia servera."
       },
+      "integrations": {
+        "title": "Integrácie",
+        "subtitle": "Vyberte služby, ktoré používate.",
+        "description": "Vyberte integrácie, ktoré chcete pripojiť. Automaticky nastavíme prístrojovú dosku so zodpovedajúcimi miniaplikáciami.",
+        "action": {
+          "continue": "Pokračovať",
+          "skip": "Teraz preskočiť"
+        },
+        "configure": {
+          "progress": "{current} z {total}",
+          "skip": "Preskočiť túto integráciu",
+          "finishing": "Nastavuje sa prístrojová doska...",
+          "error": {
+            "title": "Nastavenie zlyhalo",
+            "message": "Pri nastavovaní prístrojovej dosky sa niečo pokazilo. Skúste to znova."
+          },
+          "helpers": {
+            "tooltip": "Pomocníci URL",
+            "description": "Títo pomocníci sa snažia uhádnuť adresu URL pre vaše služby. Ak to nefunguje, jednoducho napíšte adresu ručne."
+          }
+        },
+        "urlTemplate": {
+          "label": "Základná adresa URL",
+          "placeholder": "homelab.local alebo 192.168.1.1",
+          "hint": "Zadajte svoju základnú doménu alebo IP, aby sa automaticky vyplnili adresy URL integrácií",
+          "warning": "Nastavením základnej adresy URL teraz sa automaticky vyplnia všetky adresy URL integrácií, čím ušetríte čas počas nastavovania",
+          "preview": "napr. {example}",
+          "mode": {
+            "subdomain": "Subdoména",
+            "hostPort": "Hostiteľ:Port"
+          }
+        },
+        "docker": {
+          "detected": "Docker rozpoznal {count} služieb",
+          "detectedBreakdown": "{integrations} integrácií · {apps} aplikácií",
+          "summary": "Homarr rozpoznal {apps} aplikácií, z ktorých {integrations} má vstavané integrácie",
+          "appBadge": "Aplikácia",
+          "appSectionLabel": "Aplikácie, ktoré sa pridajú na prístrojovú dosku ({count} vybratých)",
+          "scanning": "Skenuje sa Docker...",
+          "scanningDescription": "Hľadajú sa spustené kontajnery vo vašom systéme"
+        }
+      },
       "finish": {
         "title": "Dokončiť nastavenie",
         "subtitle": "Ste pripravení vyraziť!",
@@ -132,7 +177,8 @@
       },
       "password": {
         "label": "Heslo",
-        "requirement": {
+        "suggestionsTitle": "Návrhy hesiel",
+        "suggestion": {
           "length": "Obsahuje aspoň 8 znakov",
           "lowercase": "Zahŕňa malé písmeno",
           "uppercase": "Zahŕňa veľké písmená",
@@ -152,6 +198,10 @@
       "pingIconsEnabled": {
         "label": "Používanie ikon pre pingy"
       },
+      "enableRightClickOnWidgets": {
+        "label": "",
+        "description": ""
+      },
       "defaultSearchEngine": {
         "label": "Predvolený vyhľadávací nástroj"
       },
@@ -159,7 +209,7 @@
         "label": "Otvoriť výsledky vyhľadávania na novej karte"
       },
       "ddgBangs": {
-        "label": ""
+        "label": "Povoliť príkazy DuckDuckGo bang"
       }
     },
     "error": {
@@ -252,10 +302,10 @@
       "changeDdgBangs": {
         "notification": {
           "success": {
-            "message": ""
+            "message": "Príkazy DuckDuckGo bang boli úspešne prepnuté"
           },
           "error": {
-            "message": ""
+            "message": "Nemožno prepnúť príkazy DuckDuckGo bang"
           }
         }
       },
@@ -638,6 +688,211 @@
       "add": "Pridajte aplikáciu"
     }
   },
+  "customWidget": {
+    "page": {
+      "list": {
+        "title": "Vlastné widgety",
+        "noResults": "Zatiaľ žiadne vlastné widgety. Vytvorte svoj prvý!",
+        "loading": "Nahrávam..."
+      },
+      "create": {
+        "title": "Vytvoriť vlastný widget",
+        "subtitle": "Definujte URL API, autentifikáciu a spôsob zobrazenia údajov odpovede."
+      },
+      "edit": {
+        "title": "Upraviť vlastný widget"
+      }
+    },
+    "action": {
+      "create": "Vytvoriť",
+      "import": "Importovať",
+      "save": "Uložiť",
+      "delete": "Odstrániť vlastný widget",
+      "deleteConfirm": "Naozaj chcete odstrániť \"{name}\"? Táto akcia sa nedá vrátiť späť.",
+      "export": "Exportovať",
+      "addMapping": "Pridať mapovanie",
+      "addColumn": "Pridať stĺpec",
+      "edit": "Upraviť",
+      "removeMapping": "Odstrániť mapovanie",
+      "removeColumn": "Odstrániť stĺpec",
+      "addItem": "Pridať položku",
+      "removeItem": "Odstrániť položku",
+      "addBar": "Pridať pruh",
+      "duplicate": "Duplikovať",
+      "copyAiPrompt": "Kopírovať AI prompt",
+      "enable": "Povoliť",
+      "disable": "Zakázať",
+      "menu": "Akcie"
+    },
+    "field": {
+      "name": "Názov",
+      "description": "Popis",
+      "iconUrl": "URL ikony",
+      "url": "URL",
+      "authType": "Typ autentifikácie",
+      "headerName": "Názov hlavičky/parametra dotazu",
+      "method": "Metóda",
+      "requestBody": "Telo požiadavky",
+      "displayType": "Typ zobrazenia",
+      "jsonPath": "JSON cesta",
+      "jsonPathHint": "Použite syntax JSONPath na extrakciu hodnôt, napr. $.data.teplota alebo $.polozky[0].nazov",
+      "label": "Označenie",
+      "unit": "Jednotka",
+      "mappings": "Mapovania",
+      "tablePath": "JSON cesta poľa",
+      "tablePathHint": "Cesta k poľu v odpovedi, napr. $.data.polozky",
+      "columns": "Stĺpce",
+      "header": "Hlavička",
+      "items": "Položky",
+      "gridColumns": "Stĺpce mriežky",
+      "cardStyle": "Štýl karty",
+      "bars": "Pruhy",
+      "valuePath": "JSON cesta hodnoty",
+      "maxPath": "JSON cesta maximálnej hodnoty",
+      "showPercentage": "Zobraziť percentá",
+      "barSize": "Veľkosť pruhu",
+      "goodValues": "Dobré hodnoty (oddelené čiarkou)",
+      "dotSize": "Veľkosť bodky",
+      "valueSize": "Veľkosť hodnoty",
+      "labelPosition": "Pozícia označenia",
+      "kvLayout": "Rozloženie",
+      "striped": "Pruhované riadky",
+      "compact": "Kompaktný režim",
+      "maxHeight": "Max. výška (px)",
+      "color": "Farba",
+      "buttonLabel": "Označenie tlačidla",
+      "buttonColor": "Farba tlačidla",
+      "confirmText": "Text potvrdenia",
+      "confirmTextHint": "Ak je nastavený, pred vykonaním požiadavky sa zobrazí dialóg potvrdenia",
+      "successMessage": "Správa o úspechu",
+      "successMessageHint": "Správa zobrazená po úspešnom vykonaní",
+      "enabled": "Povolené",
+      "template": {
+        "label": "JSX šablóna",
+        "description": "Mantine JSX šablóna. Prístup k poliam odpovede API cez dátové väzby (napr. data.nazov). Používajte iba whitelistované komponenty. Zakázané: constructor, __proto__, eval, Function, window, document."
+      }
+    },
+    "placeholder": {
+      "exampleLabel": "Teplota CPU",
+      "exampleLabelShort": "Teplota CPU",
+      "exampleHeader": "Názov",
+      "exampleUnit": "°C",
+      "iconUrl": "https://...",
+      "url": "https://api.priklad.com/api/v1/status",
+      "headerName": "X-API-Key",
+      "jsonPath": "$.data.hodnota",
+      "tablePath": "$.data.polozky",
+      "columnJsonPath": "$.nazov",
+      "valuePath": "$.data.pouzite",
+      "maxPath": "$.data.celkom",
+      "goodValues": "online, true, up",
+      "color": "modrá"
+    },
+    "cardStyleOption": {
+      "filled": "Vyplnené",
+      "outline": "Obrys",
+      "subtle": "Jemný"
+    },
+    "layoutOption": {
+      "list": "Zoznam",
+      "grid": "Mriežka"
+    },
+    "sizeOption": {
+      "sm": "Malé",
+      "md": "Stredné",
+      "lg": "Veľké",
+      "xl": "Extra veľké"
+    },
+    "labelPositionOption": {
+      "above": "Nad",
+      "below": "Pod"
+    },
+    "fieldset": {
+      "general": "Všeobecné",
+      "connection": "Pripojenie API",
+      "display": "Konfigurácia zobrazenia"
+    },
+    "displayTypeDescription": {
+      "singleValue": "Zobraziť jednu extrahovanú hodnotu s označením a jednotkou",
+      "keyValue": "Zobraziť viacero označených hodnôt vedľa seba",
+      "table": "Zobraziť riadky údajov vo formáte tabuľky",
+      "statGrid": "Farebné karty štatistík v mriežke – ako widgety Pi-Hole alebo Speedtest",
+      "progressBars": "Pruhy postupu zobrazujúce využitie alebo dokončenie – pre disk, pamäť, kvóty",
+      "statusIndicator": "Farebné bodky stavu zobrazujúce online/offline alebo stavy zdravia",
+      "countGrid": "Kompaktné počítadlá číslo + označenie v tesnej mriežke",
+      "raw": "Prehľadne formátovaný JSON výstup pre ladenie",
+      "actionButton": "Tlačidlo, ktoré po kliknutí spustí požiadavku",
+      "customJsx": "Vlastné rozloženie JSX pomocou whitelistovaných komponentov Mantine s plnou väzbou API dát"
+    },
+    "method": {
+      "GET": "GET",
+      "POST": "POST",
+      "PUT": "PUT",
+      "DELETE": "DELETE",
+      "PATCH": "PATCH"
+    },
+    "authType": {
+      "none": "Žiadna",
+      "bearer": "Bearer token",
+      "basic": "Basic Auth",
+      "apiKeyHeader": "API kľúč (hlavička)",
+      "apiKeyQuery": "API kľúč (dotaz)"
+    },
+    "displayType": {
+      "singleValue": "Jedna hodnota",
+      "keyValue": "Kľúč-hodnota",
+      "table": "Tabuľka",
+      "statGrid": "Mriežka štatistík",
+      "progressBars": "Pruhy postupu",
+      "statusIndicator": "Indikátor stavu",
+      "countGrid": "Mriežka počtu",
+      "raw": "Surové JSON",
+      "actionButton": "Akčné tlačidlo",
+      "customJsx": "Vlastné JSX"
+    },
+    "secret": {
+      "apiKey": "API kľúč / token",
+      "username": "Používateľské meno",
+      "password": "Heslo",
+      "savedPlaceholder": "••••••• (uložené, ponechajte prázdne pre zachovanie)"
+    },
+    "preview": {
+      "title": "Náhľad",
+      "test": "Test",
+      "hint": "Kliknite na Test pre náhľad odpovede API s vašou aktuálnou konfiguráciou.",
+      "rawResponse": "Surová JSON odpoveď"
+    },
+    "notification": {
+      "created": "Widget \"{name}\" bol úspešne vytvorený.",
+      "updated": "Widget \"{name}\" bol úspešne aktualizovaný.",
+      "deleted": "Widget \"{name}\" bol odstránený.",
+      "imported": "",
+      "aiPromptCopied": "AI prompt skopírovaný do schránky",
+      "aiPromptDescription": "Skopírujte pripravený prompt a vložte ho do akéhokoľvek AI chatbota (ChatGPT, Claude, Gemini...). Obsahuje úplnú schému widgetu a vašu odpoveď API, aby AI mohla vygenerovať pripravenú JSON konfiguráciu na import.",
+      "aiPromptCopy": "Skopírovať do schránky",
+      "aiPromptNoResponse": "Tip: Najprv spustite test, aby ste zahrnuli odpoveď API do výzvy pre lepšie výsledky.",
+      "aiPromptCopyError": "Nepodarilo sa skopírovať výzvu do schránky. Váš prehliadač možno nepodporuje túto funkciu.",
+      "createError": "Nepodarilo sa vytvoriť widget. Skontrolujte, či je váš API endpoint dostupný.",
+      "updateError": "Nepodarilo sa aktualizovať widget. Vaše zmeny neboli uložené.",
+      "importError": "Nepodarilo sa importovať widget. Uistite sa, že súbor je platný JSON export vlastného widgetu.",
+      "exportError": "",
+      "duplicated": "",
+      "duplicateError": "",
+      "toggleError": "",
+      "deleteError": "",
+      "previewError": "",
+      "executed": "",
+      "executeError": ""
+    },
+    "table": {
+      "name": "",
+      "url": "",
+      "display": ""
+    },
+    "widget": {
+      "disabled": ""
+    }
+  },
   "integration": {
     "page": {
       "list": {
@@ -730,10 +985,49 @@
       },
       "appHref": {
         "placeholder": "Adresa URL vlastnej aplikácie"
+      },
+      "apiKeySettings": {
+        "label": "Získať kľúč API"
       }
     },
     "action": {
       "create": "Nová integrácia"
+    },
+    "grid": {
+      "widgetCount": "{count} miniaplikácií",
+      "noWidgets": "Žiadne miniaplikácie",
+      "detected": "Zistené pomocou Docker"
+    },
+    "category": {
+      "dnsHole": "DNS",
+      "mediaService": "Médiá",
+      "calendar": "Kalendár",
+      "mediaSearch": "Vyhľadávanie",
+      "mediaRelease": "Vydania",
+      "mediaRequest": "Požiadavky",
+      "downloadClient": "Sťahovanie",
+      "usenet": "Usenet",
+      "torrent": "Torrent",
+      "miscellaneous": "Rôzne",
+      "smartHomeServer": "Inteligentná domácnosť",
+      "indexerManager": "Indexer",
+      "healthMonitoring": "Zdravie",
+      "search": "Vyhľadávanie",
+      "mediaTranscoding": "Prekódovanie",
+      "networkController": "Sieť",
+      "releasesProvider": "Vydania",
+      "notifications": "Upozornenia",
+      "firewall": "Firewall",
+      "timetable": "Rozvrh",
+      "photoService": "Fotografie",
+      "documents": "Dokumenty",
+      "notes": "Poznámky",
+      "mediaMonitoring": "Monitorovanie",
+      "speedtest": "Test rýchlosti",
+      "analytics": "Analytika",
+      "vpn": "",
+      "mediaLibrary": "Knižnica médií",
+      "uptimeMonitoring": "Monitorovanie dostupnosti"
     },
     "testConnection": {
       "action": {
@@ -995,6 +1289,14 @@
           "label": "",
           "newLabel": ""
         },
+        "patchmonApiKey": {
+          "label": "",
+          "newLabel": ""
+        },
+        "patchmonApiSecret": {
+          "label": "",
+          "newLabel": ""
+        },
         "githubAppId": {
           "label": "",
           "newLabel": ""
@@ -1006,6 +1308,10 @@
         "privateKey": {
           "label": "",
           "newLabel": ""
+        },
+        "slug": {
+          "label": "Slug stavovej stránky",
+          "newLabel": "Nový slug stavovej stránky"
         }
       }
     },
@@ -1013,6 +1319,42 @@
       "use": "Vyberte integrácie v položkách",
       "interact": "Interakcia s integráciami",
       "full": "Úplný prístup k integrácii"
+    },
+    "audiobookshelf": {
+      "name": "Audiobookshelf",
+      "description": "Samostatne hosťovaný server audiokníh a podcastov"
+    },
+    "navidrome": {
+      "name": "Navidrome",
+      "description": "Samostatne hosťovaný server na streamovanie hudby s kompatibilitou so Subsonic API"
+    },
+    "uptimeKuma": {
+      "name": "Uptime Kuma",
+      "description": "Samostatne hosťované monitorovanie dostupnosti s verejnými stavovými stránkami",
+      "secret": {
+        "slug": {
+          "description": "Slug vašej verejnej stavovej stránky. Predvolená hodnota je \"default\", ak nie je nastavená."
+        },
+        "apiKey": {
+          "description": "Voliteľný API kľúč pre autentifikovaný prístup k /metrics"
+        }
+      }
+    },
+    "traefik": {
+      "name": "",
+      "description": ""
+    },
+    "paperlessNgx": {
+      "name": "Paperless-ngx",
+      "description": "Systém správy dokumentov na archiváciu a organizáciu naskenovaných dokumentov"
+    },
+    "patchmon": {
+      "name": "",
+      "description": ""
+    },
+    "bazarr": {
+      "name": "",
+      "description": ""
     }
   },
   "media": {
@@ -1054,6 +1396,9 @@
       "open": {
         "label": "Otvoriť médiá"
       }
+    },
+    "noResults": {
+      "title": "Neboli nahrané žiadne médiá"
     }
   },
   "common": {
@@ -1064,6 +1409,7 @@
       "add": "Pridať",
       "apply": "Použiť",
       "backToOverview": "Späť na prehľad",
+      "skip": "Preskočiť",
       "change": "",
       "create": "Vytvoriť",
       "createAnother": "Vytvorte a začnite odznova",
@@ -1084,16 +1430,21 @@
       "checkoutDocs": "Pozrite si dokumentáciu",
       "checkLogs": "Ďalšie podrobnosti nájdete v protokoloch",
       "tryAgain": "Skúste znova",
-      "loading": "Nahrávam"
+      "loading": "Nahrávam",
+      "show": "Zobraziť",
+      "hide": "Skryť"
     },
     "here": "tu",
     "iconPicker": {
       "label": "URL ikony",
-      "header": "Zadajte názov alebo objekty na filtrovanie ikon... Homarr pre vás vyhľadá ikony na stránke {countIcons} ."
+      "header": "Zadajte názov alebo objekty na filtrovanie ikon... Homarr pre vás vyhľadá ikony na stránke {countIcons} .",
+      "headerLoading": "",
+      "noResults": "",
+      "error": ""
     },
     "colorScheme": {
       "options": {
-        "auto": "",
+        "auto": "Automaticky",
         "light": "Svetlý",
         "dark": "Tmavý"
       }
@@ -1141,6 +1492,7 @@
         "switchToDarkMode": "Prepnúť na tmavý motív",
         "switchToLightMode": "Prepnúť na svetlý motív",
         "management": "Administrácia",
+        "docker": "",
         "preferences": "Vaše preferencie",
         "logout": "Odhlásiť",
         "login": "Prihlásiť sa",
@@ -1249,7 +1601,8 @@
       "menu": {
         "label": {
           "create": "Nová kategória",
-          "changePosition": "Zmeniť pozíciu"
+          "changePosition": "Zmeniť pozíciu",
+          "settings": "Nastavenia"
         }
       },
       "openAllInNewTabs": {
@@ -1269,7 +1622,16 @@
     },
     "menu": {
       "label": {
-        "settings": "Nastavenia"
+        "settings": "Nastavenia",
+        "refresh": "",
+        "options": "",
+        "actions": ""
+      },
+      "status": {
+        "success": "",
+        "error": "",
+        "loading": "",
+        "idle": ""
       }
     },
     "create": {
@@ -1296,6 +1658,13 @@
     },
     "edit": {
       "title": "Upraviť položku",
+      "tab": {
+        "widget": "Upraviť miniaplikáciu",
+        "app": "Upraviť aplikáciu"
+      },
+      "app": {
+        "propagationNotice": "Zmeny tejto aplikácie sa prejavia všade, kde sa používa na všetkých nástenkách."
+      },
       "advancedOptions": {
         "label": "Pokročilé možnosti",
         "title": "Rozšírené možnosti položiek"
@@ -1321,6 +1690,13 @@
     }
   },
   "widget": {
+    "integrationSelect": {
+      "configureIntegrationFirst": "",
+      "loading": "",
+      "placeholder": "",
+      "noResults": "",
+      "loadError": ""
+    },
     "app": {
       "name": "Aplikácia",
       "description": "Vloží aplikáciu do tabule.",
@@ -1399,9 +1775,21 @@
         "openNewTab": {
           "label": "Otvoriť na novej karte"
         },
+        "withBorder": {
+          "label": "Zobraziť ohraničenie"
+        },
         "items": {
           "label": "Záložky",
           "add": "Pridať záložku"
+        }
+      }
+    },
+    "archiveTeamWarrior": {
+      "name": "",
+      "description": "",
+      "option": {
+        "showBroadcastMessage": {
+          "label": ""
         }
       }
     },
@@ -1517,6 +1905,16 @@
         "customDateFormat": {
           "label": "Vlastný formát času",
           "description": "Na formátovanie času použite ISO 8601 (toto prepíše ostatné možnosti)"
+        },
+        "showWeather": {
+          "label": "",
+          "description": ""
+        },
+        "weatherLocation": {
+          "label": ""
+        },
+        "isWeatherFormatFahrenheit": {
+          "label": ""
         }
       }
     },
@@ -1545,6 +1943,9 @@
       "title": "",
       "noStation": "",
       "option": {
+        "baseUrl": {
+          "label": ""
+        },
         "station": {
           "label": ""
         }
@@ -1575,6 +1976,8 @@
         "clear": "Vyčistiť formátovanie",
         "heading": "Nadpis {level}",
         "align": "Zarovnanie textu: {position}",
+        "directionLtr": "",
+        "directionRtl": "",
         "blockquote": "Citát",
         "horizontalLine": "Horizontálna čiara",
         "bulletList": "Zoznam odrážok",
@@ -1864,7 +2267,8 @@
         "sunrise": "Východ slnka",
         "sunset": "Západ slnka",
         "maxWindSpeed": "Maximálna rýchlosť vetra: {maxWindSpeed} km/h",
-        "maxWindGusts": "Maximálne nárazy vetra: {maxWindGusts} km/h"
+        "maxWindGusts": "Maximálne nárazy vetra: {maxWindGusts} km/h",
+        "humidity": ""
       },
       "kind": {
         "clear": "Jasno",
@@ -1922,6 +2326,11 @@
         },
         "fileSystem": {
           "label": "Zobraziť informácie o súborovom systéme"
+        },
+        "visibleStorageVolumes": {
+          "label": "",
+          "description": "",
+          "placeholder": ""
         },
         "defaultTab": {
           "label": "Predvolená karta"
@@ -2002,6 +2411,9 @@
       "name": "Docker stav",
       "description": "Štatistiky vašich kontajnerov (Túto miniaplikáciu je možné pridať iba s oprávneniami správcu)",
       "option": {
+        "columns": {
+          "label": ""
+        },
         "enableRowSorting": {
           "label": ""
         },
@@ -2016,10 +2428,21 @@
         },
         "descendingDefaultSort": {
           "label": ""
+        },
+        "columnOrder": {
+          "label": ""
+        },
+        "columnWidths": {
+          "label": ""
         }
       },
       "error": {
-        "internalServerError": "Nepodarilo sa načítať štatistiky kontajnerov"
+        "internalServerError": "Nepodarilo sa načítať štatistiky kontajnerov",
+        "layoutSaveTitle": "",
+        "layoutSaveMessage": ""
+      },
+      "empty": {
+        "noContainers": ""
       }
     },
     "coolify": {
@@ -2053,6 +2476,43 @@
       },
       "instances": {
         "title": ""
+      }
+    },
+    "vpn": {
+      "name": "",
+      "description": "",
+      "serviceUnavailable": "",
+      "option": {}
+    },
+    "ups": {
+      "name": "UPS",
+      "description": "Sledujte stav vašich zariadení UPS prostredníctvom servera NUT",
+      "option": {
+        "showBattery": {
+          "label": "Zobraziť batériu"
+        },
+        "showLoad": {
+          "label": "Zobraziť zaťaženie"
+        },
+        "showVoltage": {
+          "label": "Zobraziť napätie"
+        }
+      },
+      "status": {
+        "online": "Online",
+        "onBattery": "Na batérii",
+        "lowBattery": "Nízka batéria",
+        "charging": "Nabíjanie",
+        "unknown": "Neznámy"
+      },
+      "field": {
+        "runtime": "Výdrž",
+        "load": "Zaťaženie",
+        "input": "Vstup",
+        "output": "Výstup"
+      },
+      "error": {
+        "internalServerError": "Nepodarilo sa načítať údaje UPS"
       }
     },
     "tracearr": {
@@ -2135,77 +2595,77 @@
             "today": "",
             "24h": "",
             "7d": "",
-            "30d": "",
-            "month": "",
-            "lastMonth": ""
+            "30d": "Posledných 30 dní",
+            "month": "Tento mesiac",
+            "lastMonth": "Minulý mesiac"
           }
         },
         "eventName": {
-          "label": "",
-          "description": "",
-          "placeholder": "",
-          "loading": "",
-          "noEvents": "",
-          "none": "",
-          "configureWebsiteFirst": ""
+          "label": "Udalosť",
+          "description": "Zobraziť celkový počet výskytov konkrétnej udalosti",
+          "placeholder": "Vyberte udalosť",
+          "loading": "Načítavajú sa udalosti...",
+          "noEvents": "Nenašli sa žiadne udalosti",
+          "none": "Žiadna udalosť",
+          "configureWebsiteFirst": "Najprv vyberte webovú stránku, aby sa načítali udalosti"
         },
         "chartType": {
-          "label": "",
-          "description": "",
+          "label": "Typ grafu",
+          "description": "Štýl zobrazenia grafu",
           "option": {
-            "bar": "",
-            "sparkline": ""
+            "bar": "Stĺpcový graf",
+            "sparkline": "Sparkline"
           }
         },
         "chartStyle": {
-          "label": "",
-          "description": "",
+          "label": "Štýl grafu",
+          "description": "Ako zobraziť sériu udalostí v grafe",
           "option": {
-            "grouped": "",
-            "overlay": ""
+            "grouped": "Vedľa seba",
+            "overlay": "Prekrytie (podmnožina)"
           }
         },
         "viewMode": {
-          "label": "",
-          "description": "",
+          "label": "Zobrazenie",
+          "description": "Čo zobraziť v tele miniaplikácie",
           "option": {
-            "chart": "",
-            "events": "",
-            "topPages": "",
-            "topReferrers": ""
+            "chart": "Graf",
+            "events": "Graf udalostí",
+            "topPages": "Najčastejšie stránky",
+            "topReferrers": "Najčastejší odporúčatelia"
           }
         },
         "eventNames": {
-          "label": "",
-          "description": "",
-          "placeholder": "",
-          "loading": "",
-          "noEvents": "",
-          "configureWebsiteFirst": ""
+          "label": "Udalosti",
+          "description": "Vyberte jednu alebo viac udalostí na vytvorenie grafu",
+          "placeholder": "Vyberte udalosti...",
+          "loading": "Načítavajú sa udalosti...",
+          "noEvents": "Nenašli sa žiadne udalosti",
+          "configureWebsiteFirst": "Najprv vyberte webovú stránku, aby sa načítali udalosti"
         },
         "topCount": {
-          "label": "",
-          "description": ""
+          "label": "Počet zobrazených položiek",
+          "description": "Počet najlepších položiek na zobrazenie (max. 500)"
         }
       },
       "event": {
-        "occurrences": "",
-        "label": ""
+        "occurrences": "udalosti",
+        "label": "udalosti"
       },
       "topPages": {
-        "direct": ""
+        "direct": "Priame"
       },
       "topReferrers": {
-        "direct": ""
+        "direct": "Priame"
       },
       "events": {
-        "selectPrompt": ""
+        "selectPrompt": "Vyberte udalosti na graf"
       },
       "error": {
-        "noIntegration": "",
-        "noWebsite": "",
-        "noData": "",
-        "internalServerError": ""
+        "noIntegration": "Nie je nakonfigurovaná žiadna integrácia Umami",
+        "noWebsite": "Nie je nakonfigurovaná žiadna webová stránka",
+        "noData": "Nie sú k dispozícii žiadne údaje",
+        "internalServerError": "Nepodarilo sa načítať údaje Umami"
       }
     },
     "common": {
@@ -2276,13 +2736,33 @@
         "showOnlyPlaying": {
           "label": "Zobraziť len aktuálne prehrávanú",
           "description": "Zakázanie tohto nebude fungovať pre plex"
+        },
+        "showBitrate": {
+          "label": "",
+          "description": ""
+        },
+        "showLocation": {
+          "label": "",
+          "description": ""
         }
+      },
+      "footer": {
+        "streams": "",
+        "totalBitrate": ""
       },
       "items": {
         "currentlyPlaying": "Momentálne sa prehráva",
         "user": "Používateľ",
         "name": "Názov",
         "id": "Id",
+        "status": "",
+        "directPlay": "",
+        "directStream": "",
+        "transcodeVideo": "",
+        "transcodeAudio": "",
+        "transcoding": "",
+        "paused": "",
+        "remaining": "",
         "metadata": {
           "title": "",
           "video": {
@@ -2301,6 +2781,238 @@
             "target": ""
           }
         }
+      }
+    },
+    "paperlessNgx": {
+      "name": "Paperless-ngx",
+      "description": "Prehľad vášho archívu dokumentov Paperless-ngx",
+      "documentsTotal": "Celkový počet dokumentov",
+      "documentsInbox": "Schránka",
+      "correspondents": "Korešpondenti",
+      "tags": "Štítky",
+      "documentTypes": "Typy dokumentov",
+      "inboxRatio": "Pomer schránky",
+      "inbox": "schránka",
+      "total": "celkom",
+      "option": {
+        "showInboxRatio": {
+          "label": "Zobraziť pomer schránky",
+          "description": "Zobraziť pomer dokumentov v schránke k celkovému počtu v sekcii hrdinu"
+        },
+        "showInboxRing": {
+          "label": "Zobraziť krúžok schránky",
+          "description": "Zobraziť kruhový ukazovateľ vedľa pomeru schránky"
+        },
+        "showDocumentsTotal": {
+          "label": "Zobraziť celkový počet dokumentov",
+          "description": "Zobraziť celkový počet dokumentov vo vašom archíve"
+        },
+        "showDocumentsInbox": {
+          "label": "Zobraziť počet v schránke",
+          "description": "Zobraziť počet nespracovaných dokumentov v schránke"
+        },
+        "showCorrespondents": {
+          "label": "Zobraziť korešpondentov",
+          "description": "Zobraziť celkový počet korešpondentov"
+        },
+        "showTags": {
+          "label": "Zobraziť štítky",
+          "description": "Zobraziť celkový počet štítkov"
+        },
+        "showDocumentTypes": {
+          "label": "Zobraziť typy dokumentov",
+          "description": "Zobraziť celkový počet typov dokumentov"
+        }
+      },
+      "error": {
+        "internalServerError": "Nepodarilo sa načítať údaje Paperless-ngx"
+      }
+    },
+    "patchmon": {
+      "name": "",
+      "description": "",
+      "title": "",
+      "totalHosts": "",
+      "hostsNeedingUpdates": "",
+      "securityUpdates": "",
+      "upToDateHosts": "",
+      "hostsWithSecurityUpdates": "",
+      "recentUpdates24h": "",
+      "totalOutdatedPackages": "",
+      "totalRepos": "",
+      "osDistribution": "",
+      "compliance": "",
+      "complianceRatio": "",
+      "lastUpdated": "",
+      "option": {
+        "showTotalHosts": {
+          "label": "",
+          "description": ""
+        },
+        "showHostsNeedingUpdates": {
+          "label": "",
+          "description": ""
+        },
+        "showSecurityUpdates": {
+          "label": "",
+          "description": ""
+        },
+        "showUpToDateHosts": {
+          "label": "",
+          "description": ""
+        },
+        "showHostsWithSecurityUpdates": {
+          "label": "",
+          "description": ""
+        },
+        "showRecentUpdates24h": {
+          "label": "",
+          "description": ""
+        },
+        "showTotalOutdatedPackages": {
+          "label": "",
+          "description": ""
+        },
+        "showTotalRepos": {
+          "label": "",
+          "description": ""
+        },
+        "enableThresholdColors": {
+          "label": "",
+          "description": ""
+        },
+        "useCustomThresholds": {
+          "label": "",
+          "description": ""
+        },
+        "thresholdMode": {
+          "option": {
+            "absolute": "",
+            "percent": ""
+          }
+        },
+        "hostsNeedingUpdatesThresholdMode": {
+          "label": "",
+          "description": ""
+        },
+        "hostsNeedingUpdatesWarningAt": {
+          "label": "",
+          "description": ""
+        },
+        "hostsNeedingUpdatesCriticalAt": {
+          "label": "",
+          "description": ""
+        },
+        "securityUpdatesThresholdMode": {
+          "label": "",
+          "description": ""
+        },
+        "securityUpdatesWarningAt": {
+          "label": "",
+          "description": ""
+        },
+        "securityUpdatesCriticalAt": {
+          "label": "",
+          "description": ""
+        },
+        "hostsWithSecurityUpdatesThresholdMode": {
+          "label": "",
+          "description": ""
+        },
+        "hostsWithSecurityUpdatesWarningAt": {
+          "label": "",
+          "description": ""
+        },
+        "hostsWithSecurityUpdatesCriticalAt": {
+          "label": "",
+          "description": ""
+        },
+        "upToDateHostsThresholdMode": {
+          "label": "",
+          "description": ""
+        },
+        "upToDateHostsWarningAt": {
+          "label": "",
+          "description": ""
+        },
+        "upToDateHostsCriticalAt": {
+          "label": "",
+          "description": ""
+        },
+        "totalOutdatedPackagesThresholdMode": {
+          "label": "",
+          "description": ""
+        },
+        "totalOutdatedPackagesWarningAt": {
+          "label": "",
+          "description": ""
+        },
+        "totalOutdatedPackagesCriticalAt": {
+          "label": "",
+          "description": ""
+        },
+        "showOsDistribution": {
+          "label": "",
+          "description": ""
+        },
+        "osDistributionLimit": {
+          "label": "",
+          "description": "",
+          "option": {
+            "3": "",
+            "5": "",
+            "10": "",
+            "all": ""
+          }
+        },
+        "showOsVersion": {
+          "label": "",
+          "description": ""
+        },
+        "showComplianceHero": {
+          "label": "",
+          "description": ""
+        },
+        "osDisplayMode": {
+          "label": "",
+          "description": "",
+          "option": {
+            "bars": "",
+            "donut": ""
+          }
+        }
+      },
+      "error": {
+        "internalServerError": ""
+      }
+    },
+    "bazarr": {
+      "name": "",
+      "description": "",
+      "episodes": "",
+      "movies": "",
+      "providers": "",
+      "status": "",
+      "option": {
+        "showMissingEpisodes": {
+          "label": "",
+          "description": ""
+        },
+        "showMissingMovies": {
+          "label": "",
+          "description": ""
+        },
+        "showProviderIssues": {
+          "label": "",
+          "description": ""
+        },
+        "showHealthIssues": {
+          "label": "",
+          "description": ""
+        }
+      },
+      "error": {
+        "internalServerError": ""
       }
     },
     "immich-serverStats": {
@@ -2331,6 +3043,7 @@
     },
     "immich-albumCarousel": {
       "name": "",
+      "allPhotos": "",
       "option": {
         "albumId": {
           "label": "",
@@ -2343,10 +3056,13 @@
         "showPhotoInfo": {
           "label": "",
           "description": ""
+        },
+        "randomizePhotos": {
+          "label": "",
+          "description": ""
         }
       },
       "description": "",
-      "noAlbumSelected": "",
       "noPhotos": ""
     },
     "downloads": {
@@ -2389,11 +3105,20 @@
         "limitPerIntegration": {
           "label": "Obmedzte položky na integráciu",
           "description": "Tým sa obmedzí počet položiek zobrazených na integráciu, nie globálne"
+        },
+        "columnOrder": {
+          "label": ""
+        },
+        "columnWidths": {
+          "label": ""
         }
       },
       "errors": {
         "noColumns": "Vyberte položku Stĺpce v položkách",
-        "noCommunications": "Nie je možné načítať údaje z integrácie"
+        "noCommunications": "Nie je možné načítať údaje z integrácie",
+        "noItems": "",
+        "actionFailed": "",
+        "actionFailedMessage": ""
       },
       "items": {
         "actions": {
@@ -2416,7 +3141,8 @@
           "detailsTitle": "Aktuálny index v rámci klienta"
         },
         "id": {
-          "columnTitle": "Id"
+          "columnTitle": "Id",
+          "detailsTitle": ""
         },
         "integration": {
           "columnTitle": "Integrácia"
@@ -2450,7 +3176,8 @@
         },
         "time": {
           "columnTitle": "Čas ukončenia",
-          "detailsTitle": "Čas od/do dokončenia"
+          "detailsTitle": "Čas od/do dokončenia",
+          "eta": ""
         },
         "type": {
           "columnTitle": "Typ",
@@ -2494,7 +3221,23 @@
           }
         }
       },
-      "globalRatio": "Globálny pomer"
+      "globalRatio": "Globálny pomer",
+      "contextMenu": {
+        "copyName": "",
+        "copyId": "",
+        "clearFilters": ""
+      },
+      "footer": {
+        "filter": ""
+      },
+      "stats": {
+        "show": "",
+        "hide": "",
+        "overallProgress": "",
+        "totalSize": "",
+        "clients": ""
+      },
+      "disconnected": ""
     },
     "mediaReleases": {
       "name": "",
@@ -2531,6 +3274,12 @@
       "option": {
         "linksTargetNewTab": {
           "label": "Otvorenie odkazov v novej karte"
+        },
+        "statusFilter": {
+          "label": ""
+        },
+        "recentDays": {
+          "label": ""
         }
       },
       "pending": {
@@ -2638,6 +3387,35 @@
         }
       }
     },
+    "mediaMissing": {
+      "name": "",
+      "description": "",
+      "option": {
+        "showMissing": {
+          "label": ""
+        },
+        "showQueued": {
+          "label": ""
+        },
+        "pageSize": {
+          "label": ""
+        }
+      },
+      "tab": {
+        "missing": "",
+        "queued": ""
+      },
+      "type": {
+        "movie": "",
+        "episode": ""
+      },
+      "empty": {
+        "missing": "",
+        "queued": "",
+        "noTabsEnabled": ""
+      },
+      "timeLeft": ""
+    },
     "rssFeed": {
       "name": "RSS kanály",
       "description": "Monitorujte a zobrazujte jeden alebo viac všeobecných informačných kanálov RSS, ATOM alebo JSON",
@@ -2707,6 +3485,9 @@
           "provider": {
             "label": "Poskytovateľ"
           },
+          "providerUrl": {
+            "label": ""
+          },
           "identifier": {
             "label": "Identifikátor",
             "placeholder": "Meno alebo vlastník/meno"
@@ -2754,6 +3535,13 @@
           "noProvider": {
             "label": "",
             "tooltip": ""
+          },
+          "tokens": {
+            "label": "",
+            "token": "",
+            "configured": "",
+            "notConfigured": "",
+            "save": ""
           }
         }
       },
@@ -2776,8 +3564,9 @@
           "invalidIdentifier": "",
           "noMatchingVersion": "Nenašla sa žiadna zodpovedajúca verzia",
           "noReleasesFound": "",
-          "noProviderSeleceted": "",
-          "noProviderResponse": ""
+          "noProviderSelected": "",
+          "noProviderResponse": "",
+          "unexpected": ""
         }
       }
     },
@@ -2870,7 +3659,11 @@
       "name": "",
       "description": "",
       "noItems": "",
-      "option": {}
+      "option": {
+        "hideLogos": {
+          "label": ""
+        }
+      }
     },
     "speedtestTracker": {
       "name": "",
@@ -2909,6 +3702,133 @@
       "noSectionsEnabled": "",
       "error": {
         "internalServerError": ""
+      }
+    },
+    "uptimeKuma": {
+      "name": "Uptime Kuma",
+      "description": "Monitorovať štatistiky dostupnosti z vašej stavovej stránky Uptime Kuma",
+      "option": {
+        "showAverageUptime": {
+          "label": "Zobraziť priemernú dostupnosť",
+          "description": "Zobraziť kombinované percento priemernej dostupnosti za 24 hodín"
+        },
+        "showUptimeRing": {
+          "label": "Zobraziť krúžok dostupnosti",
+          "description": "Zobraziť kruhový ukazovateľ vedľa hodnoty priemernej dostupnosti"
+        },
+        "showTotalMonitors": {
+          "label": "Zobraziť celkový počet monitorov",
+          "description": "Zobraziť celkový počet nakonfigurovaných monitorov"
+        },
+        "showUpCount": {
+          "label": "Zobraziť počet dostupných",
+          "description": "Zobraziť, koľko monitorov je momentálne dostupných"
+        },
+        "showDownCount": {
+          "label": "Zobraziť počet nedostupných",
+          "description": "Zobraziť, koľko monitorov je momentálne nedostupných"
+        },
+        "showPausedCount": {
+          "label": "Zobraziť počet pozastavených",
+          "description": "Zobraziť, koľko monitorov je momentálne pozastavených"
+        }
+      },
+      "averageUptime": "Priemerná dostupnosť (24h)",
+      "stats": {
+        "totalMonitors": "Celkový počet monitorov",
+        "upCount": "Dostupné",
+        "downCount": "Nedostupné",
+        "pausedCount": "Pozastavené"
+      },
+      "error": {
+        "internalServerError": "Nepodarilo sa načítať údaje o dostupnosti"
+      }
+    },
+    "traefik": {
+      "name": "",
+      "description": "",
+      "option": {
+        "showTcp": {
+          "label": ""
+        },
+        "showUdp": {
+          "label": ""
+        },
+        "showEntryPoints": {
+          "label": ""
+        }
+      },
+      "instances": "",
+      "versionUnknown": "",
+      "summary": {
+        "routers": "",
+        "entryPoints": ""
+      },
+      "resource": {
+        "routers": "",
+        "services": "",
+        "middlewares": ""
+      },
+      "status": {
+        "healthy": "",
+        "errors": "",
+        "warnings": ""
+      },
+      "error": {
+        "internalServerError": ""
+      }
+    },
+    "audioStats": {
+      "name": "Audio štatistiky",
+      "description": "Štatistiky knižnice a prehrávania z Navidrome alebo Audiobookshelf",
+      "option": {
+        "showArtists": {
+          "label": "Zobraziť interpretov",
+          "description": "Zobraziť celkový počet interpretov vo vašej hudobnej knižnici (Navidrome)"
+        },
+        "showAlbums": {
+          "label": "Zobraziť albumy",
+          "description": "Zobraziť celkový počet albumov vo vašej hudobnej knižnici (Navidrome)"
+        },
+        "showSongs": {
+          "label": "Zobraziť skladby",
+          "description": "Zobraziť celkový počet skladieb vo vašej hudobnej knižnici (Navidrome)"
+        },
+        "showLibraryCount": {
+          "label": "Zobraziť počet knižníc",
+          "description": "Zobraziť počet knižníc na vašej inštancii (Audiobookshelf)"
+        },
+        "showAudiobooks": {
+          "label": "Zobraziť audioknihy",
+          "description": "Zobraziť celkový počet audiokníh vo všetkých knižniciach (Audiobookshelf)"
+        },
+        "showPodcasts": {
+          "label": "Zobraziť podcasty",
+          "description": "Zobraziť celkový počet podcastov vo všetkých knižniciach (Audiobookshelf)"
+        },
+        "showListeningTime": {
+          "label": "Zobraziť čas počúvania",
+          "description": "Zobraziť váš celkový čas počúvania (Audiobookshelf)"
+        },
+        "showActiveSessions": {
+          "label": "Zobraziť aktívne relácie",
+          "description": "Zobraziť počet momentálne aktívnych relácií prehrávania (Audiobookshelf)"
+        },
+        "compactMode": {
+          "label": "Kompaktný režim",
+          "description": "Použiť hustejšie rozloženie s menšími dlaždicami, ideálne pre malé veľkosti widgetov"
+        }
+      },
+      "artists": "Interpreti",
+      "albums": "Albumy",
+      "songs": "Skladby",
+      "libraryCount": "Knižnice",
+      "audiobooks": "Audioknihy",
+      "podcasts": "Podcasty",
+      "listeningTime": "Čas počúvania",
+      "activeSessions": "Aktívne relácie",
+      "error": {
+        "internalServerError": "Nepodarilo sa načítať údaje audio štatistík"
       }
     },
     "systemResources": {
@@ -2970,10 +3890,286 @@
         },
         "showBackgroundBar": {
           "label": ""
+        },
+        "visibleStorageVolumes": {
+          "label": "",
+          "description": "",
+          "placeholder": ""
         }
       },
       "status": {
         "unhealthy": ""
+      }
+    },
+    "customApi": {
+      "name": "",
+      "description": "",
+      "option": {
+        "definitionId": {
+          "label": ""
+        },
+        "refreshInterval": {
+          "label": "",
+          "description": ""
+        }
+      },
+      "noDefinition": "",
+      "definitionNotFound": "",
+      "noDisplayOutput": "",
+      "executeConfirm": "",
+      "executing": "",
+      "executeSuccess": "",
+      "executeFailed": ""
+    },
+    "beszelSystemTable": {
+      "name": "Beszel systémy (tabuľka)",
+      "description": "Tabuľkový pohľad všetkých systémov monitorovaných Beszel s triediteľnými stĺpcami a indikátormi stavu",
+      "option": {
+        "statusFilter": {
+          "label": "Filter stavu"
+        },
+        "sortBy": {
+          "label": "Triediť podľa"
+        },
+        "sortDirection": {
+          "label": "Smer triedenia"
+        },
+        "showCpu": {
+          "label": "Zobraziť CPU"
+        },
+        "showMemory": {
+          "label": "Zobraziť pamäť"
+        },
+        "showDisk": {
+          "label": "Zobraziť disk"
+        },
+        "showGpu": {
+          "label": "Zobraziť GPU"
+        },
+        "showLoadAvg": {
+          "label": "Zobraziť priemerné zaťaženie"
+        },
+        "showNet": {
+          "label": "Zobraziť sieť"
+        },
+        "showTemp": {
+          "label": "Zobraziť teplotu"
+        },
+        "showBattery": {
+          "label": "Zobraziť batériu"
+        },
+        "showServices": {
+          "label": "Zobraziť služby"
+        },
+        "showUptime": {
+          "label": "Zobraziť dobu prevádzky"
+        },
+        "showAgent": {
+          "label": "Zobraziť verziu agenta"
+        },
+        "columnOrder": {
+          "label": ""
+        },
+        "columnWidths": {
+          "label": ""
+        }
+      },
+      "noRecords": "Nenašli sa žiadne systémy",
+      "error": {
+        "internalServerError": "",
+        "layoutSaveTitle": "",
+        "layoutSaveMessage": ""
+      },
+      "column": {
+        "system": "Systém",
+        "cpu": "Procesor",
+        "memory": "Pamäť",
+        "disk": "Disk",
+        "gpu": "GPU",
+        "loadAvg": "Priem. zaťaženie",
+        "net": "Sieť",
+        "temp": "Teplota",
+        "battery": "Batéria",
+        "services": "Služby",
+        "uptime": "Doba prevádzky",
+        "agent": "Agent"
+      }
+    },
+    "beszelSystemGrid": {
+      "name": "Beszel systémy (mriežka)",
+      "description": "Zobrazenie mriežky kariet všetkých systémov monitorovaných Beszel s metrikami v reálnom čase",
+      "option": {
+        "statusFilter": {
+          "label": "Filter stavu"
+        },
+        "showCpu": {
+          "label": "Zobraziť CPU"
+        },
+        "showMemory": {
+          "label": "Zobraziť pamäť"
+        },
+        "showDisk": {
+          "label": "Zobraziť disk"
+        },
+        "showGpu": {
+          "label": "Zobraziť GPU"
+        },
+        "showLoadAvg": {
+          "label": "Zobraziť priemerné zaťaženie"
+        },
+        "showNet": {
+          "label": "Zobraziť sieť"
+        },
+        "showTemp": {
+          "label": "Zobraziť teplotu"
+        },
+        "showBattery": {
+          "label": "Zobraziť batériu"
+        },
+        "showServices": {
+          "label": "Zobraziť služby"
+        },
+        "showUptime": {
+          "label": "Zobraziť dobu prevádzky"
+        },
+        "showAgent": {
+          "label": "Zobraziť verziu agenta"
+        }
+      },
+      "error": {
+        "internalServerError": ""
+      },
+      "empty": {
+        "noSystems": ""
+      },
+      "metric": {
+        "cpu": "Procesor",
+        "memory": "Pamäť",
+        "disk": "Disk",
+        "gpu": "GPU",
+        "loadAvg": "Priem. zaťaženie",
+        "net": "Sieť",
+        "temp": "Teplota",
+        "battery": "Bat",
+        "services": "Služby",
+        "uptime": "Doba prevádzky",
+        "agent": "Agent"
+      }
+    },
+    "beszelAlerts": {
+      "name": "Beszel Upozornenia",
+      "description": "Zobraziť konfigurácie a históriu Beszel upozornení",
+      "option": {
+        "showHistory": {
+          "label": "Zobraziť históriu upozornení"
+        },
+        "maxHistoryItems": {
+          "label": "Max. počet položiek histórie"
+        }
+      },
+      "empty": "Žiadne nakonfigurované upozornenia",
+      "error": {
+        "internalServerError": ""
+      },
+      "history": "História",
+      "resolved": "Vyriešené",
+      "status": {
+        "triggered": "Spustené",
+        "ok": "OK"
+      }
+    },
+    "beszelSystemStats": {
+      "name": "Beszel Systémové štatistiky",
+      "description": "Časové grafy pre CPU, pamäť, disk, sieť a metriky Docker kontajnerov",
+      "option": {
+        "systemId": {
+          "label": "",
+          "description": ""
+        },
+        "timePeriod": {
+          "label": "Časové obdobie"
+        },
+        "showCpu": {
+          "label": "Zobraziť graf CPU"
+        },
+        "showMemory": {
+          "label": "Zobraziť graf pamäte"
+        },
+        "showDisk": {
+          "label": "Zobraziť graf disku"
+        },
+        "showDiskIO": {
+          "label": "Zobraziť graf I/O disku"
+        },
+        "showNetwork": {
+          "label": "Zobraziť graf siete"
+        },
+        "showDockerCpu": {
+          "label": "Zobraziť graf CPU Docker"
+        },
+        "showDockerMemory": {
+          "label": "Zobraziť graf pamäte Docker"
+        },
+        "showDockerNetwork": {
+          "label": "Zobraziť graf siete Docker"
+        }
+      },
+      "selectSystem": "Vybrať systém",
+      "empty": {
+        "noSystems": ""
+      },
+      "error": {
+        "internalServerError": "",
+        "liveConnectionFailed": "",
+        "switchToHistorical": "",
+        "systemNotFound": ""
+      },
+      "chart": {
+        "cpu": {
+          "title": "Využitie CPU",
+          "subtitle": "Priemerné využitie CPU v celom systéme",
+          "series": "Procesor"
+        },
+        "memory": {
+          "title": "Využitie pamäte",
+          "subtitle": "Presné využitie v zaznamenanom čase",
+          "series": "Použité",
+          "cache": "Cache/Buffery"
+        },
+        "disk": {
+          "title": "Využitie disku",
+          "subtitle": "",
+          "series": ""
+        },
+        "diskIO": {
+          "title": "I/O disku",
+          "subtitle": "Prenosová rýchlosť koreňového súborového systému",
+          "read": "Čítanie",
+          "write": "Zápis"
+        },
+        "storage": {
+          "title": "",
+          "subtitle": "",
+          "series": ""
+        },
+        "network": {
+          "title": "Šírka pásma",
+          "subtitle": "Sieťová prevádzka verejných rozhraní",
+          "sent": "Odoslané",
+          "recv": "Prijaté"
+        },
+        "dockerCpu": {
+          "title": "Využitie CPU Docker",
+          "subtitle": "Priemerné využitie CPU kontajnerov"
+        },
+        "dockerMemory": {
+          "title": "Využitie pamäte Docker",
+          "subtitle": "Využitie pamäte Docker kontajnerov"
+        },
+        "dockerNetwork": {
+          "title": "I/O siete Docker",
+          "subtitle": "Sieťová prevádzka Docker kontajnerov"
+        }
       }
     }
   },
@@ -3348,12 +4544,18 @@
       "title": "Nenájdené",
       "text": "Nepodarilo sa nájsť požadovaný zdroj"
     },
+    "error": {
+      "title": "",
+      "text": "",
+      "digest": ""
+    },
     "navbar": {
       "items": {
         "home": "Domovská stránka",
         "boards": "Dosky",
         "apps": "Aplikácie",
         "integrations": "Integrácie",
+        "customWidgets": "",
         "searchEngies": "Vyhľadávače",
         "medias": "Médiá",
         "users": {
@@ -3372,7 +4574,8 @@
             "logs": "Záznamy",
             "api": "API",
             "certificates": "Certifikáty",
-            "tasks": "Úlohy"
+            "tasks": "Úlohy",
+            "backup": "Záloha"
           }
         },
         "settings": "Nastavenia",
@@ -3452,6 +4655,9 @@
           "public": "Táto tabuľa je verejná",
           "private": "Táto tabuľa je súkromná"
         },
+        "noResults": {
+          "title": "Zatiaľ žiadne dosky"
+        },
         "modal": {
           "createBoard": {
             "field": {
@@ -3482,7 +4688,24 @@
               },
               "search": "Hladať",
               "firstDayOfWeek": "Prvý deň v týždni",
-              "accessibility": "Prístupnosť"
+              "accessibility": "Prístupnosť",
+              "onboardingTours": {
+                "title": "Sprievodcovia",
+                "description": "Obnovte sprievodcov, aby sa vám zobrazili pri ďalšej návšteve ovládacieho panela alebo prístrojovej dosky.",
+                "reset": "Obnoviť sprievodcov",
+                "resetSuccess": {
+                  "title": "Sprievodcovia obnovení",
+                  "message": "Sprievodcovia sa pri ďalšej návšteve zobrazia znova"
+                },
+                "status": {
+                  "completed": "Dokončené",
+                  "notStarted": "Nezačaté"
+                },
+                "name": {
+                  "management": "Administrácia",
+                  "dashboard": "Prístrojová doska"
+                }
+              }
             }
           },
           "security": {
@@ -3608,18 +4831,6 @@
             "general": {
               "title": "Odoslať anonymné analýzy",
               "text": "Homarr bude posielať anonymizované analýzy pomocou open source softvéru Umami. Nikdy nezhromažďuje žiadne osobné údaje, a preto je plne v súlade s GDPR a CCPA. Odporúčame vám povoliť analýzu, pretože pomáha nášmu tímu s otvoreným zdrojom identifikovať problémy a uprednostňovať naše nevybavené veci."
-            },
-            "widgetData": {
-              "title": "Údaje widgetu",
-              "text": "Pošlite, ktoré widgety (a ich množstvo) ste nakonfigurovali. Nezahŕňa adresy URL, mená ani iné údaje."
-            },
-            "integrationData": {
-              "title": "Integračné údaje",
-              "text": "Pošlite, ktoré integrácie (a ich množstvo) ste nakonfigurovali. Nezahŕňa adresy URL, mená ani iné údaje."
-            },
-            "usersData": {
-              "title": "Údaje o používateľoch",
-              "text": "Pošlite počet používateľov a či ste aktivovali jednotné prihlásenie"
             }
           },
           "crawlingAndIndexing": {
@@ -3680,7 +4891,7 @@
             "defaultColorScheme": {
               "label": "Predvolená farebná schéma",
               "options": {
-                "auto": "",
+                "auto": "Automaticky",
                 "light": "Svetlý",
                 "dark": "Tmavý"
               }
@@ -3704,86 +4915,14 @@
             "disabled": ""
           },
           "job": {
-            "minecraftServerStatus": {
-              "label": "Minecraft Server Stav"
-            },
-            "timetable": {
-              "label": ""
-            },
             "iconsUpdater": {
               "label": "Aktualizátor ikon"
             },
             "analytics": {
               "label": "Analytika"
             },
-            "smartHomeEntityState": {
-              "label": "Stav entity inteligentnej domácnosti"
-            },
             "ping": {
               "label": "Pingy"
-            },
-            "mediaServer": {
-              "label": "Multimediálny Server"
-            },
-            "mediaOrganizer": {
-              "label": "Organizátori médií"
-            },
-            "downloads": {
-              "label": "Na stiahnutie"
-            },
-            "mediaRequestStats": {
-              "label": "Štatistiky mediálnych požiadaviek"
-            },
-            "mediaRequestList": {
-              "label": "Zoznam mediálnych požiadaviek"
-            },
-            "rssFeeds": {
-              "label": "RSS kanály"
-            },
-            "indexerManager": {
-              "label": "Správca indexovania"
-            },
-            "healthMonitoring": {
-              "label": "Monitorovanie zdravia"
-            },
-            "dnsHole": {
-              "label": "Údaje o dierach DNS"
-            },
-            "updateChecker": {
-              "label": "Kontrola aktualizácií"
-            },
-            "mediaTranscoding": {
-              "label": "Prekódovanie médií"
-            },
-            "networkController": {
-              "label": "Sieťový ovládač"
-            },
-            "refreshNotifications": {
-              "label": ""
-            },
-            "dockerContainers": {
-              "label": "Docker kontajnery"
-            },
-            "firewallCpu": {
-              "label": ""
-            },
-            "firewallMemory": {
-              "label": ""
-            },
-            "firewallVersion": {
-              "label": ""
-            },
-            "firewallInterfaces": {
-              "label": ""
-            },
-            "weather": {
-              "label": ""
-            },
-            "tracearr": {
-              "label": ""
-            },
-            "umamiActiveVisitors": {
-              "label": ""
             }
           },
           "interval": {
@@ -3890,7 +5029,215 @@
                   "actions": "Úkony"
                 }
               }
+            },
+            "mcp": {
+              "label": "AI / MCP",
+              "title": "Integrácia AI",
+              "subtitle": "Server Model Context Protocol (MCP)",
+              "description": "Pripojte AI asistentov k vašej inštancii Homarr a ovládajte celý svoj homelab pomocou prirodzeného jazyka. Vyhľadávajte a požadujte médiá na Overseerr, spravujte Docker kontajnery, prepínajte Pi-hole, kontrolujte zdravie servera, ovládajte zariadenia Home Assistant a ďalšie – všetko od vášho AI asistenta.",
+              "noApiKey": "Na autentifikáciu so serverom MCP potrebujete API kľúč.",
+              "createApiKeyButton": "Vytvoriť API kľúč",
+              "endpoint": {
+                "title": "Koncový bod MCP"
+              },
+              "authentication": {
+                "title": "Autentifikácia",
+                "intro": "So serverom MCP sa môžete autentifikovať pomocou API kľúča alebo OAuth. Obe metódy udeľujú rovnakú úroveň prístupu.",
+                "apiKey": {
+                  "title": "API kľúč (manuálne)",
+                  "description": "Odovzdajte hlavičku ApiKey s vaším úplným API kľúčom v konfigurácii klienta MCP."
+                },
+                "oauth": {
+                  "title": "OAuth (prihlásenie cez prehliadač)",
+                  "description": "Klienti, ktorí podporujú OAuth (ako Claude Code, opencode alebo Cursor), sa môžu autentifikovať otvorením okna prehliadača. Spustite príkaz auth vo vašom klientovi, prihláste sa do Homarr v prehliadači a ste pripojení – API kľúč sa vytvorí automaticky.",
+                  "hint": "Tokeny OAuth sa zobrazujú ako bežné API kľúče na karte Autentifikácia. Môžete ich kedykoľvek odvolať."
+                },
+                "permissions": "API kľúč určuje oprávnenia dostupné pre AI – funguje s rovnakou úrovňou prístupu ako vlastník kľúča."
+              },
+              "clientConfig": {
+                "title": "Konfigurácia klienta",
+                "streamableHttp": {
+                  "recommended": "Odporúčané",
+                  "title": "Streamovateľné HTTP",
+                  "worksWith": "Funguje s: Cursor, Claude Desktop, VS Code Copilot, Windsurf, Claude Code",
+                  "addToConfig": "Pridajte do konfiguračného súboru vášho klienta MCP:",
+                  "cursor": "{name}: {file} v nastaveniach vášho projektu alebo globálnych nastaveniach",
+                  "claudeDesktop": "{name}: {file}",
+                  "claudeCode": "{name}: {file} alebo použite {command}",
+                  "vsCodeCopilot": "{name}: {file} v nastaveniach pracovného priestoru",
+                  "replaceHint": "Nahraďte zástupný symbol kľúčom API, ktorý ste dostali pri jeho vytváraní."
+                },
+                "stdio": {
+                  "title": "stdio (starší klienti cez mcp-remote bridge)",
+                  "description": "Pre klientov, ktorí podporujú iba stdio transport. Vyžaduje lokálne nainštalovaný {dependency} (Node.js):"
+                }
+              },
+              "testConnection": {
+                "title": "Otestujte svoje pripojenie",
+                "description": "Spustite toto vo vašom termináli na overenie, či je koncový bod dosiahnuteľný a váš API kľúč funguje:",
+                "hint": "Úspešná odpoveď vráti schopnosti servera MCP. Ak uvidíte chybu, skontrolujte JSON odpoveď pre rady."
+              },
+              "availableTools": {
+                "title": "Dostupné nástroje",
+                "description": "{count} nástrojov k dispozícii. Rozbaľte kategóriu, aby ste videli jednotlivé nástroje a ich popisy.",
+                "columnType": "Typ",
+                "columnName": "Nástroj",
+                "columnDescription": "Popis"
+              },
+              "troubleshooting": {
+                "title": "Riešenie problémov",
+                "missingHeader": {
+                  "title": "\"Chýbajúca hlavička ApiKey\"",
+                  "description": "Váš klient neodosiela hlavičku {header}. Overte, či je sekcia {section} vo vašej konfigurácii MCP správna. Niektorí klienti vyžadujú reštart po zmenách konfigurácie."
+                },
+                "invalidFormat": {
+                  "title": "\"Neplatný formát ApiKey\"",
+                  "description": "Uistite sa, že ste skopírovali celý API kľúč, nielen jeho časť."
+                },
+                "invalidKey": {
+                  "title": "\"Neplatný API kľúč\"",
+                  "description": "ID kľúča sa nenašlo alebo je token nesprávny. API kľúče je možné zobraziť iba raz pri vytvorení. Ak ste ho stratili, odstráňte starý kľúč a vytvorte nový."
+                },
+                "connectionRefused": {
+                  "title": "Odmietnuté pripojenie / časový limit",
+                  "description": "Uistite sa, že URL je dosiahnuteľné z vášho AI klienta. Ak Homarr beží za reverzným proxy alebo v Dockeri, použite externú URL (nie {localhost}). Overte, či je port správny (predvolený: 7575 pre Docker)."
+                },
+                "toolsNotAppearing": {
+                  "title": "Nástroje sa nezobrazujú",
+                  "description": "Niektoré nástroje vyžadujú nakonfigurovanie špecifických integrácií (napr. Docker, Overseerr). Zoznam nástrojov závisí od toho, čo je k dispozícii vo vašej inštancii Homarr."
+                }
+              },
+              "copy": "Kopírovať",
+              "oneClick": {
+                "title": "Nainštalovať jedným kliknutím",
+                "subtitle": "Používa OAuth – autentifikujte sa vo svojom prehliadači pri prvom použití",
+                "vsCode": "Nainštalovať do VS Code",
+                "cursor": "Nainštalovať do Cursor",
+                "copyUrl": "Kopírovať URL MCP",
+                "copied": "Skopírované!",
+                "copyHint": "Pre ChatGPT, Claude Code alebo akéhokoľvek klienta MCP",
+                "manualConfig": "Manuálna konfigurácia"
+              }
             }
+          }
+        },
+        "backup": {
+          "title": "Úplná záloha databázy",
+          "metaTitle": "Zálohovanie a obnovenie",
+          "export": {
+            "title": "Exportovať databázu",
+            "description": "Stiahnite si úplnú zálohu vašej databázy SQLite vrátane všetkých nastavení, používateľov, dosiek a šifrovaných tajomstiev integrácií. Záloha je zabalená ako súbor ZIP s šifrovacím kľúčom a metadátami.",
+            "button": "Stiahnuť zálohu",
+            "error": "Export zlyhal",
+            "confirm": {
+              "title": "Export citlivých údajov",
+              "warningTitle": "Tento export obsahuje celú vašu databázu.",
+              "warningBody": "Záloha obsahuje všetkých používateľov, tajomstvá integrácií (šifrované), kľúče API, konfigurácie dosiek a údaje aplikácií. Exportovaný súbor bezpečne uložte a nezdieľajte ho.",
+              "typePrompt": "Napíšte \"{phrase}\" pre pokračovanie",
+              "submit": "Exportovať databázu",
+              "cancel": "Zrušiť"
+            }
+          },
+          "import": {
+            "title": "Obnoviť databázu",
+            "description": "Nahrajte predtým exportovanú zálohu ZIP na obnovenie databázy. Tým sa nahradí celá vaša databáza. Ak bola záloha vytvorená s iným šifrovacím kľúčom, tajomstvá budú automaticky znovu zašifrované.",
+            "warning": "Obnovením zálohy sa úplne nahradí vaša aktuálna databáza a reštartuje sa aplikácia. Túto akciu nie je možné vrátiť späť.",
+            "dropzone": {
+              "title": "Sem presuňte svoju zálohu ZIP alebo kliknutím prehliadajte",
+              "description": "Prijímajú sa iba súbory .zip zo zálohy SQLite Homarr"
+            },
+            "changeFile": "Zmeniť súbor",
+            "button": "Obnoviť databázu",
+            "success": {
+              "title": "Obnovenie dokončené",
+              "message": "Databáza bola úspešne obnovená. Aplikácia sa reštartuje..."
+            },
+            "error": "Import zlyhal"
+          },
+          "preview": {
+            "title": "Obsah zálohy",
+            "exported": "Exportované {date}",
+            "loading": "Analyzuje sa súbor zálohy...",
+            "errorTitle": "Chyba ukážky",
+            "entity": "Entita",
+            "count": "Počet",
+            "boards": "Dosky",
+            "entities": {
+              "board": "Dosky",
+              "user": "Používatelia",
+              "app": "Aplikácie",
+              "integration": "Integrácie",
+              "item": "Miniaplikácie",
+              "media": "Médiá",
+              "search_engine": "Vyhľadávače"
+            },
+            "analyzeError": "Nepodarilo sa analyzovať súbor zálohy",
+            "invalidMissingMetadata": "Neplatná záloha: chýba metadata.json",
+            "invalidMissingDb": "Neplatná záloha: chýba db.sqlite"
+          },
+          "restore": {
+            "dropzone": {
+              "title": "Sem presuňte svoju zálohu ZIP",
+              "description": "Prijímajú sa súbory .zip zo zálohy SQLite Homarr (max. 256 MB)"
+            },
+            "analyzing": "Analyzuje sa záloha...",
+            "changeFile": "Zmeniť súbor",
+            "continueToRestore": "Pokračovať na obnovenie",
+            "tryAgain": "Skúste znova",
+            "analysisError": "Chyba analýzy",
+            "preview": {
+              "title": "Obsah zálohy",
+              "exported": "Exportované {date}",
+              "entity": "Entita",
+              "count": "Počet",
+              "boards": "Dosky",
+              "entities": {
+                "board": "Dosky",
+                "user": "Používatelia",
+                "app": "Aplikácie",
+                "integration": "Integrácie",
+                "item": "Miniaplikácie",
+                "media": "Médiá",
+                "search_engine": "Vyhľadávače"
+              },
+              "migrationsApplied": "Použitá {count} migrácia",
+              "migrationsAppliedPlural": "Použitých {count} migrácií",
+              "migrationsOlderVersion": "Táto záloha pochádza zo staršej verzie Homarr. Bola použitá {count} migrácia schémy na jej aktualizáciu.",
+              "migrationsOlderVersionPlural": "Táto záloha pochádza zo staršej verzie Homarr. Bolo použitých {count} migrácií schémy na jej aktualizáciu.",
+              "migrationsUpToDate": "Databázová schéma je aktuálna (použitých {count} migrácií)",
+              "upToDate": "Aktuálny",
+              "migrationsPending": "{count} čakajúcich"
+            },
+            "migration": {
+              "title": "Aplikujú sa migrácie ({current}/{total})",
+              "migrationLabel": "Migrácia {index}"
+            },
+            "confirm": {
+              "title": "Deštruktívna akcia",
+              "warningTitle": "Týmto sa natrvalo nahradí celá vaša databáza.",
+              "warningBody": "Všetky aktuálne dosky, používatelia, aplikácie, integrácie, nastavenia a relácie budú stratené. Túto akciu nie je možné vrátiť späť. Aplikácia sa po obnovení reštartuje.",
+              "typePrompt": "Napíšte \"{phrase}\" pre pokračovanie",
+              "cancel": "Zrušiť",
+              "submit": "Obnoviť databázu"
+            },
+            "progress": {
+              "title": "Obnovuje sa databáza...",
+              "extracting": "Rozbaľuje sa archív zálohy",
+              "migrating": "Aplikujú sa databázové migrácie",
+              "encrypting": "Znova sa šifrujú tajomstvá integrácií",
+              "swapping": "Nahrádza sa databázový súbor",
+              "restarting": "Reštartuje sa server"
+            },
+            "complete": {
+              "title": "Obnovenie dokončené",
+              "message": "Databáza bola úspešne obnovená. Server sa reštartuje – o niekoľko sekúnd obnovte stránku."
+            },
+            "failed": {
+              "title": "Obnovenie zlyhalo"
+            },
+            "invalidMissingMetadata": "Neplatná záloha: chýba metadata.json",
+            "invalidMissingDb": "Neplatná záloha: chýba db.sqlite",
+            "analyzeError": "Nepodarilo sa analyzovať zálohu"
           }
         }
       },
@@ -3937,9 +5284,14 @@
     "title": "Kontajnery",
     "table": {
       "updated": "Aktualizované {when}",
+      "refresh": {
+        "lastUpdated": ""
+      },
       "search": "Vyhľadajte {count} kontajnery",
       "selected": "{selectCount} z {totalCount} vybratých kontajnerov",
-      "footer": "Celkový počet kontajnerov: {count}"
+      "footer": "Celkový počet kontajnerov: {count}",
+      "totalCpu": "",
+      "totalMemory": ""
     },
     "field": {
       "name": {
@@ -3972,11 +5324,17 @@
         "label": "Porty"
       },
       "host": {
-        "label": ""
+        "label": "Hostiteľ"
       }
     },
     "action": {
       "title": "Úkony",
+      "logs": {
+        "label": "Zobraziť denníky",
+        "page": {
+          "title": "{name} denníky"
+        }
+      },
       "start": {
         "label": "Spustiť",
         "notification": {
@@ -4018,6 +5376,7 @@
       },
       "remove": {
         "label": "Odstrániť",
+        "confirm": "",
         "notification": {
           "success": {
             "title": "Kontajnery boli odstránené",
@@ -4060,7 +5419,8 @@
       }
     },
     "error": {
-      "internalServerError": "Nepodarilo sa načítať kontajnery Docker"
+      "internalServerError": "Nepodarilo sa načítať kontajnery Docker",
+      "noColumns": ""
     }
   },
   "kubernetes": {
@@ -4368,6 +5728,18 @@
           "label": "Upraviť"
         }
       },
+      "custom-widgets": {
+        "label": "",
+        "new": {
+          "label": ""
+        },
+        "edit": {
+          "label": "",
+          "flow": {
+            "label": ""
+          }
+        }
+      },
       "users": {
         "label": "Používatelia",
         "create": {
@@ -4389,7 +5761,10 @@
           "label": ""
         },
         "docker": {
-          "label": "Docker"
+          "label": "Docker",
+          "logs": {
+            "label": "Denníky"
+          }
         },
         "kubernetes": {
           "label": "Kubernetes",
@@ -4499,7 +5874,7 @@
             "title": "Globálne príkazy",
             "option": {
               "colorScheme": {
-                "auto": "",
+                "auto": "Prepnúť režim vzhľadu",
                 "light": "Prepnúť na svetlý motív",
                 "dark": "Prepnúť na tmavý motív"
               },
@@ -4538,26 +5913,162 @@
                 "label": "Vytvoriť novú skupinu"
               }
             }
+          },
+          "preferences": {
+            "title": "Preferencie",
+            "children": {
+              "detail": {
+                "title": "Vyberte preferenciu, ktorú chcete zmeniť",
+                "backHint": "Stlačte Backspace alebo použite tlačidlo Späť na vrátenie",
+                "backAction": "Späť"
+              }
+            },
+            "notification": {
+              "error": {
+                "message": "Nepodarilo sa aktualizovať preferenciu"
+              }
+            },
+            "option": {
+              "preferences": {
+                "label": "Otvoriť preferencie"
+              },
+              "boolean": {
+                "enabled": "Povolené",
+                "disabled": "Zakázané"
+              },
+              "board": {
+                "none": "Žiadne",
+                "unavailable": "Aktuálne vybraté (nedostupné)"
+              },
+              "searchEngine": {
+                "none": "Žiadne",
+                "unavailable": "Aktuálne vybraté (nedostupné)"
+              },
+              "colorScheme": {
+                "label": "Farebná schéma",
+                "children": {
+                  "detail": {
+                    "title": "Vyberte farebnú schému"
+                  }
+                }
+              },
+              "locale": {
+                "label": "Jazyk",
+                "children": {
+                  "detail": {
+                    "title": "Vyberte preferovaný jazyk"
+                  }
+                }
+              },
+              "defaultSearchEngineId": {
+                "label": "Predvolený vyhľadávací nástroj",
+                "children": {
+                  "detail": {
+                    "title": "Vyberte predvolený vyhľadávací nástroj"
+                  }
+                }
+              },
+              "openSearchInNewTab": {
+                "label": "Otvoriť výsledky vyhľadávania na novej karte",
+                "children": {
+                  "detail": {
+                    "title": "Otvoriť výsledky vyhľadávania na novej karte"
+                  }
+                }
+              },
+              "ddgBangs": {
+                "label": "Povoliť príkazy DuckDuckGo bang",
+                "children": {
+                  "detail": {
+                    "title": "Povoliť príkazy DuckDuckGo bang"
+                  }
+                }
+              },
+              "firstDayOfWeek": {
+                "label": "Prvý deň v týždni",
+                "children": {
+                  "detail": {
+                    "title": "Vyberte prvý deň v týždni"
+                  }
+                }
+              },
+              "homeBoardId": {
+                "label": "Domáca doska",
+                "children": {
+                  "detail": {
+                    "title": "Vyberte domácu dosku"
+                  }
+                }
+              },
+              "mobileHomeBoardId": {
+                "label": "Mobilná domáca doska",
+                "children": {
+                  "detail": {
+                    "title": "Vyberte mobilnú domácu dosku"
+                  }
+                }
+              },
+              "pingIconsEnabled": {
+                "label": "Používať ikony pre pingy",
+                "children": {
+                  "detail": {
+                    "title": "Používať ikony pre pingy"
+                  }
+                }
+              },
+              "enableRightClickOnWidgets": {
+                "label": "",
+                "children": {
+                  "detail": {
+                    "title": ""
+                  }
+                }
+              },
+              "fullPreferencesPage": {
+                "label": "Otvoriť celú stránku preferencií"
+              }
+            }
           }
         }
       },
       "media": {
+        "help": "Vyhľadajte filmy alebo seriály na vyžiadanie",
         "requestMovie": "Vyžiadať film",
         "requestSeries": "Vyžiadať seriál",
-        "openIn": "Otvoriť v {kind}"
+        "openIn": "Otvoriť v {kind}",
+        "group": {
+          "title": "Filmy a seriály"
+        },
+        "action": {
+          "search": {
+            "label": "Vyhľadajte filmy alebo seriály",
+            "description": "Začnite písať, aby ste vyhľadali svoje integrácie žiadostí o médiá",
+            "disabled": {
+              "noIntegration": "Pridajte integráciu Overseerr, Jellyseerr alebo Seerr, aby ste umožnili vyhľadávanie médií.",
+              "scoped": "Táto miniaplikácia nemá prístupnú integráciu žiadostí o médiá."
+            }
+          }
+        },
+        "availability": {
+          "available": "K dispozícii",
+          "partiallyAvailable": "Čiastočne",
+          "processing": "Spracováva sa",
+          "requested": "Vyžiadané",
+          "pending": "Vyžiadané"
+        }
       },
       "external": {
         "help": "Používanie externého vyhľadávača",
         "group": {
           "searchEngine": {
             "title": "Vyhľadávače",
-            "tipDdgBangs": "",
+            "tipDdgBangs": "Tip: Môžete tu použiť aj akékoľvek príkazy DuckDuckGo bang, napr. !niečo",
             "bang": {
-              "searchWithQuery": "",
-              "pressEnterToOpen": "",
-              "engineSelected": "",
-              "typeQueryToContinue": "",
-              "emptyBangHint": ""
+              "searchWithQuery": "Vyhľadať \"{query}\" pomocou {label}",
+              "pressEnterToOpen": "Stlačením Enter otvoriť",
+              "engineSelected": "{label} vybrané (!{bang})",
+              "typeQueryToContinue": "Ak chcete pokračovať, zadajte vyhľadávací dotaz",
+              "emptyBangHint": "Napíšte bang, napr. !yt, a stlačte medzeru na výber"
             },
             "children": {
               "action": {
@@ -4820,7 +6331,11 @@
             "table": {
               "header": {
                 "season": "Séria",
-                "episodes": "Epizódy"
+                "episodes": "Epizódy",
+                "status": "Stav"
+              },
+              "status": {
+                "requested": "Vyžiadané"
               }
             },
             "button": {
@@ -4929,6 +6444,73 @@
         "info": "",
         "warn": "",
         "error": ""
+      }
+    }
+  },
+  "onboardingTour": {
+    "learnMore": "Prečítať si dokumentáciu",
+    "next": "Ďalej",
+    "prev": "Späť",
+    "done": "Hotovo",
+    "skip": "Preskočiť prehliadku",
+    "manage": {
+      "welcome": {
+        "title": "Vitajte v Homarr!",
+        "description": "Toto je vaše riadiace centrum. Odtiaľto spravujete dosky, aplikácie, integrácie, používateľov a nastavenia servera. Poďme si prejsť jednotlivé sekcie."
+      },
+      "boardsList": {
+        "title": "Vaše dosky",
+        "description": "Tu sú všetky vaše prístrojové dosky. Každá doska má vlastné rozloženie, pozadie a nastavenia prístupu. Môžete vidieť, kto ktorú vytvoril a či je verejná alebo súkromná."
+      },
+      "boardsCreate": {
+        "title": "Vytvoriť dosku",
+        "description": "Kliknutím sem vytvoríte novú prístrojovú dosku alebo importujete z predchádzajúcej inštalácie Homarr. Každá doska dostane vlastnú adresu URL, ktorú môžete zdieľať."
+      },
+      "appsList": {
+        "title": "Vaše aplikácie",
+        "description": "Toto sú všetky pridané aplikácie – odkazy na vaše self-hosted služby. Každá aplikácia má ikonu, voliteľnú kontrolu stavu a odznak stavu na prístrojovej doske."
+      },
+      "appsCreate": {
+        "title": "Pridať aplikáciu",
+        "description": "Tu zaregistrujte novú službu. Zadajte názov, URL a ikonu – zobrazí sa ako dlaždica na vašich doskách so živým monitorovaním stavu."
+      },
+      "integrationsList": {
+        "title": "Vaše integrácie",
+        "description": "Toto sú služby pripojené k Homarr – Sonarr, Radarr, Plex, Jellyfin a viac ako 50 ďalších. Všetky prihlasovacie údaje sú šifrované v pokoji."
+      },
+      "integrationsCreate": {
+        "title": "Pridať integráciu",
+        "description": "Tu pripojte novú službu. Vyberte typ, zadajte URL a kľúč API – Homarr pred uložením overí pripojenie."
+      },
+      "usersList": {
+        "title": "Vaši používatelia",
+        "description": "Pozrite sa na všetkých, ktorí majú prístup. Organizujte používateľov do skupín a kontrolujte, kto môže zobraziť alebo upraviť každú dosku."
+      },
+      "usersCreate": {
+        "title": "Vytvoriť používateľa",
+        "description": "Tu pridajte nové používateľské konto. Môžete tiež použiť pozývacie odkazy na jednoduché pripojenie. To je koniec prehliadky – ste pripravení!"
+      }
+    },
+    "board": {
+      "welcome": {
+        "title": "Toto je vaša doska",
+        "description": "Prístrojová doska drag-and-drop, kde usporiadate aplikácie a miniaplikácie. Kedykoľvek stlačte Ctrl+K na vyhľadávanie aplikácií, dosiek a akcií."
+      },
+      "editMode": {
+        "title": "Režim úprav",
+        "description": "Kliknutím sem vstúpte do režimu úprav. Potom môžete pridávať miniaplikácie, aplikácie a sekcie – potiahnutím premiestnite, zmeňte veľkosť pomocou rohového úchytu. Opätovným kliknutím uložíte zmeny."
+      },
+      "settings": {
+        "title": "Nastavenia dosky",
+        "description": "Zmeňte názov, stĺpce, pozadie, farby tejto dosky a kto k nej má prístup. Každá doska môže byť verejná alebo súkromná."
+      },
+      "switcher": {
+        "title": "Prepnúť dosky",
+        "description": "Skákať medzi doskami. Vytvorte samostatné prístrojové dosky na rôzne účely – médiá, sieťovanie, na používateľa alebo čokoľvek, čo sa vám páči."
+      },
+      "userMenu": {
+        "title": "Váš profil",
+        "description": "Zmeňte farebnú schému, jazyk, domovskú dosku a preferencie. Odtiaľto môžete tiež prejsť do ovládacieho panela."
       }
     }
   }

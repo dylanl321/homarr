@@ -5,9 +5,10 @@ import { Group, Stack, Text } from "@mantine/core";
 import { IconDatabase, IconPhoto, IconUsers, IconVideo } from "@tabler/icons-react";
 
 import { clientApi } from "@homarr/api/client";
-import { humanFileSize } from "@homarr/common";
+import { formatBytes } from "@homarr/common";
 import { useI18n } from "@homarr/translation/client";
 
+import { WidgetEmptyState } from "../../common/empty-state";
 import type { WidgetComponentProps } from "../../definition";
 import classes from "./component.module.css";
 
@@ -16,9 +17,11 @@ export default function ImmichServerStatsWidget({
   options,
 }: WidgetComponentProps<"immich-serverStats">) {
   const t = useI18n();
-  const [stats] = clientApi.widget.immich.getServerStats.useSuspenseQuery({
+  const { data: stats } = clientApi.widget.immich.getServerStats.useQuery({
     integrationId: integrationIds[0] ?? "",
   });
+
+  if (!stats) return <WidgetEmptyState />;
 
   return (
     <Stack gap="md" h="100%" p="md">
@@ -43,7 +46,7 @@ export default function ImmichServerStatsWidget({
         <StatItem
           icon={<IconDatabase size={20} />}
           label={t("widget.immich-serverStats.storage")}
-          value={humanFileSize(stats.totalLibraryUsageInBytes)}
+          value={formatBytes(stats.totalLibraryUsageInBytes)}
         />
       )}
     </Stack>
