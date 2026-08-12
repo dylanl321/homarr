@@ -1489,6 +1489,9 @@ importers:
       '@homarr/db':
         specifier: workspace:^0.1.0
         version: link:../db
+      '@homarr/definitions':
+        specifier: workspace:^0.1.0
+        version: link:../definitions
       zod:
         specifier: 'catalog:'
         version: 4.4.3

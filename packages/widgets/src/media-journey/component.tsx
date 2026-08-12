@@ -11,10 +11,10 @@ const stageOrder = ["request", "grab", "download", "import", "library"] as const
 
 export default function MediaJourneyWidget({ options }: WidgetComponentProps<"mediaJourney">) {
   const t = useI18n();
-  const { data = [], isLoading } = clientApi.mediaTrace.list.useQuery(
-    { search: options.search || undefined, limit: options.limit },
-    { refetchInterval: 30_000 },
-  );
+  const { data = [], isLoading } = clientApi.mediaTrace.list.useQuery({
+    search: options.search.trim() || undefined,
+    limit: options.limit,
+  });
 
   if (isLoading) {
     return (

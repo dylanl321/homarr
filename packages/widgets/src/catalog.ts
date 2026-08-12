@@ -42,6 +42,7 @@ import {
   IconSpeedboat,
   IconTable,
   IconTicket,
+  IconTimeline,
   IconTopologyFull,
   IconTopologyStar,
   IconTransform,
@@ -110,5 +111,5 @@ export const widgetCatalogIcons: Record<WidgetKind, TablerIcon> = {
   customApi: IconApi,
   wud: IconBrandDocker,
   cmdb: IconTopologyStar,
-  mediaJourney: IconRoute,
+  mediaJourney: IconTimeline,
 };

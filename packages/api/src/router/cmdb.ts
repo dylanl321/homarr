@@ -2,6 +2,8 @@ import { z } from "zod/v4";
 import { TRPCError } from "@trpc/server";
 
 import {
+  CmdbError,
+  cmdbResourceKinds,
   createCmdbOwnerAsync,
   createCmdbOwnerSchema,
   createCmdbRelationshipAsync,
@@ -19,20 +21,28 @@ import {
 
 import { createTRPCRouter, permissionRequiredProcedure, protectedProcedure } from "../trpc";
 
+const throwIfCmdbError = (error: unknown): never => {
+  if (error instanceof CmdbError) {
+    throw new TRPCError({ code: error.code, message: error.message });
+  }
+  throw error;
+};
+
 export const cmdbRouter = createTRPCRouter({
   listResources: protectedProcedure
     .meta({
       mcp: {
         enabled: true,
         description:
-          "List CMDB resources with relationships and owners. OPTIONAL: kind (service|host|network|storage|app|other), search (string)",
+          "List CMDB resources with relationships and owners. OPTIONAL: kind (service|host|network|storage|app|other), search (string), limit (1-200, default 50)",
       },
     })
     .input(
       z
         .object({
-          kind: z.string().optional(),
+          kind: z.enum(cmdbResourceKinds).optional(),
           search: z.string().optional(),
+          limit: z.number().int().min(1).max(200).default(50),
         })
         .optional(),
     )
@@ -108,7 +118,11 @@ export const cmdbRouter = createTRPCRouter({
     })
     .input(createCmdbRelationshipSchema)
     .mutation(async ({ ctx, input }) => {
-      return await createCmdbRelationshipAsync(ctx.db, input);
+      try {
+        return await createCmdbRelationshipAsync(ctx.db, input);
+      } catch (error) {
+        throwIfCmdbError(error);
+      }
     }),
 
   deleteRelationship: permissionRequiredProcedure
@@ -131,7 +145,11 @@ export const cmdbRouter = createTRPCRouter({
     })
     .input(createCmdbOwnerSchema)
     .mutation(async ({ ctx, input }) => {
-      return await createCmdbOwnerAsync(ctx.db, input);
+      try {
+        return await createCmdbOwnerAsync(ctx.db, input);
+      } catch (error) {
+        throwIfCmdbError(error);
+      }
     }),
 
   deleteOwner: permissionRequiredProcedure

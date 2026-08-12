@@ -66,4 +66,6 @@ export const widgetDefaultSizes: Partial<Record<WidgetKind, { width: number; hei
   patchmon: { width: 2, height: 2 },
   mediaMissing: { width: 4, height: 3 },
   bazarr: { width: 2, height: 2 },
+  cmdb: { width: 4, height: 3 },
+  mediaJourney: { width: 4, height: 3 },
 };

@@ -4,16 +4,16 @@ Status: approved for Phase 0–1; Phase 2–4 build next. Supersedes any “buil
 
 ## Locked decisions
 
-| Decision | Choice |
-|---|---|
-| Foundation | Keep `dylanl321/homarr` as a Homarr fork; track `homarr-labs/homarr` `dev` |
-| D1 CMDB / topology | **In scope for v1** — simple model only |
-| D2 Discovery inbox | Deferred (not v1) |
-| D3 Audit log | Deferred (not v1) |
-| D4 Media journey correlation | **In scope for v1** |
-| D5 Two-step guarded actions | **Deferred** — Homarr permissions + UI confirms are enough |
-| D6 Secrets by reference (`op://` / `file://`) | **Deferred** — Homarr AES-256 DB secrets are enough |
-| Data migration from a prior hub app | **None** — greenfield |
+| Decision                                      | Choice                                                                     |
+| --------------------------------------------- | -------------------------------------------------------------------------- |
+| Foundation                                    | Keep `dylanl321/homarr` as a Homarr fork; track `homarr-labs/homarr` `dev` |
+| D1 CMDB / topology                            | **In scope for v1** — simple model only                                    |
+| D2 Discovery inbox                            | Deferred (not v1)                                                          |
+| D3 Audit log                                  | Deferred (not v1)                                                          |
+| D4 Media journey correlation                  | **In scope for v1**                                                        |
+| D5 Two-step guarded actions                   | **Deferred** — Homarr permissions + UI confirms are enough                 |
+| D6 Secrets by reference (`op://` / `file://`) | **Deferred** — Homarr AES-256 DB secrets are enough                        |
+| Data migration from a prior hub app           | **None** — greenfield                                                      |
 
 ## Guiding principles
 
@@ -99,5 +99,6 @@ Touched upstream core files should stay short: `root.ts`, MCP registry, DB schem
 ## Fork hygiene
 
 - Remotes: `origin` = `dylanl321/homarr`; `upstream` = `homarr-labs/homarr`.
-- Merge `upstream/dev` on a regular cadence; keep custom delta in new packages.
+- Do **not** squash-merge upstream syncs. History was flattened once; recover with the rebaseline in [2026-08-12-upstream-rebase.md](./2026-08-12-upstream-rebase.md).
+- After rebaseline, merge `upstream/dev` with merge commits on a regular cadence; keep custom delta in new packages.
 - Preserve Apache-2.0 `LICENSE`; add fork copyright in `NOTICE` if/when we add one without removing Homarr’s.

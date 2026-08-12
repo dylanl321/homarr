@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 
-import { createCmdbResourceSchema } from "./types";
+import { createCmdbRelationshipSchema, createCmdbResourceSchema } from "./types";
 
 describe("cmdb schemas", () => {
   test("accepts a valid resource", () => {
@@ -11,5 +11,14 @@ describe("cmdb schemas", () => {
     });
     expect(parsed.name).toBe("Plex");
     expect(parsed.metadata).toEqual({});
+  });
+
+  test("rejects a self-relationship", () => {
+    const parsed = createCmdbRelationshipSchema.safeParse({
+      sourceId: "same",
+      targetId: "same",
+      kind: "depends_on",
+    });
+    expect(parsed.success).toBe(false);
   });
 });
