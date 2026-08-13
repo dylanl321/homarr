@@ -18,7 +18,7 @@ describe("resolveMediaJourneyView", () => {
   });
 
   test("picks flow when tall and healthy", () => {
-    expect(resolveMediaJourneyView("auto", { hasIssues: false, width: 300, height: 800 })).toBe("flow");
+    expect(resolveMediaJourneyView("auto", { hasIssues: false, width: 400, height: 800 })).toBe("flow");
   });
 
   test("picks pipeline on manage when healthy and unsized", () => {

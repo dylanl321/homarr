@@ -85,10 +85,13 @@ export const latestOccurredAt = (events: MediaTraceHealthEventInput[], fallback:
     return fallback;
   }
 
-  return events.reduce(
-    (latest, event) => (event.occurredAt > latest ? event.occurredAt : latest),
-    events[0]!.occurredAt,
-  );
+  let latest = events[0]?.occurredAt ?? fallback;
+  for (const event of events) {
+    if (event.occurredAt > latest) {
+      latest = event.occurredAt;
+    }
+  }
+  return latest;
 };
 
 export const currentMediaTraceStage = (events: MediaTraceHealthEventInput[]): MediaTraceStage => {

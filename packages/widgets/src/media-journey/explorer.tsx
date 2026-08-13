@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import type { ReactNode } from "react";
 import { Anchor, Group, ScrollArea, SegmentedControl, Stack, Text, Title } from "@mantine/core";
 
 import { clientApi } from "@homarr/api/client";
@@ -130,11 +131,7 @@ const EmptyState = ({ layout }: { layout: "manage" | "widget" }) => {
     return (
       <Text size="sm" c="dimmed" ta="center">
         {t.rich("widget.mediaJourney.empty", {
-          manage: (chunks) => (
-            <Anchor component={Link} href="/manage/media-journey" size="sm">
-              {chunks}
-            </Anchor>
-          ),
+          manage: emptyManageLink,
         })}
       </Text>
     );
@@ -143,17 +140,27 @@ const EmptyState = ({ layout }: { layout: "manage" | "widget" }) => {
   return (
     <Text size="sm" c="dimmed" ta="center">
       {t.rich("mediaJourney.page.list.noResults", {
-        integrations: (chunks) => (
-          <Anchor component={Link} href="/manage/integrations" size="sm">
-            {chunks}
-          </Anchor>
-        ),
-        tasks: (chunks) => (
-          <Anchor component={Link} href="/manage/tools/tasks" size="sm">
-            {chunks}
-          </Anchor>
-        ),
+        integrations: emptyIntegrationsLink,
+        tasks: emptyTasksLink,
       })}
     </Text>
   );
 };
+
+const emptyManageLink = (chunks: ReactNode) => (
+  <Anchor component={Link} href="/manage/media-journey" size="sm">
+    {chunks}
+  </Anchor>
+);
+
+const emptyIntegrationsLink = (chunks: ReactNode) => (
+  <Anchor component={Link} href="/manage/integrations" size="sm">
+    {chunks}
+  </Anchor>
+);
+
+const emptyTasksLink = (chunks: ReactNode) => (
+  <Anchor component={Link} href="/manage/tools/tasks" size="sm">
+    {chunks}
+  </Anchor>
+);
