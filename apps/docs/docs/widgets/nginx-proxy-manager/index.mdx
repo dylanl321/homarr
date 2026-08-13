@@ -1,0 +1,35 @@
+---
+title: "Nginx Proxy Manager"
+description: "Proxy host status and SSL certificate expiration from Nginx Proxy Manager."
+hide_title: true
+---
+
+import { WidgetHeader } from "@site/src/components/widgets/header";
+import { AddingWidget } from "@site/src/components/widgets/adding";
+import { WidgetConfig } from "@site/src/components/widgets/configuration";
+import { WidgetIntegrations } from "@site/src/components/widgets/integrations";
+import { nginxProxyManagerWidget } from ".";
+import { nginxProxyManagerIntegration } from "@site/docs/integrations/nginx-proxy-manager";
+
+<WidgetHeader widget={nginxProxyManagerWidget} categories={["Monitoring", "Reverse proxy"]} />
+
+This widget shows Nginx Proxy Manager host counts (enabled, disabled, SSL-forced) and certificates grouped as valid, expiring soon, or expired.
+
+### Supported Integrations
+
+<WidgetIntegrations
+  items={[
+    {
+      integration: nginxProxyManagerIntegration,
+      note: "Reads proxy hosts and certificates after a token exchange",
+    },
+  ]}
+/>
+
+### Adding the widget
+
+<AddingWidget />
+
+### Configuration
+
+<WidgetConfig configuration={nginxProxyManagerWidget.configuration} />

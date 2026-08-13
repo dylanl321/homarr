@@ -45,6 +45,9 @@ export { UmamiIntegration } from "./umami/umami-integration";
 export { PeaNutIntegration } from "./peanut/peanut-integration";
 export { BazarrIntegration } from "./bazarr/bazarr-integration";
 export { TraefikIntegration } from "./traefik/traefik-integration";
+export { SeedSyncIntegration } from "./seedsync/seedsync-integration";
+export { DispatcharrIntegration } from "./dispatcharr/dispatcharr-integration";
+export { NginxProxyManagerIntegration } from "./nginx-proxy-manager/nginx-proxy-manager-integration";
 
 // Types
 export type { IntegrationInput } from "./base/integration";
@@ -93,6 +96,12 @@ export type {
   ArchiveTeamWarriorStatus,
 } from "./archive-team-warrior/archive-team-warrior-types";
 export type { WudStats, WudContainerUpdate } from "./wud/wud-types";
+export type { SeedSyncDashboardData, SeedSyncTransfer } from "./seedsync/seedsync-types";
+export type { DispatcharrDashboardData, DispatcharrSession } from "./dispatcharr/dispatcharr-types";
+export type {
+  NginxProxyManagerDashboardData,
+  NginxProxyManagerCertificate,
+} from "./nginx-proxy-manager/nginx-proxy-manager-types";
 
 // Schemas
 export { anchorNotesListInputSchema } from "./anchor/anchor-types";

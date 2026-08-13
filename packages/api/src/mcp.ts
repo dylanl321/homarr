@@ -19,6 +19,9 @@ import { healthMonitoringRouter } from "./router/widgets/health-monitoring";
 import { mediaRequestsRouter } from "./router/widgets/media-requests";
 import { mediaServerRouter } from "./router/widgets/media-server";
 import { patchmonRouter } from "./router/widgets/patchmon";
+import { seedSyncRouter } from "./router/widgets/seedsync";
+import { dispatcharrRouter } from "./router/widgets/dispatcharr";
+import { nginxProxyManagerRouter } from "./router/widgets/nginx-proxy-manager";
 import { smartHomeRouter } from "./router/widgets/smart-home";
 import { widgetSecretsRouter } from "./router/widgets/widget-secrets";
 import { cmdbRouter } from "./router/cmdb";
@@ -43,6 +46,9 @@ export const mcpRouter = createTRPCRouter({
   mediaRequests: mediaRequestsRouter,
   mediaServer: mediaServerRouter,
   patchmon: patchmonRouter,
+  seedSync: seedSyncRouter,
+  dispatcharr: dispatcharrRouter,
+  nginxProxyManager: nginxProxyManagerRouter,
   smartHome: smartHomeRouter,
   widgetSecrets: widgetSecretsRouter,
   cmdb: cmdbRouter,

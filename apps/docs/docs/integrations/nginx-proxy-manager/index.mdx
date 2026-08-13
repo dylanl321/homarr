@@ -1,0 +1,44 @@
+---
+title: "Nginx Proxy Manager"
+description: "Reverse proxy hosts and SSL certificate expiration."
+hide_title: true
+---
+
+import { IntegrationHeader } from "@site/src/components/integrations/header";
+import { IntegrationCapabilites } from "@site/src/components/integrations/widgets";
+import { AddingIntegration } from "@site/src/components/integrations/adding";
+import { IntegrationSecrets } from "@site/src/components/integrations/secrets";
+import { nginxProxyManagerIntegration } from ".";
+import { nginxProxyManagerWidget } from "../../widgets/nginx-proxy-manager";
+
+<IntegrationHeader integration={nginxProxyManagerIntegration} categories={["Reverse proxy", "Monitoring"]} />
+
+The Nginx Proxy Manager integration connects Homarr to an [Nginx Proxy Manager](https://nginxproxymanager.com/) instance so you can see proxy-host status and certificate expiration on your dashboard.
+
+### Widgets & Capabilities
+
+<IntegrationCapabilites items={[{ widget: nginxProxyManagerWidget }]} />
+
+### Adding the integration
+
+<AddingIntegration />
+
+:::info URL configuration
+Use the NPM Admin URL, for example `http://nginx-proxy-manager:81`. Homarr exchanges credentials at `/api/tokens`, then reads `/api/nginx/proxy-hosts` and `/api/nginx/certificates`.
+:::
+
+### Secrets
+
+Use the NPM admin email as the username and the account password. Homarr requests a Bearer token and does not store that token.
+
+<IntegrationSecrets
+  secrets={[
+    {
+      credentials: ["username", "password"],
+      steps: [
+        "Use the Nginx Proxy Manager admin email as the username",
+        "Enter the same password you use to sign in to NPM",
+      ],
+    },
+  ]}
+/>

@@ -1,0 +1,47 @@
+---
+title: "SeedSync"
+description: "Sync files from a remote seedbox to local storage and monitor transfer progress."
+hide_title: true
+---
+
+import { IntegrationHeader } from "@site/src/components/integrations/header";
+import { IntegrationCapabilites } from "@site/src/components/integrations/widgets";
+import { AddingIntegration } from "@site/src/components/integrations/adding";
+import { IntegrationSecrets } from "@site/src/components/integrations/secrets";
+import { seedSyncIntegration } from ".";
+import { seedSyncWidget } from "../../widgets/seedsync";
+
+<IntegrationHeader integration={seedSyncIntegration} categories={["Miscellaneous", "File transfer"]} />
+
+The SeedSync integration connects Homarr to a [SeedSync](https://github.com/nitrobass24/seedsync) instance so you can see the transfer queue, speeds, completed and failed syncs, and remote vs local storage on your dashboard.
+
+This is the seedbox-to-home transfer layer. For the torrent client running on the seedbox itself, add a normal download-client integration (qBittorrent, Transmission, and so on) pointed at that remote URL.
+
+### Widgets & Capabilities
+
+<IntegrationCapabilites items={[{ widget: seedSyncWidget }]} />
+
+### Adding the integration
+
+<AddingIntegration />
+
+:::info URL configuration
+Use the root URL of your SeedSync web UI, for example `http://seedsync:8800`. Homarr calls `/server/status` and `/server/stream` under that URL automatically.
+:::
+
+### Secrets
+
+Authentication is optional. If you set an API key in SeedSync **Settings → Other Settings**, send it as `X-API-Key`.
+
+<IntegrationSecrets
+  secrets={[
+    {
+      credentials: [],
+      steps: ["Choose this option when SeedSync is only reachable from a trusted network and has no API key."],
+    },
+    {
+      credentials: ["apiKey"],
+      steps: ["Open SeedSync Settings → Other Settings and set an API key", "Paste that key into Homarr"],
+    },
+  ]}
+/>

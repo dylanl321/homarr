@@ -130,6 +130,13 @@
 </a>
 </td>
 <td align="center">
+<a href="https://homarr.dev/docs/integrations/dispatcharr" target="_blank" rel="noreferrer noopener">
+  <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/jellyfin.svg" alt="Dispatcharr" width="90" height="90" />
+  <br/>  
+  <p align="center">Dispatcharr</p>
+</a>
+</td>
+<td align="center">
 <a href="https://homarr.dev/docs/integrations/emby" target="_blank" rel="noreferrer noopener">
   <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/emby.svg" alt="Emby" width="90" height="90" />
   <br/>  
@@ -149,15 +156,15 @@
   <br/>  
   <p align="center">Gluetun</p>
 </a>
-</td>
-<td align="center">
+</td></tr>
+<tr><td align="center">
 <a href="https://homarr.dev/docs/integrations/gotify" target="_blank" rel="noreferrer noopener">
   <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/gotify.svg" alt="Gotify" width="90" height="90" />
   <br/>  
   <p align="center">Gotify</p>
 </a>
-</td></tr>
-<tr><td align="center">
+</td>
+<td align="center">
 <a href="https://homarr.dev/docs/integrations/home-assistant" target="_blank" rel="noreferrer noopener">
   <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/home-assistant.svg" alt="Home Assistant" width="90" height="90" />
   <br/>  
@@ -198,19 +205,26 @@
   <br/>  
   <p align="center">Lidarr</p>
 </a>
-</td>
-<td align="center">
+</td></tr>
+<tr><td align="center">
 <a href="null" target="_blank" rel="noreferrer noopener">
   <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/navidrome.svg" alt="Navidrome" width="90" height="90" />
   <br/>  
   <p align="center">Navidrome</p>
 </a>
-</td></tr>
-<tr><td align="center">
+</td>
+<td align="center">
 <a href="https://homarr.dev/docs/integrations/nextcloud" target="_blank" rel="noreferrer noopener">
   <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/nextcloud.svg" alt="Nextcloud" width="90" height="90" />
   <br/>  
   <p align="center">Nextcloud</p>
+</a>
+</td>
+<td align="center">
+<a href="https://homarr.dev/docs/integrations/nginx-proxy-manager" target="_blank" rel="noreferrer noopener">
+  <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/nginx-proxy-manager.svg" alt="Nginx Proxy Manager" width="90" height="90" />
+  <br/>  
+  <p align="center">Nginx<br/>Proxy<br/>Manager</p>
 </a>
 </td>
 <td align="center">
@@ -240,8 +254,8 @@
   <br/>  
   <p align="center">OPNsense</p>
 </a>
-</td>
-<td align="center">
+</td></tr>
+<tr><td align="center">
 <a href="https://homarr.dev/docs/integrations/overseerr" target="_blank" rel="noreferrer noopener">
   <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/overseerr.svg" alt="Overseerr" width="90" height="90" />
   <br/>  
@@ -254,8 +268,8 @@
   <br/>  
   <p align="center">Paperless-ngx</p>
 </a>
-</td></tr>
-<tr><td align="center">
+</td>
+<td align="center">
 <a href="https://homarr.dev/docs/integrations/patchmon" target="_blank" rel="noreferrer noopener">
   <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/patchmon.svg" alt="PatchMon" width="90" height="90" />
   <br/>  
@@ -289,8 +303,8 @@
   <br/>  
   <p align="center">Prowlarr</p>
 </a>
-</td>
-<td align="center">
+</td></tr>
+<tr><td align="center">
 <a href="https://homarr.dev/docs/integrations/proxmox" target="_blank" rel="noreferrer noopener">
   <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/proxmox.svg" alt="Proxmox" width="90" height="90" />
   <br/>  
@@ -303,8 +317,8 @@
   <br/>  
   <p align="center">qBittorrent</p>
 </a>
-</td></tr>
-<tr><td align="center">
+</td>
+<td align="center">
 <a href="https://homarr.dev/docs/integrations/radarr" target="_blank" rel="noreferrer noopener">
   <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/radarr.svg" alt="Radarr" width="90" height="90" />
   <br/>  
@@ -326,13 +340,20 @@
 </a>
 </td>
 <td align="center">
+<a href="https://homarr.dev/docs/integrations/seedsync" target="_blank" rel="noreferrer noopener">
+  <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/syncthing.svg" alt="SeedSync" width="90" height="90" />
+  <br/>  
+  <p align="center">SeedSync</p>
+</a>
+</td>
+<td align="center">
 <a href="https://homarr.dev/docs/integrations/seerr" target="_blank" rel="noreferrer noopener">
   <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/seerr.svg" alt="Seerr" width="90" height="90" />
   <br/>  
   <p align="center">Seerr</p>
 </a>
-</td>
-<td align="center">
+</td></tr>
+<tr><td align="center">
 <a href="https://homarr.dev/docs/integrations/slskd" target="_blank" rel="noreferrer noopener">
   <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/slskd.svg" alt="Slskd" width="90" height="90" />
   <br/>  
@@ -352,8 +373,8 @@
   <br/>  
   <p align="center">Speedtest<br/>Tracker</p>
 </a>
-</td></tr>
-<tr><td align="center">
+</td>
+<td align="center">
 <a href="https://homarr.dev/docs/integrations/synology" target="_blank" rel="noreferrer noopener">
   <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/synology.svg" alt="Synology DiskStation" width="90" height="90" />
   <br/>  
@@ -380,8 +401,8 @@
   <br/>  
   <p align="center">Tracearr</p>
 </a>
-</td>
-<td align="center">
+</td></tr>
+<tr><td align="center">
 <a href="https://homarr.dev/docs/integrations/traefik" target="_blank" rel="noreferrer noopener">
   <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/traefik.svg" alt="Traefik" width="90" height="90" />
   <br/>  
@@ -401,8 +422,8 @@
   <br/>  
   <p align="center">TrueNAS</p>
 </a>
-</td></tr>
-<tr><td align="center">
+</td>
+<td align="center">
 <a href="https://homarr.dev/docs/integrations/umami" target="_blank" rel="noreferrer noopener">
   <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/umami.svg" alt="Umami" width="90" height="90" />
   <br/>  
@@ -429,8 +450,8 @@
   <br/>  
   <p align="center">Uptime<br/>Kuma</p>
 </a>
-</td>
-<td align="center">
+</td></tr>
+<tr><td align="center">
 <a href="https://homarr.dev/docs/integrations/whats-up-docker" target="_blank" rel="noreferrer noopener">
   <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/whats-up-docker.svg" alt="What's Up Docker" width="90" height="90" />
   <br/>  

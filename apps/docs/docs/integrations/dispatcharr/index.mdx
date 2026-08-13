@@ -1,0 +1,41 @@
+---
+title: "Dispatcharr"
+description: "IPTV playlist editor and stream proxy with live session health."
+hide_title: true
+---
+
+import { IntegrationHeader } from "@site/src/components/integrations/header";
+import { IntegrationCapabilites } from "@site/src/components/integrations/widgets";
+import { AddingIntegration } from "@site/src/components/integrations/adding";
+import { IntegrationSecrets } from "@site/src/components/integrations/secrets";
+import { dispatcharrIntegration } from ".";
+import { dispatcharrWidget } from "../../widgets/dispatcharr";
+
+<IntegrationHeader integration={dispatcharrIntegration} categories={["Media monitoring"]} />
+
+The Dispatcharr integration connects Homarr to a [Dispatcharr](https://dispatcharr.github.io/Dispatcharr-Docs/) instance so you can see active stream sessions, client counts, and channel/stream health.
+
+### Widgets & Capabilities
+
+<IntegrationCapabilites items={[{ widget: dispatcharrWidget }]} />
+
+### Adding the integration
+
+<AddingIntegration />
+
+:::info URL configuration
+Use the root URL of your Dispatcharr instance, for example `http://dispatcharr:9191`. Homarr calls `/proxy/ts/status` and the channels/streams APIs under that URL automatically.
+:::
+
+### Secrets
+
+Create an API key in Dispatcharr (profile or **System → Users**, depending on version) and paste it into Homarr. Homarr sends it as `X-API-Key` and `Authorization: ApiKey`.
+
+<IntegrationSecrets
+  secrets={[
+    {
+      credentials: ["apiKey"],
+      steps: ["Open Dispatcharr and generate an API key for your user", "Paste the key into Homarr"],
+    },
+  ]}
+/>

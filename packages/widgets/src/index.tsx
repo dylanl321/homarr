@@ -67,6 +67,9 @@ import * as customApi from "./custom-api";
 import * as cmdb from "./cmdb";
 import * as mediaJourney from "./media-journey";
 import * as wud from "./wud";
+import * as seedSync from "./seed-sync";
+import * as dispatcharr from "./dispatcharr";
+import * as nginxProxyManager from "./nginx-proxy-manager";
 
 export type {
   WidgetDefinition,
@@ -135,6 +138,9 @@ export const widgetImports = {
   cmdb,
   mediaJourney,
   wud,
+  seedSync,
+  dispatcharr,
+  nginxProxyManager,
 } satisfies WidgetImportRecord;
 
 export type WidgetImports = typeof widgetImports;

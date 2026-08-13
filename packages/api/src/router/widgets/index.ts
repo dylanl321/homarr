@@ -45,4 +45,7 @@ export const widgetRouter = createTRPCRouter({
   customApi: lazy(() => import("./custom-api").then((mod) => mod.customApiRouter)),
   secrets: lazy(() => import("./widget-secrets").then((mod) => mod.widgetSecretsRouter)),
   wud: lazy(() => import("./wud").then((mod) => mod.wudRouter)),
+  seedSync: lazy(() => import("./seedsync").then((mod) => mod.seedSyncRouter)),
+  dispatcharr: lazy(() => import("./dispatcharr").then((mod) => mod.dispatcharrRouter)),
+  nginxProxyManager: lazy(() => import("./nginx-proxy-manager").then((mod) => mod.nginxProxyManagerRouter)),
 });

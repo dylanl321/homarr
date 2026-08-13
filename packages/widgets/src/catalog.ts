@@ -45,6 +45,9 @@ import {
   IconTimeline,
   IconTopologyFull,
   IconTopologyStar,
+  IconTransfer,
+  IconBroadcast,
+  IconCertificate,
   IconTransform,
   IconVideo,
   IconWall,
@@ -112,4 +115,7 @@ export const widgetCatalogIcons: Record<WidgetKind, TablerIcon> = {
   wud: IconBrandDocker,
   cmdb: IconTopologyStar,
   mediaJourney: IconTimeline,
+  seedSync: IconTransfer,
+  dispatcharr: IconBroadcast,
+  nginxProxyManager: IconCertificate,
 };

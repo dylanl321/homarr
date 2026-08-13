@@ -1,0 +1,21 @@
+---
+title: "CMDB"
+description: "Manage Homarr inventory resources and relationships."
+---
+
+# CMDB
+
+The configuration management database (CMDB) is a fork feature for a simple inventory of homelab resources and how they relate.
+
+## Opening the CMDB page
+
+Navigate to **Manage → CMDB**. The page is only accessible to users with admin permission.
+
+From there you can:
+
+- Create resources with a name, kind (`service`, `host`, `network`, `storage`, `app`, or `other`), description, and tags
+- Edit an existing resource
+- Add outbound relationships (`depends_on`, `runs_on`, `connects_to`, `owned_by`, `related_to`)
+- Delete resources (this also removes their relationships and owners)
+
+The [CMDB widget](/docs/widgets/cmdb) shows the same inventory on a board.

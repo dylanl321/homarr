@@ -1,0 +1,35 @@
+---
+title: "SeedSync"
+description: "Transfer queue, speeds, completed and failed syncs, and remote storage from SeedSync."
+hide_title: true
+---
+
+import { WidgetHeader } from "@site/src/components/widgets/header";
+import { AddingWidget } from "@site/src/components/widgets/adding";
+import { WidgetConfig } from "@site/src/components/widgets/configuration";
+import { WidgetIntegrations } from "@site/src/components/widgets/integrations";
+import { seedSyncWidget } from ".";
+import { seedSyncIntegration } from "@site/docs/integrations/seedsync";
+
+<WidgetHeader widget={seedSyncWidget} categories={["Monitoring", "File transfer"]} />
+
+This widget shows SeedSync queue counts, live transfer speed, completed and failed items, and remote vs local storage size.
+
+### Supported Integrations
+
+<WidgetIntegrations
+  items={[
+    {
+      integration: seedSyncIntegration,
+      note: "Reads /server/status and the first model-init snapshot from /server/stream",
+    },
+  ]}
+/>
+
+### Adding the widget
+
+<AddingWidget />
+
+### Configuration
+
+<WidgetConfig configuration={seedSyncWidget.configuration} />

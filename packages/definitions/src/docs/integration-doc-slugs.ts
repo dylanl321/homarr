@@ -55,5 +55,8 @@ export const integrationDocSlugs: Record<IntegrationKind, string | null> = {
   traefik: "traefik",
   archiveTeamWarrior: null,
   wud: "whats-up-docker",
+  seedSync: "seedsync",
+  dispatcharr: "dispatcharr",
+  nginxProxyManager: "nginx-proxy-manager",
   mock: null,
 };
