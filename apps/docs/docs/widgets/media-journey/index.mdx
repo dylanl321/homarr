@@ -13,10 +13,27 @@ import { mediaJourneyWidget } from ".";
 
 The media journey widget reconstructs a title's path across connected media services: **request → grab → download → import → library**.
 
+The same explorer also lives under **[Manage → Media Journey](/docs/management/media-journey)**. The widget is the compact board form of that page.
+
 It stays empty until:
 
-1. You connect matching integrations such as Overseerr/Jellyseerr, Sonarr/Radarr, a download client, and a media server.
-2. The **tasks** service is running the `mediaTraceCorrelation` job (see [Tasks](/docs/management/tasks)).
+1. You connect matching integrations such as Overseerr/Jellyseerr, Sonarr/Radarr, and a download client.
+2. Correlation has run — use **Run correlation** on the Manage page, or the `mediaTraceCorrelation` job under [Tasks](/docs/management/tasks).
+
+## Views
+
+Each title is classified as **ready**, **in progress**, **delayed**, or **failed**. Delayed means a download is stalled or paused, or the latest event is older than 24 hours while the title is not yet in the library.
+
+| View         | What it shows                                                                                                                    |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| **Pipeline** | Kanban columns by current stage. Cards show title, health color, and age.                                                        |
+| **Flow**     | A five-node path per title. Empty stages stay visible so gaps are obvious. Click a node for status, source integration, and age. |
+| **Issues**   | Only failed, stalled, or delayed titles.                                                                                         |
+| **Auto**     | Issues when the widget is small or any title is unhealthy; Pipeline when the widget is wide; Flow when it is tall.               |
+
+Colors: green (ready/done), blue (in progress/active), orange (delayed), red (failed), gray (waiting).
+
+Media-server library matching is not part of this view. Overseerr/Jellyseerr `availability === available` is treated as the library stage when present.
 
 ### Adding the widget
 

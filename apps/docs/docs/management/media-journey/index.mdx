@@ -1,0 +1,35 @@
+---
+title: "Media Journey"
+description: "Inspect correlated media titles across request, grab, download, import, and library."
+---
+
+# Media Journey
+
+Media Journey is the primary console for title traces: **request → grab → download → import → library**. The [media journey widget](/docs/widgets/media-journey) is the same explorer in compact form on a board.
+
+## Opening the page
+
+Navigate to **Manage → Media Journey**. The page is only accessible to users with admin permission.
+
+From there you can:
+
+- Search titles
+- Switch **Pipeline**, **Flow**, and **Issues** views
+- Click a flow node for that event's status, source integration, and age
+- Run correlation immediately (admins)
+
+## Views
+
+- **Pipeline** — kanban columns by current stage. Cards show title, health color, and age.
+- **Flow** — a five-node path per title. Empty stages stay visible so gaps are obvious.
+- **Issues** — only journeys that are failed, stalled, or delayed. This is the default landing view when any issues exist.
+
+Health colors are green (ready), blue (in progress), orange (delayed), and red (failed).
+
+**Delayed** means a download client reported stalled or paused, or the latest event is older than 24 hours while the title is not yet in the library. Request `declined` / `failed` and download or queue errors are **failed**.
+
+## Empty state
+
+The page stays empty until you connect matching [integrations](/docs/management/integrations) (request services, Sonarr/Radarr, download clients) and correlation has run. Use **Run correlation** on this page, or trigger `mediaTraceCorrelation` under [Tasks](/docs/management/tasks).
+
+Media-server library scans are not matched in this pass. Overseerr/Jellyseerr titles with `availability === available` are shown at the library stage.
