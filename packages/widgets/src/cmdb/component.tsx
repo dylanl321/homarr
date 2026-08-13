@@ -1,9 +1,10 @@
 "use client";
 
-import { Badge, Group, ScrollArea, Stack, Text, Title } from "@mantine/core";
+import { Anchor, Badge, Group, ScrollArea, Stack, Text, Title } from "@mantine/core";
 
 import { clientApi } from "@homarr/api/client";
 import { useI18n } from "@homarr/translation/client";
+import { Link } from "@homarr/ui";
 
 import type { WidgetComponentProps } from "../definition";
 
@@ -29,7 +30,13 @@ export default function CmdbWidget({ options }: WidgetComponentProps<"cmdb">) {
       <Stack h="100%" justify="center" align="center" p="sm">
         <Title order={5}>{t("widget.cmdb.name")}</Title>
         <Text size="sm" c="dimmed" ta="center">
-          {t("widget.cmdb.empty")}
+          {t.rich("widget.cmdb.empty", {
+            here: (chunks) => (
+              <Anchor component={Link} href="/manage/cmdb" size="sm">
+                {chunks}
+              </Anchor>
+            ),
+          })}
         </Text>
       </Stack>
     );

@@ -333,6 +333,9 @@ export type HomarrDocumentationPath =
   | "/docs/integrations/beszel"
   | "/docs/integrations/traefik"
   | "/docs/integrations/whats-up-docker"
+  | "/docs/integrations/seedsync"
+  | "/docs/integrations/dispatcharr"
+  | "/docs/integrations/nginx-proxy-manager"
   | "/docs/widgets/clock"
   | "/docs/widgets/weather"
   | "/docs/widgets/app"
@@ -386,4 +389,9 @@ export type HomarrDocumentationPath =
   | "/docs/widgets/beszel-system-stats"
   | "/docs/widgets/traefik"
   | "/docs/widgets/custom-api"
-  | "/docs/widgets/whats-up-docker";
+  | "/docs/widgets/whats-up-docker"
+  | "/docs/widgets/cmdb"
+  | "/docs/widgets/media-journey"
+  | "/docs/widgets/seedsync"
+  | "/docs/widgets/dispatcharr"
+  | "/docs/widgets/nginx-proxy-manager";

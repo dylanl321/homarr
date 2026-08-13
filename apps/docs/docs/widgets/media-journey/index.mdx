@@ -1,0 +1,27 @@
+---
+title: "Media journey"
+description: "Correlated path of a title across request, grab, download, import, and library."
+hide_title: true
+---
+
+import { AddingWidget } from "@site/src/components/widgets/adding";
+import { WidgetConfig } from "@site/src/components/widgets/configuration";
+import { WidgetHeader } from "@site/src/components/widgets/header";
+import { mediaJourneyWidget } from ".";
+
+<WidgetHeader widget={mediaJourneyWidget} categories={["Media"]} />
+
+The media journey widget reconstructs a title's path across connected media services: **request → grab → download → import → library**.
+
+It stays empty until:
+
+1. You connect matching integrations such as Overseerr/Jellyseerr, Sonarr/Radarr, a download client, and a media server.
+2. The **tasks** service is running the `mediaTraceCorrelation` job (see [Tasks](/docs/management/tasks)).
+
+### Adding the widget
+
+<AddingWidget />
+
+### Configuration
+
+<WidgetConfig configuration={mediaJourneyWidget.configuration} />

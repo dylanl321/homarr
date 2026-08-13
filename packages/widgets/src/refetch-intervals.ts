@@ -29,4 +29,7 @@ export const widgetQueryRefetchIntervals = [
   { queryKey: [["widget", "umami"]], intervalSeconds: null },
   { queryKey: [["widget", "vpn"]], intervalSeconds: null },
   { queryKey: [["widget", "wud"]], intervalSeconds: null },
+  { queryKey: [["widget", "seedSync"]], intervalSeconds: 5 },
+  { queryKey: [["widget", "dispatcharr"]], intervalSeconds: 5 },
+  { queryKey: [["widget", "nginxProxyManager"]], intervalSeconds: 30 },
 ] as const;

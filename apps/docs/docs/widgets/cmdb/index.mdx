@@ -1,0 +1,22 @@
+---
+title: "CMDB"
+description: "List inventory resources and their relationships."
+hide_title: true
+---
+
+import { AddingWidget } from "@site/src/components/widgets/adding";
+import { WidgetConfig } from "@site/src/components/widgets/configuration";
+import { WidgetHeader } from "@site/src/components/widgets/header";
+import { cmdbWidget } from ".";
+
+<WidgetHeader widget={cmdbWidget} categories={["Inventory"]} />
+
+The CMDB widget lists typed inventory resources (services, hosts, storage, and more) with relationship and owner counts. Create and edit resources under **Manage → CMDB**. This fork feature has no external integration; data is stored in Homarr.
+
+### Adding the widget
+
+<AddingWidget />
+
+### Configuration
+
+<WidgetConfig configuration={cmdbWidget.configuration} />

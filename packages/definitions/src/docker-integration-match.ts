@@ -36,6 +36,9 @@ const integrationAliases: Partial<Record<IntegrationKind, readonly string[]>> = 
   truenas: ["truenas"],
   bazarr: ["bazarr"],
   synology: ["synology", "diskstation"],
+  seedSync: ["seedsync", "seed-sync"],
+  dispatcharr: ["dispatcharr"],
+  nginxProxyManager: ["nginx-proxy-manager", "nginxproxymanager"],
 };
 
 export const matchIntegrationKind = (search: string): IntegrationKind | null => {

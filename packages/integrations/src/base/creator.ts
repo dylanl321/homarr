@@ -54,6 +54,9 @@ import { UmamiIntegration } from "../umami/umami-integration";
 import { UptimeKumaIntegration } from "../uptime-kuma/uptime-kuma-integration";
 import { UnifiControllerIntegration } from "../unifi-controller/unifi-controller-integration";
 import { UnraidIntegration } from "../unraid/unraid-integration";
+import { SeedSyncIntegration } from "../seedsync/seedsync-integration";
+import { DispatcharrIntegration } from "../dispatcharr/dispatcharr-integration";
+import { NginxProxyManagerIntegration } from "../nginx-proxy-manager/nginx-proxy-manager-integration";
 import { WudIntegration } from "../wud/wud-integration";
 import type { Integration, IntegrationInput } from "./integration";
 
@@ -135,6 +138,9 @@ export const integrationCreators = {
   bazarr: BazarrIntegration,
   traefik: TraefikIntegration,
   wud: WudIntegration,
+  seedSync: SeedSyncIntegration,
+  dispatcharr: DispatcharrIntegration,
+  nginxProxyManager: NginxProxyManagerIntegration,
 } satisfies Record<IntegrationKind, IntegrationInstance | [(input: IntegrationInput) => Promise<Integration>]>;
 
 type IntegrationInstanceOfKind<TKind extends keyof typeof integrationCreators> = {

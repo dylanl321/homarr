@@ -688,6 +688,91 @@
       "add": "Add an app"
     }
   },
+  "cmdb": {
+    "page": {
+      "list": {
+        "title": "CMDB",
+        "noResults": "No CMDB resources yet. Create your first inventory item."
+      },
+      "create": {
+        "title": "Create CMDB resource",
+        "notification": {
+          "success": {
+            "title": "Resource created",
+            "message": "The CMDB resource was created successfully"
+          },
+          "error": {
+            "title": "Failed to create resource",
+            "message": "Unable to create the CMDB resource"
+          }
+        }
+      },
+      "edit": {
+        "title": "Edit CMDB resource",
+        "notification": {
+          "success": {
+            "title": "Resource updated",
+            "message": "The CMDB resource was updated successfully"
+          },
+          "error": {
+            "title": "Failed to update resource",
+            "message": "Unable to update the CMDB resource"
+          }
+        },
+        "relationships": {
+          "title": "Relationships",
+          "empty": "No relationships yet",
+          "add": "Add relationship",
+          "outbound": "Outbound",
+          "inbound": "Inbound"
+        }
+      },
+      "delete": {
+        "title": "Delete resource",
+        "message": "Are you sure you want to delete \"{name}\"? This also removes its relationships and owners.",
+        "notification": {
+          "success": {
+            "title": "Resource deleted",
+            "message": "The CMDB resource was deleted"
+          },
+          "error": {
+            "title": "Failed to delete resource",
+            "message": "Unable to delete the CMDB resource"
+          }
+        }
+      }
+    },
+    "action": {
+      "create": "Create resource"
+    },
+    "field": {
+      "name": {
+        "label": "Name"
+      },
+      "kind": {
+        "label": "Kind"
+      },
+      "description": {
+        "label": "Description"
+      },
+      "tags": {
+        "label": "Tags",
+        "description": "Comma-separated list of tags"
+      },
+      "target": {
+        "label": "Target resource"
+      },
+      "relationshipKind": {
+        "label": "Relationship"
+      }
+    },
+    "table": {
+      "name": "Name",
+      "kind": "Kind",
+      "description": "Description",
+      "relationships": "Relationships"
+    }
+  },
   "customWidget": {
     "page": {
       "list": {
@@ -1352,6 +1437,18 @@
       "name": "Paperless-ngx",
       "description": "Document management system for archiving and organizing scanned documents"
     },
+    "seedSync": {
+      "name": "SeedSync",
+      "description": "Sync files from a remote seedbox to local storage"
+    },
+    "dispatcharr": {
+      "name": "Dispatcharr",
+      "description": "IPTV playlist editor and stream proxy with live session health"
+    },
+    "nginxProxyManager": {
+      "name": "Nginx Proxy Manager",
+      "description": "Reverse proxy hosts and SSL certificate expiration"
+    },
     "patchmon": {
       "name": "PatchMon",
       "description": "Patch management and monitoring for Linux hosts"
@@ -1842,7 +1939,7 @@
     "cmdb": {
       "name": "CMDB",
       "description": "List inventory resources and their relationships.",
-      "empty": "No CMDB resources yet. Create some via MCP or the API.",
+      "empty": "No CMDB resources yet. Create some in <here>Manage</here>.",
       "neighbors": "{from} outbound · {to} inbound · {owners} owners",
       "option": {
         "search": {
@@ -1859,7 +1956,7 @@
     "mediaJourney": {
       "name": "Media journey",
       "description": "Correlated path of a title across request, grab, download, import, and library.",
-      "empty": "No media journeys yet. Connect media integrations or run correlation.",
+      "empty": "No media journeys yet. Connect media integrations, then run the media-trace correlation task under Manage → Tools → Tasks.",
       "stage": {
         "request": "Request",
         "grab": "Grab",
@@ -1877,6 +1974,64 @@
       },
       "error": {
         "internalServerError": "Failed to load media journeys"
+      }
+    },
+    "seedSync": {
+      "name": "SeedSync",
+      "description": "Transfer queue, speeds, completed and failed syncs, and remote storage from SeedSync.",
+      "queued": "Queued",
+      "downloading": "Downloading",
+      "completed": "Completed",
+      "failed": "Failed",
+      "speed": "Speed",
+      "remote": "Remote",
+      "local": "Local",
+      "eta": "ETA",
+      "option": {
+        "limit": {
+          "label": "Max active transfers"
+        }
+      },
+      "error": {
+        "internalServerError": "Failed to fetch SeedSync data"
+      }
+    },
+    "dispatcharr": {
+      "name": "Dispatcharr",
+      "description": "Active IPTV sessions and channel or stream health from Dispatcharr.",
+      "sessions": "Active sessions",
+      "clients": "Clients",
+      "channels": "Channels",
+      "streams": "Streams",
+      "stale": "Stale",
+      "bitrate": "Bitrate",
+      "option": {
+        "limit": {
+          "label": "Max sessions"
+        }
+      },
+      "error": {
+        "internalServerError": "Failed to fetch Dispatcharr data"
+      }
+    },
+    "nginxProxyManager": {
+      "name": "Nginx Proxy Manager",
+      "description": "Proxy host status and SSL certificate expiration from Nginx Proxy Manager.",
+      "hosts": "Hosts",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "sslForced": "SSL forced",
+      "certificates": "Certificates",
+      "expiring": "Expiring soon",
+      "expired": "Expired",
+      "valid": "Valid",
+      "option": {
+        "expiryDays": {
+          "label": "Expiring-soon window (days)"
+        }
+      },
+      "error": {
+        "internalServerError": "Failed to fetch Nginx Proxy Manager data"
       }
     },
     "dnsHoleSummary": {
@@ -4642,6 +4797,7 @@
         "apps": "Apps",
         "integrations": "Integrations",
         "customWidgets": "Custom Widgets",
+        "cmdb": "CMDB",
         "searchEngies": "Search engines",
         "medias": "Medias",
         "users": {
@@ -5827,6 +5983,15 @@
           "flow": {
             "label": "Flow"
           }
+        }
+      },
+      "cmdb": {
+        "label": "CMDB",
+        "new": {
+          "label": "New"
+        },
+        "edit": {
+          "label": "Edit"
         }
       },
       "users": {

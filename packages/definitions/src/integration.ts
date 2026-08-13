@@ -476,6 +476,31 @@ export const integrationDefs = {
     documentationUrl: createDocumentationLink("/docs/integrations/whats-up-docker"),
     defaultPort: 3000,
   },
+  seedSync: {
+    name: "SeedSync",
+    secretKinds: [[], ["apiKey"]],
+    iconUrl: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/syncthing.svg",
+    category: ["miscellaneous"],
+    documentationUrl: createDocumentationLink("/docs/integrations/seedsync"),
+    defaultPort: 8800,
+  },
+  dispatcharr: {
+    name: "Dispatcharr",
+    secretKinds: [["apiKey"]],
+    iconUrl: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/jellyfin.svg",
+    category: ["mediaMonitoring"],
+    documentationUrl: createDocumentationLink("/docs/integrations/dispatcharr"),
+    defaultPort: 9191,
+    apiKeySettingsPath: "/settings/users/",
+  },
+  nginxProxyManager: {
+    name: "Nginx Proxy Manager",
+    secretKinds: [["username", "password"]],
+    iconUrl: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@master/svg/nginx-proxy-manager.svg",
+    category: ["reverseProxy"],
+    documentationUrl: createDocumentationLink("/docs/integrations/nginx-proxy-manager"),
+    defaultPort: 81,
+  },
   // This integration only returns mock data, it is used during development (but can also be used in production by directly going to the create page)
   mock: {
     name: "Mock",

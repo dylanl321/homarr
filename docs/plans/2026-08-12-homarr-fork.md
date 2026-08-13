@@ -87,10 +87,12 @@ Touched upstream core files should stay short: `root.ts`, MCP registry, DB schem
 ### Phase 3 — CMDB tRPC + widget + MCP
 
 - **Done:** `cmdb` router + MCP registration; `cmdb` board widget + en translations.
+- **Done:** Manage → CMDB list/create/edit UI for resources and relationships; widget empty state links to Manage; widget docs.
 
 ### Phase 4 — Media journey correlation
 
 - **Done:** retain `tmdbId`/`tvdbId`/`imdbId` on media-request and *arr queue types; `packages/media-trace` + tables; `mediaTraceCorrelation` cron job; `mediaTrace` router/MCP; `mediaJourney` widget.
+- **Done:** widget empty-state copy, widget docs, and Tasks documentation for `mediaTraceCorrelation`.
 
 ### Phase 5+ — Deferred
 

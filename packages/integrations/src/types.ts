@@ -27,3 +27,6 @@ export * from "./umami/umami-types";
 export * from "./gluetun/gluetun-types";
 export * from "./beszel/beszel-types";
 export * from "./traefik/traefik-types";
+export * from "./seedsync/seedsync-types";
+export * from "./dispatcharr/dispatcharr-types";
+export * from "./nginx-proxy-manager/nginx-proxy-manager-types";

@@ -56,6 +56,9 @@ export const widgetKinds = [
   "wud",
   "cmdb",
   "mediaJourney",
+  "seedSync",
+  "dispatcharr",
+  "nginxProxyManager",
 ] as const;
 export type WidgetKind = (typeof widgetKinds)[number];
 
@@ -68,4 +71,7 @@ export const widgetDefaultSizes: Partial<Record<WidgetKind, { width: number; hei
   bazarr: { width: 2, height: 2 },
   cmdb: { width: 4, height: 3 },
   mediaJourney: { width: 4, height: 3 },
+  seedSync: { width: 4, height: 3 },
+  dispatcharr: { width: 4, height: 3 },
+  nginxProxyManager: { width: 4, height: 3 },
 };

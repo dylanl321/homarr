@@ -1,0 +1,35 @@
+---
+title: "Dispatcharr"
+description: "Active IPTV sessions and channel or stream health from Dispatcharr."
+hide_title: true
+---
+
+import { WidgetHeader } from "@site/src/components/widgets/header";
+import { AddingWidget } from "@site/src/components/widgets/adding";
+import { WidgetConfig } from "@site/src/components/widgets/configuration";
+import { WidgetIntegrations } from "@site/src/components/widgets/integrations";
+import { dispatcharrWidget } from ".";
+import { dispatcharrIntegration } from "@site/docs/integrations/dispatcharr";
+
+<WidgetHeader widget={dispatcharrWidget} categories={["Monitoring", "Media"]} />
+
+This widget shows Dispatcharr channel and stream counts, stale streams, active sessions, and per-session client/bitrate details. It is read-only.
+
+### Supported Integrations
+
+<WidgetIntegrations
+  items={[
+    {
+      integration: dispatcharrIntegration,
+      note: "Reads /proxy/ts/status plus channel and stream list endpoints",
+    },
+  ]}
+/>
+
+### Adding the widget
+
+<AddingWidget />
+
+### Configuration
+
+<WidgetConfig configuration={dispatcharrWidget.configuration} />

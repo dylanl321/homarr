@@ -79,6 +79,9 @@ const moduleLoaders: Record<WidgetKind, () => Promise<WidgetModule>> = {
   wud: () => import("./wud") as Promise<WidgetModule>,
   cmdb: () => import("./cmdb") as Promise<WidgetModule>,
   mediaJourney: () => import("./media-journey") as Promise<WidgetModule>,
+  seedSync: () => import("./seed-sync") as Promise<WidgetModule>,
+  dispatcharr: () => import("./dispatcharr") as Promise<WidgetModule>,
+  nginxProxyManager: () => import("./nginx-proxy-manager") as Promise<WidgetModule>,
 };
 
 // Keep these imports explicit so Turbopack can create one discoverable chunk per
@@ -143,6 +146,9 @@ const componentLoaders: Record<WidgetKind, () => Promise<WidgetComponentModule>>
   wud: () => import("./wud/component") as Promise<WidgetComponentModule>,
   cmdb: () => import("./cmdb/component") as Promise<WidgetComponentModule>,
   mediaJourney: () => import("./media-journey/component") as Promise<WidgetComponentModule>,
+  seedSync: () => import("./seed-sync/component") as Promise<WidgetComponentModule>,
+  dispatcharr: () => import("./dispatcharr/component") as Promise<WidgetComponentModule>,
+  nginxProxyManager: () => import("./nginx-proxy-manager/component") as Promise<WidgetComponentModule>,
 };
 
 const definitionPromises = new Map<WidgetKind, Promise<WidgetDefinition>>();

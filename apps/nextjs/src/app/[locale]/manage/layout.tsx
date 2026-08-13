@@ -22,6 +22,7 @@ import {
   IconPointerFilled,
   IconSearch,
   IconSettingsFilled,
+  IconTopologyStar,
   IconUserFilled,
   IconUsers,
   IconUsersGroup,
@@ -98,6 +99,12 @@ export default async function ManageLayout({ children }: PropsWithChildren) {
       icon: IconApi,
       href: "/manage/custom-widgets",
       label: t("items.customWidgets"),
+      hidden: !session?.user.permissions.includes("admin"),
+    },
+    {
+      icon: IconTopologyStar,
+      href: "/manage/cmdb",
+      label: t("items.cmdb"),
       hidden: !session?.user.permissions.includes("admin"),
     },
     {
