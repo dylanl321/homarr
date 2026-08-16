@@ -42,7 +42,7 @@ env:
   SKIP_ENV_VALIDATION: true
   TURBO_TELEMETRY_DISABLED: 1
   REGISTRY: ghcr.io
-  PREVIEW_IMAGE: ghcr.io/homarr-labs/homarr-test
+  PREVIEW_IMAGE: ghcr.io/${{ github.repository_owner }}/homarr-test
 
 jobs:
   fast-gate:
@@ -238,12 +238,33 @@ jobs:
         with:
           script: |
             const packageName = "homarr-test";
-            const org = context.repo.owner;
+            const owner = context.repo.owner;
             const tag = process.env.IMAGE_TAG;
-            const versions = await github.paginate(
-              github.rest.packages.getAllPackageVersionsForPackageOwnedByOrg,
-              { package_type: "container", package_name: packageName, org, per_page: 100 },
-            );
+            const isOrg = context.payload.repository?.owner?.type === "Organization";
+            const listEndpoint = isOrg
+              ? github.rest.packages.getAllPackageVersionsForPackageOwnedByOrg
+              : github.rest.packages.getAllPackageVersionsForPackageOwnedByUser;
+            const deleteEndpoint = isOrg
+              ? github.rest.packages.deletePackageVersionForOrg
+              : github.rest.packages.deletePackageVersionForUser;
+            const ownerArg = isOrg ? { org: owner } : { username: owner };
+
+            let versions;
+            try {
+              versions = await github.paginate(listEndpoint, {
+                package_type: "container",
+                package_name: packageName,
+                per_page: 100,
+                ...ownerArg,
+              });
+            } catch (error) {
+              if (error.status === 404) {
+                core.info(`No container package "${packageName}" for ${owner}; nothing to clean up`);
+                return;
+              }
+              throw error;
+            }
+
             const target = versions.find((version) =>
               version.metadata?.container?.tags?.includes(tag),
             );
@@ -251,11 +272,12 @@ jobs:
               core.info(`No package version found with tag "${tag}"`);
               return;
             }
-            await github.rest.packages.deletePackageVersionForOrg({
+
+            await deleteEndpoint({
               package_type: "container",
               package_name: packageName,
-              org,
               package_version_id: target.id,
+              ...ownerArg,
             });
             core.info(`Deleted package version ${target.id} (${tag})`);
 
