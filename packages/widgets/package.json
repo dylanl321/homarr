@@ -25,7 +25,8 @@
     "./widget-integration-select": "./src/widget-integration-select.tsx",
     "./modals": "./src/modals/index.ts",
     "./prefetch": "./src/prefetch.ts",
-    "./refetch-intervals": "./src/refetch-intervals.ts"
+    "./refetch-intervals": "./src/refetch-intervals.ts",
+    "./media-journey": "./src/media-journey/explorer.tsx"
   },
   "scripts": {
     "clean": "rm -rf .turbo node_modules",

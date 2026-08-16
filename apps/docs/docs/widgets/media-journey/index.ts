@@ -20,6 +20,13 @@ export const mediaJourneyWidget: WidgetDefinition = {
         values: { type: "string" },
         defaultValue: "10",
       },
+      {
+        name: "View",
+        description:
+          "Pipeline is a kanban by stage, Flow is a five-node path per title, Issues lists unhealthy titles. Auto picks Issues when the widget is small or a title is unhealthy.",
+        values: { type: "select", options: ["Auto", "Pipeline", "Flow", "Issues"] },
+        defaultValue: "Auto",
+      },
     ],
   },
 };

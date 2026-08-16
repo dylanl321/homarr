@@ -43,7 +43,7 @@ v1 approach:
 - New `packages/media-trace` with tables `media_traces` / `media_trace_events` (stage, integrationId, external ids, title, status, timestamps).
 - Correlation job in `apps/tasks` that periodically samples connected media integrations and upserts events, matching primarily on **`tmdbId` / `tvdbId` / `imdbId`**, with title fallback when IDs are missing (download clients).
 - Minimal upstream-touching patches in integration mappers to **retain** `tmdbId`/`tvdbId`/`imdbId` on calendar / media-organizer / media-server normalized types where the upstream API already provides them (prefer small additive fields; contribute upstream when generic).
-- tRPC `mediaTrace` router + MCP registration + a “media journey” board widget.
+- tRPC `mediaTrace` router + MCP registration + a “media journey” board widget and **Manage → Media Journey** console.
 
 Out of v1: perfect download-client matching without *arr queue join; Tracearr stream monitoring (unrelated).
 
@@ -93,6 +93,7 @@ Touched upstream core files should stay short: `root.ts`, MCP registry, DB schem
 
 - **Done:** retain `tmdbId`/`tvdbId`/`imdbId` on media-request and *arr queue types; `packages/media-trace` + tables; `mediaTraceCorrelation` cron job; `mediaTrace` router/MCP; `mediaJourney` widget.
 - **Done:** widget empty-state copy, widget docs, and Tasks documentation for `mediaTraceCorrelation`.
+- **Done:** D4 UI is a **Manage → Media Journey** console plus a multi-view board widget (Pipeline / Flow / Issues), not API-only. Shared health classifier (`ok` / `inProgress` / `delayed` / `failed`) is attached to `mediaTrace.list`.
 
 ### Phase 5+ — Deferred
 

@@ -773,6 +773,30 @@
       "relationships": "Relationships"
     }
   },
+  "mediaJourney": {
+    "page": {
+      "list": {
+        "title": "Media Journey",
+        "searchPlaceholder": "Search titles...",
+        "noResults": "No media journeys yet. Connect <integrations>media integrations</integrations>, then run correlation here or under <tasks>Manage → Tools → Tasks</tasks>."
+      }
+    },
+    "action": {
+      "runCorrelation": "Run correlation"
+    },
+    "notification": {
+      "runCorrelation": {
+        "success": {
+          "title": "Correlation finished",
+          "message": "Updated {count} journey events"
+        },
+        "error": {
+          "title": "Correlation failed",
+          "message": "Unable to run media journey correlation"
+        }
+      }
+    }
+  },
   "customWidget": {
     "page": {
       "list": {
@@ -1956,7 +1980,9 @@
     "mediaJourney": {
       "name": "Media journey",
       "description": "Correlated path of a title across request, grab, download, import, and library.",
-      "empty": "No media journeys yet. Connect media integrations, then run the media-trace correlation task under Manage → Tools → Tasks.",
+      "empty": "No media journeys yet. Connect media integrations, then open <manage>Manage → Media Journey</manage>.",
+      "columnEmpty": "None",
+      "issuesEmpty": "No failed, stalled, or delayed titles.",
       "stage": {
         "request": "Request",
         "grab": "Grab",
@@ -1964,12 +1990,49 @@
         "import": "Import",
         "library": "Library"
       },
+      "view": {
+        "pipeline": "Pipeline",
+        "flow": "Flow",
+        "issues": "Issues",
+        "auto": "Auto"
+      },
+      "health": {
+        "ok": "Ready",
+        "inProgress": "In progress",
+        "delayed": "Delayed",
+        "failed": "Failed"
+      },
+      "issue": {
+        "requestDeclined": "Request declined",
+        "requestFailed": "Request failed",
+        "downloadFailed": "Download failed",
+        "queueFailed": "Queue error",
+        "downloadStalled": "Download stalled",
+        "downloadPaused": "Download paused",
+        "stalled": "No updates within the stall window"
+      },
+      "detail": {
+        "status": "Status",
+        "source": "Source",
+        "age": "Age",
+        "waiting": "Waiting"
+      },
       "option": {
         "search": {
           "label": "Search filter"
         },
         "limit": {
           "label": "Max journeys"
+        },
+        "viewMode": {
+          "label": "View",
+          "description": "Pipeline is a kanban by stage, Flow is a five-node path per title, Issues lists unhealthy titles. Auto picks Issues when the widget is small or a title is unhealthy.",
+          "option": {
+            "auto": "Auto",
+            "pipeline": "Pipeline",
+            "flow": "Flow",
+            "issues": "Issues"
+          }
         }
       },
       "error": {
@@ -4798,6 +4861,7 @@
         "integrations": "Integrations",
         "customWidgets": "Custom Widgets",
         "cmdb": "CMDB",
+        "mediaJourney": "Media Journey",
         "searchEngies": "Search engines",
         "medias": "Medias",
         "users": {
@@ -5993,6 +6057,9 @@
         "edit": {
           "label": "Edit"
         }
+      },
+      "media-journey": {
+        "label": "Media Journey"
       },
       "users": {
         "label": "Users",

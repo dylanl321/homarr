@@ -22,6 +22,7 @@ import {
   IconPointerFilled,
   IconSearch,
   IconSettingsFilled,
+  IconTimeline,
   IconTopologyStar,
   IconUserFilled,
   IconUsers,
@@ -105,6 +106,12 @@ export default async function ManageLayout({ children }: PropsWithChildren) {
       icon: IconTopologyStar,
       href: "/manage/cmdb",
       label: t("items.cmdb"),
+      hidden: !session?.user.permissions.includes("admin"),
+    },
+    {
+      icon: IconTimeline,
+      href: "/manage/media-journey",
+      label: t("items.mediaJourney"),
       hidden: !session?.user.permissions.includes("admin"),
     },
     {

@@ -4,6 +4,9 @@ import { z } from "zod/v4";
 import { createWidgetDefinition } from "../definition";
 import { optionsBuilder } from "../options";
 
+export { MediaJourneyExplorer } from "./explorer";
+export type { MediaJourneyExplorerProps } from "./explorer";
+
 export const { definition, componentLoader } = createWidgetDefinition("mediaJourney", {
   icon: IconTimeline,
   queryKey: [["mediaTrace", "list"]],
@@ -16,6 +19,16 @@ export const { definition, componentLoader } = createWidgetDefinition("mediaJour
       limit: factory.number({
         defaultValue: 10,
         validate: z.number().min(1).max(50),
+      }),
+      viewMode: factory.select({
+        options: [
+          { value: "auto", label: (t) => t("widget.mediaJourney.option.viewMode.option.auto") },
+          { value: "pipeline", label: (t) => t("widget.mediaJourney.option.viewMode.option.pipeline") },
+          { value: "flow", label: (t) => t("widget.mediaJourney.option.viewMode.option.flow") },
+          { value: "issues", label: (t) => t("widget.mediaJourney.option.viewMode.option.issues") },
+        ] as const,
+        defaultValue: "auto",
+        withDescription: true,
       }),
     }));
   },
